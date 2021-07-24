@@ -13,30 +13,40 @@
 
 namespace BMVC\Libs;
 
-trait classCall
+class classCall
 {
 
 	/**
 	 * @var array
 	 */
 	private static $namespace = [];
-
 	/**
 	 * @var array
 	 */
-	protected static $params = [];
-
+	private static $params = [];
 	/**
 	 * @var array
 	 */
 	private static $separators = ['@', '/', '.', '::', ':'];
+	private static $called_class;
 
 	/**
-	 * @param string|null $namespace
+	 * @param string $called_class
+	 */
+	public static function init(string $called_class): classCall
+	{
+		self::$called_class = $called_class;
+		return new self;
+	}
+
+	/**
+	 * @param string|null  $namespace
+	 * @param bool|boolean $new
 	 */
 	public static function namespace(string $namespace=null, bool $new=false)
 	{
-		self::$namespace[@get_called_class()] = CL::trim($namespace) . '\\';
+		$_class = (self::$called_class ? self::$called_class : @get_called_class());
+		self::$namespace[$_class] = CL::trim($namespace) . '\\';
 		if ($new == true) return new self;
 	}
 
@@ -97,7 +107,7 @@ trait classCall
 			$class		 = ($namespace != null) ? @CL::implode([$namespace, $class]) : $class;
 			$class		 = CL::replace($class);
 			#
-			$_class = get_called_class();
+			$_class = (self::$called_class ? self::$called_class : @get_called_class());
 			$_class = (new $_class);
 			$_class = $_class->import($class);
 
@@ -128,13 +138,14 @@ trait classCall
 	 * @param  object|null &$return
 	 * @return array
 	 */
-	protected static function get(string $type, string $action, object &$return=null)
+	public static function get(string $type, string $action, object &$return=null)
 	{
 		$action = CL::replace($action);
 		$action = CL::explode($action);
 		$class  = @array_pop($action);
 		#
-		$_namespace = CL::trim(CL::replace(self::$namespace[@get_called_class()]));
+		$_namespace = (self::$called_class ? self::$called_class : @get_called_class());
+		$_namespace = CL::trim(CL::replace(self::$namespace[$_namespace]));
 		$namespace  = (($action != null && @is_array($action)) ? CL::implode($action) : null);
 		$namespace  = CL::replace($namespace);
 		$namespace  = @ucfirst($namespace);
