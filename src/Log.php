@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 2.4
+ * @version 2.5
  */
 
 namespace BMVC\Libs;
@@ -34,11 +34,10 @@ class Log
 	public static $monolog;
 
 	/**
-	 * @param  string      $key
-	 * @param  string|null $val
-	 * @return Log
+	 * @param string      $key
+	 * @param string|null $val
 	 */
-	public function set(string $key, string $val=null, bool $new=false): Log
+	public function set(string $key, string $val=null, bool $new=false)
 	{
 		self::${$key} = $val;
 		if ($new == true) return new self;	
