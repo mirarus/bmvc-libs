@@ -18,7 +18,10 @@ class Dir
 
 	private static $path;
 
-	public static function setBase(string $path)
+	/**
+	 * @param string $path
+	 */
+	public static function setBase(string $path): void
 	{
 		self::$path = $path;
 	}
