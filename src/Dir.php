@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 2.5
+ * @version 2.6
  */
 
 namespace BMVC\Libs;
@@ -21,7 +21,7 @@ class Dir
 	/**
 	 * @param string $path
 	 */
-	public static function setBase(string $path): void
+	public static function setPath(string $path): void
 	{
 		self::$path = $path;
 	}
