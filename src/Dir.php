@@ -16,11 +16,11 @@ namespace BMVC\Libs;
 class Dir
 {
 
-	private static $base_path;
+	private static $path;
 
 	public static function setBase(string $path)
 	{
-		self::$base_path = $path;
+		self::$path = $path;
 	}
 
 	/**
@@ -29,7 +29,7 @@ class Dir
 	 */
 	public static function base(string $dir=null): string
 	{
-		$path = (self::$base_path ? self::$base_path : dirname(__DIR__));
+		$path = (self::$path ? self::$path : dirname(__DIR__));
 
 		if ($dir !== null) {
 			return self::replace(self::implode([$path, $dir]));
@@ -44,7 +44,7 @@ class Dir
 	 */
 	public static function app(string $dir=null): string
 	{
-		$path = (self::$base_path ? dirname(self::base()) : self::base());
+		$path = (self::$path ? dirname(self::base()) : self::base());
 		$path = dirname(dirname(dirname($path)));
 
 		if ($dir !== null) {
