@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 2.4
+ * @version 2.5
  */
 
 namespace BMVC\Libs;
@@ -16,18 +16,25 @@ namespace BMVC\Libs;
 class Dir
 {
 
+	private static $base_path;
+
+	public static function setBase(string $path)
+	{
+		self::$base_path = $path;
+	}
+
 	/**
 	 * @param  string|null $dir
 	 * @return string
 	 */
 	public static function base(string $dir=null): string
 	{
-		$baseDir = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+		$path = (self::$base_path ? self::$base_path : dirname(__DIR__));
 
 		if ($dir !== null) {
-			return self::replace($baseDir . $dir);
+			return self::replace(self::implode([$path, $dir]));
 		} else {
-			return self::replace($baseDir);
+			return self::replace($path . DIRECTORY_SEPARATOR);
 		}
 	}
 
@@ -37,12 +44,13 @@ class Dir
 	 */
 	public static function app(string $dir=null): string
 	{
-		$appDir = dirname(dirname(dirname(self::base()))) . DIRECTORY_SEPARATOR;
+		$path = (self::$base_path ? dirname(self::base()) : self::base());
+		$path = dirname(dirname(dirname($path)));
 
 		if ($dir !== null) {
-			return self::replace($appDir . $dir);
+			return self::replace(self::implode([$path, $dir]));
 		} else {
-			return self::replace($appDir);
+			return self::replace($path . DIRECTORY_SEPARATOR);
 		}
 	}
 
