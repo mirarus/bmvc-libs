@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.3
+ * @version 0.4
  */
 
 namespace BMVC\Libs;
@@ -39,7 +39,7 @@ class Whoops
 	 * @param string      $key
 	 * @param string|null $val
 	 */
-	public function set(string $key, string $val=null, bool $new=false)
+	public static function set(string $key, string $val=null, bool $new=false)
 	{
 		self::${$key} = $val;
 		if ($new == true) return new self;	
