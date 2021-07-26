@@ -8,14 +8,14 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 2.5
+ * @version 2.6
  */
 
 namespace BMVC\Libs;
 
-use Monolog\Formatter\LineFormatter as MlLineFormatter;
-use Monolog\Handler\StreamHandler as MlStreamHandler;
-use Monolog\Logger as MlLogger;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Exception;
 use DateTime;
 
@@ -37,7 +37,7 @@ class Log
 	 * @param string      $key
 	 * @param string|null $val
 	 */
-	public function set(string $key, string $val=null, bool $new=false)
+	public static function set(string $key, string $val=null, bool $new=false)
 	{
 		self::${$key} = $val;
 		if ($new == true) return new self;	
@@ -46,14 +46,14 @@ class Log
 	public static function monolog(): void
 	{
 		#
-		$formatter = new MlLineFormatter(MlLineFormatter::SIMPLE_FORMAT, MlLineFormatter::SIMPLE_DATE);
+		$formatter = new LineFormatter(LineFormatter::SIMPLE_FORMAT, LineFormatter::SIMPLE_DATE);
 		$formatter->includeStacktraces(true);
 		#
 		$file   = Dir::implode([Dir::app(self::$dir), 'app.log']);
-		$stream = new MlStreamHandler($file);
+		$stream = new StreamHandler($file);
 		$stream->setFormatter($formatter);
 		#
-		$log = new MlLogger(strtoupper(self::$name));
+		$log = new Logger(strtoupper(self::$name));
 		$log->pushHandler($stream);
 
 		self::$monolog = $log;
