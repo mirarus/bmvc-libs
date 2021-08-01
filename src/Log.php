@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 2.6
+ * @version 2.7
  */
 
 namespace BMVC\Libs;
@@ -49,7 +49,7 @@ class Log
 		$formatter = new LineFormatter(LineFormatter::SIMPLE_FORMAT, LineFormatter::SIMPLE_DATE);
 		$formatter->includeStacktraces(true);
 		#
-		$file   = Dir::implode([Dir::app(self::$dir), 'app.log']);
+		$file   = FS::implode([FS::app(self::$dir), 'app.log']);
 		$stream = new StreamHandler($file);
 		$stream->setFormatter($formatter);
 		#
@@ -140,9 +140,9 @@ class Log
 	 */
 	private static function save(string $text): void
 	{
-		$dir = Dir::app(self::$dir);
-		Dir::mk_dir($dir);
-		$file = Dir::implode([$dir, self::$name . '.log']);
+		$dir = FS::app(self::$dir);
+		FS::mk_dir($dir);
+		$file = FS::implode([$dir, self::$name . '.log']);
 
 		$file = fopen($file, 'a');
 		if (fwrite($file, $text . "\r\n") === false) {
