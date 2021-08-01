@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 2.9
+ * @version 3.0
  */
 
 namespace BMVC\Libs;
@@ -24,7 +24,7 @@ class MError
 	/**
 	 * @var boolean
 	 */
-	protected static $html=false;
+	protected static $html;
 
 	/**
 	 * @var string
@@ -34,7 +34,7 @@ class MError
 	/**
 	 * @var boolean
 	 */
-	protected static $stop=false;
+	protected static $stop;
 
 	/**
 	 * @var string
@@ -80,6 +80,7 @@ class MError
 	private static function reset(): void
 	{
 		self::$html = false;
+		self::$stop = false;
 		self::$title = "System Error!";
 		self::$color = self::$colors['primary'];
 	}
@@ -95,14 +96,16 @@ class MError
 	 */
 	private static function template($text, $message, bool $html=false, string $title=null, string $color=null, bool $stop=false, int $response_code=200): void
 	{
+		if ($stop == true) ob_clean();
 		http_response_code($response_code);
+		header('Content-type: text/html;');
 		echo $html == true ? '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>' . $title . '</title></head><body>' : null;
 		echo '<div style="padding: 15px; border-left: 5px solid rgb(' . $color . ' / ' . self::$border['left'] . '%); border-top: 5px solid rgb(' . $color . ' / ' . self::$border['top'] . '%); background: #f8f8f8; margin-bottom: 10px; border-radius: 5px 5px 0 3px;">';
 		echo isset($text) && !empty($text) ? '<div style="font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, \'Helvetica Neue\', Arial, sans-serif; font-size: 16px; font-weight: 500; color: black;">' . $text . "</div>" : null;
 		echo isset($message) && !empty($message) ? '<div style="margin-top: 15px; font-size: 14px; font-family: Consolas, Monaco, Menlo, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif; color: #ac0e10;">' . $message . "</div>" : null; 
 		echo "</div>";
 		echo $html == true ? "</body></html>\n" : "\n";
-		if ($stop == true) exit();
+		if ($stop == true) exit(); die();
 	}
 
 	/**
