@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 /**
  * Example
@@ -41,9 +41,10 @@ class Sitemap
 	}
 
 	/**
-	 * @param array $data
+	 * @param  array $data
+	 * @return Sitemap
 	 */
-	public static function set(array $data)
+	public static function set(array $data): Sitemap
 	{
 		self::xml();
 
@@ -71,7 +72,7 @@ class Sitemap
 	{
 		self::xml();
 
-		header("content-type: text/xml");
+		Header::set('content-type', 'text/xml');
 
 		return self::$xml->asXML();
 	}

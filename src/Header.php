@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 1.8
+ * @version 1.9
  */
 
 namespace BMVC\Libs;
@@ -86,7 +86,7 @@ class Header
 	];
 
 	/**
-	 * @param  array  $data
+	 * @param  array $data
 	 * @return array
 	 */
 	public static function extract(array $data): array
@@ -104,15 +104,13 @@ class Header
 		return $results;
 	}
 
-	public static function set(): void
+	/**
+	 * @param string      $key
+	 * @param string|null $val
+	 */
+	public static function set(string $key, string $val=null): void
 	{
-		$args = func_get_args();
-
-		if (is_array($args) && @$args[0]) {
-			header($args[0] . ': ' . @$args[1]);
-		} elseif (is_string($args)) {
-			header($args);
-		}
+		header(($val ? ($key . ': ' . $val) : $key));
 	}
 
 	/**
