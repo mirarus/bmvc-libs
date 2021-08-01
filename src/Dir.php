@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 2.7
+ * @version 2.8
  */
 
 namespace BMVC\Libs;
@@ -68,6 +68,30 @@ trait Dir
 
 		if (self::is_dir($dir)) {
 			return (bool) rmdir($dir);
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @param  string      $dir
+	 * @param  string|null $type
+	 * @return boolean
+	 */
+	public static function rm_dir_sub(string $dir, string $type=null): bool
+	{
+		if ($type == 'app') {
+			$dir = self::app($dir);
+		} elseif ($type == 'base') {
+			$dir = self::base($dir);
+		}
+
+		if (self::is_dir($dir)) {
+			if (PHP_OS_FAMILY === 'Windows') {
+				return (bool) (null !== exec(sprintf("rd /s /q %s", escapeshellarg($dir))));
+			} else {
+				return (bool) (null !== exec(sprintf("rm -rf %s", escapeshellarg($dir))));
+			}
 		} else {
 			return false;
 		}
