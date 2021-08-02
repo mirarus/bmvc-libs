@@ -17,13 +17,14 @@ class CL
 {
 
 	/**
-	 * @param  string  $class
+	 * @param  string       $class
+	 * @param  bool|boolean $autoload
 	 * @return boolean
 	 */
-	public static function is_class(string $class): bool
+	public static function is_class(string $class, bool $autoload=true): bool
 	{
 		$class = self::replace($class);
-		return class_exists($class);
+		return class_exists($class, $autoload);
 	}
 
 	/**
