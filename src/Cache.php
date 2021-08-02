@@ -13,119 +13,228 @@
 
 namespace BMVC\Libs;
 
-use DateTime;
-
-use function shmop_close;
-use function shmop_delete;
-use function shmop_open;
-use function shmop_read;
-use function shmop_size;
-use function shmop_write;
+use Exception;
 
 class Cache
 {
+	
+	private static
+	$path,
+	$filename,
+	$extension,
+	$expire;
 
-	/**
-	 * @var array
-	 */
-	private static $caches = [];
-
-	/**
-	 * @param mixed $data
-	 * @param string $name
-	 * @param int    $timeout
-	 */
-	public static function save_cache($data, string $name, int $timeout)
+	public function __construct()
 	{
-		$id = shmop_open(self::get_cache_id($name), "a", 0, 0);
-		shmop_delete($id);
-		shmop_close($id);
+		self::$path 	   = FS::app('Cache');
+		self::$filename  = 'default-cache';
+		self::$extension = '.cache';
+		self::$expire 	 = 604800;
+	}
 
-		$id = shmop_open(self::get_cache_id($name), "c", 0644, strlen(serialize($data)));
-
-		if ($id) {
-			self::set_timeout($name, $timeout);
-			return shmop_write($id, serialize($data), 0);
+	/**
+	 * @param string   $key
+	 * @param mixed    $data
+	 * @param int|null $expiration
+	 */
+	public static function save(string $key, $data, int $expiration=null): void
+	{
+		if (is_null($expiration)) {
+			$expiration = self::$expire;
+		}
+		$storedData = [
+			'time'	 => time(),
+			'expire' => $expiration,
+			'data'	 => serialize($data)
+		];
+		$content = self::loadCache();
+		if (is_array($content) === true) {
+			$content[$key] = $storedData;
 		} else {
-			return false;
+			$content = [$key => $storedData];
+		}
+		$content = json_encode($content);
+		file_put_contents(self::getCacheDir(), $content);
+	}
+
+	/**
+	 * @param string      $key
+	 * @param string|null $filename
+	 */
+	public static function read(string $key, string $filename=null)
+	{
+		$content = self::loadCache($filename);
+		if (!isset($content[$key]['data'])) {
+			return null;
+		} else {
+			return unserialize($content[$key]['data']);
 		}
 	}
 
 	/**
-	 * @param string $name
+	 * @param string $key
 	 */
-	public static function get_cache(string $name)
+	public static function delete(string $key)
 	{
-		if (!self::check_timeout($name)) {
-			$id = shmop_open(self::get_cache_id($name), "a", 0, 0);
-
-			if ($id) {
-				$data = unserialize(shmop_read($id, 0, shmop_size($id)));
+		$content = self::loadCache();
+		if (is_array($content)) {
+			if (isset($content[$key])) {
+				unset($content[$key]);
+				$content = json_encode($content);
+				file_put_contents(self::getCacheDir(), $content);
 			} else {
-				return false;
+				throw new Exception('Cache Error! | delete() - Key ' . $key . ' not found.');
 			}
-
-			if ($data) {
-				shmop_close();
-				return $data;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
 		}
 	}
 
 	/**
-	 * @param string $name
+	 * @return integer
 	 */
-	public static function get_cache_id(string $name)
+	public static function deleteExpiredCache(): int
 	{
-		$id = self::$caches;
-		return $id[$name];
-	}
-
-	/**
-	 * @param string $name
-	 * @param int    $int
-	 */
-	private static function set_timeout(string $name, int $int)
-	{
-		$timeout = new DateTime(date('Y-m-d H:i:s'));
-		date_add($timeout, date_interval_create_from_date_string("$int seconds"));
-		$timeout = date_format($timeout, 'YmdHis');
-
-		$id = shmop_open(100, "a", 0, 0);
-		if ($id) {
-			$tl = unserialize(shmop_read($id, 0, shmop_size($id)));
-		} else {
-			$tl = [];
+		$count = 0;
+		$content = self::loadCache();
+		if (is_array($content)) {
+			foreach ($content as $key => $value) {
+				if (self::isExpired($value['time'], $value['expire']) === true) {
+					unset($content[$key]);
+					$count++;
+				}
+			}
+			if ($count > 0) {
+				$content = json_encode($content);
+				file_put_contents(self::getCacheDir(), $content);
+			}
 		}
-		shmop_delete($id);
-		shmop_close($id);
-
-		$tl[$name] = $timeout;
-		$id = shmop_open(100, "c", 0644, strlen(serialize($tl)));
-		shmop_write($id, serialize($tl), 0);
+		return $count;
 	}
 
 	/**
-	 * @param string $name
+	 * @return boolean
 	 */
-	private static function check_timeout(string $name)
+	public static function clear(): bool
 	{
-		$now = new DateTime(date('Y-m-d H:i:s'));
-		$now = date_format($now, 'YmdHis');
+		if (FS::is_file(self::getCacheDir())) {
+			$file = fopen(self::getCacheDir(), 'w');
+			fclose($file);
+			return true;
+		}
+	}
 
-		$id = shmop_open(100, "a", 0, 0);
-		if ($id) {
-			$tl = unserialize(shmop_read($id, 0, shmop_size($id)));
+	/**
+	 * @param  string  $key
+	 * @return boolean
+	 */
+	public static function isCached(string $key): bool
+	{
+		self::deleteExpiredCache();
+		if (self::loadCache() != false) {
+			$cacheContent = self::loadCache();
+			return isset($cacheContent[$key]['data']);
+		}
+	}
+
+	/**
+	 * @param string $filename
+	 */
+	public static function setFileName(string $filename): void
+	{
+		self::$filename = $filename;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getFileName(): string
+	{
+		return self::$filename;
+	}
+
+	/**
+	 * @param string $path
+	 */
+	public static function setPath(string $path): void
+	{
+		self::$path = $path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getPath(): string
+	{
+		return self::$path;
+	}
+
+	/**
+	 * @param string $extension
+	 */
+	public static function setExtension(string $extension): void
+	{
+		self::$extension = $extension;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getExtension(): string
+	{
+		return self::$extension;
+	}
+
+	private static function checkCacheDir()
+	{
+		if (!is_dir(self::getPath()) && !mkdir(self::getPath(), 0775, true)) {
+			throw new Exception('Cache Error! | Failed to create cache directory. - ' . self::getPath());
+		} elseif (!is_readable(self::getPath()) || !is_writable(self::getPath())) {
+			if (!chmod(self::getPath(), 0775)) {
+				throw new Exception('Cache Error! | ' . self::getPath() . ' must have read and write permissions to the directory.');
+			}
 		} else {
 			return true;
 		}
-		shmop_close($id);
+	}
 
-		$timeout = $tl[$name];
-		return (intval($now) > intval($timeout));
+	/**
+	 * @param string|null $filename
+	 */
+	private static function getCacheDir(string $filename=null)
+	{
+		if (self::checkCacheDir() !== true) {
+			return false;
+		}
+		if (is_null($filename)) {
+			$filename = preg_replace('/[^0-9a-z\.\_\-]/i', '', strtolower(self::getFileName()));
+		}
+		return self::getPath() . '/' . md5($filename) . self::getExtension();
+	}
+
+	/**
+	 * @param string|null $filename
+	 */
+	private static function loadCache(string $filename=null)
+	{
+		if (self::getCacheDir() === false) {
+			return false;
+		}
+		if (!file_exists(self::getCacheDir($filename))) {
+			return false;
+		}
+		$file = file_get_contents(self::getCacheDir($filename));
+		return json_decode($file, true);
+	}
+
+	/**
+	 * @param  int     $time
+	 * @param  int     $expiration
+	 * @return boolean
+	 */
+	private static function isExpired(int $time, int $expiration): bool
+	{
+		if ($expiration === 0) {
+			return false;
+		}
+		return time() - $time > $expiration;
 	}
 }

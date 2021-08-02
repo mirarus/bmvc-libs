@@ -40,7 +40,7 @@ class Csrf
 	{
 		$token = self::getToken(null, $expiry);
 		if ($token) {
-			return '<input type="hidden" name="csrf_token" value="'. $token .'">' . "\r\n";
+			return '<input type="hidden" name="csrf_token" value="' . $token . '">' . "\r\n";
 		}
 	}
 

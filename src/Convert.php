@@ -12,6 +12,7 @@
  */
 
 namespace BMVC\Libs;
+
 use stdClass;
 use SimpleXMLElement;
 
