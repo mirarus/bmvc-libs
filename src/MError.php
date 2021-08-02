@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 3.0
+ * @version 3.1
  */
 
 namespace BMVC\Libs;
@@ -105,7 +105,7 @@ class MError
 		echo isset($message) && !empty($message) ? '<div style="margin-top: 15px; font-size: 14px; font-family: Consolas, Monaco, Menlo, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif; color: #ac0e10;">' . $message . "</div>" : null; 
 		echo "</div>";
 		echo $html == true ? "</body></html>\n" : "\n";
-		if ($stop == true) exit(); die();
+		if ($stop == true) die();
 	}
 
 	/**
