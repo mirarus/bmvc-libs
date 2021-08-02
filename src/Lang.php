@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 6.7
+ * @version 6.8
  */
 
 namespace BMVC\Libs;
@@ -63,7 +63,7 @@ class Lang
 		self::$langs = self::_get_langs();
 		self::$current_lang = self::get();
 
-		if (CL::is_class(\BMVC\Core\Route::class)) self::_routes();
+		self::_routes();
 	}
 
 	/**
@@ -315,25 +315,28 @@ class Lang
 
 	private static function _routes(): void
 	{
-		Route::prefix('lang')::group(function() {
+		if (CL::is_class(\BMVC\Core\Route::class)) {
 
-			Route::match(['GET', 'POST'], 'set/{lowercase}', function($lang) {
-				self::set($lang);
-				if (Request::isGet()) {
-					redirect(url());
-				}
+			\BMVC\Core\Route::prefix('lang')::group(function() {
+
+				\BMVC\Core\Route::match(['GET', 'POST'], 'set/{lowercase}', function($lang) {
+					self::set($lang);
+					if (Request::isGet()) {
+						redirect(url());
+					}
+				});
+
+				\BMVC\Core\Route::match(['GET', 'POST'], 'get/{all}', function($url) {
+					$par  = explode('/', $url);
+					$text = array_shift($par);
+
+					if (isset($par[0]) && $par[0] == "true") {
+						self::___($text, Request::request('replace'));
+					} else {
+						self::__($text, Request::request('replace'));
+					}
+				});
 			});
-
-			Route::match(['GET', 'POST'], 'get/{all}', function($url) {
-				$par  = explode('/', $url);
-				$text = array_shift($par);
-
-				if (isset($par[0]) && $par[0] == "true") {
-					self::___($text, Request::request('replace'));
-				} else {
-					self::__($text, Request::request('replace'));
-				}
-			});
-		});
+		}
 	}
 }
