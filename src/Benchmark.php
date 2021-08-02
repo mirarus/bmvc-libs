@@ -83,7 +83,7 @@ class Benchmark
 		for ($i=0; $i < $count; $i++) {
 			if ($i == -1) {
 			} elseif ($i == -2) {
-			} else if ($i == -3) {
+			} elseif ($i == -3) {
 			}
 		}
 		return number_format(microtime(true) - $time_start, 3);
