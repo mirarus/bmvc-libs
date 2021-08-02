@@ -17,7 +17,8 @@
 		"ext-intl" : "*",
 		"mirarus/bmvc-exception": "0.*",
 		"monolog/monolog": "^2.3",
-		"filp/whoops": "^2.14"
+		"filp/whoops": "^2.14",
+		"symfony/console": "^5.3"
 	},
 	"autoload": {
 		"psr-4": {
