@@ -94,7 +94,7 @@ class Benchmark
 	 * @param  bool|boolean $bmvc
 	 * @return string
 	 */
-	public static function memory(bool $text=false, bool $bmvc=false): string
+	public static function memory(bool $text=false, bool $bmvc=true): string
 	{
 		$memory = (($bmvc && defined('MEMORY')) ? MEMORY : round(memory_get_usage() / 1024, 2));
 		if ($text) {
@@ -122,7 +122,7 @@ class Benchmark
 			}
 		}
 
-		$return .= $line . "\n| " . str_pad("Total time", 12) . " : " . str_pad($total ." sec.", 19) . " |\n| " . str_pad("Memory Usage", 12) . " : " . str_pad(self::memory(), 19) . " |\n$line </pre>";
+		$return .= $line . "\n| " . str_pad("Total time", 12) . " : " . str_pad($total ." sec.", 19) . " |\n| " . str_pad("Memory Usage", 12) . " : " . str_pad(self::memory(false, false), 19) . " |\n$line </pre>";
 		return $return;
 	}
 }
