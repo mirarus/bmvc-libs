@@ -28,7 +28,7 @@ Install using composer:
 
 	use BMVC\Libs\{MError, Benchmark};
 
-	MError::color("info")::print("Benchmark", "Memory Usage: " . Benchmark::memory());
+	MError::color("info")::print("Benchmark", Benchmark::memory(true));
 ?>
 ```
 
