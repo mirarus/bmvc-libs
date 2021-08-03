@@ -1,7 +1,7 @@
 <?php
 
 /**
- * FS
+ * FS / File System
  *
  * Mirarus BMVC
  * @package BMVC\Libs
