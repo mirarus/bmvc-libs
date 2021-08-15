@@ -24,5 +24,10 @@
 		"psr-4": {
 			"BMVC\\Libs\\": "src"
 		}
+	},
+	"config": {
+		"preferred-install": "dist",
+		"sort-packages": true,
+		"optimize-autoloader": true
 	}
 }
