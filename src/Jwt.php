@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs;
@@ -38,7 +38,14 @@ class Jwt
 		'HS384' => 'SHA384'
 	];
 
-	public static function encode($payload, $secret, $alg='HS256', $head=null)
+	/**
+	 * @param  array      $payload
+	 * @param  string     $secret
+	 * @param  string     $alg
+	 * @param  array|null $head
+	 * @return string
+	 */
+	public static function encode(array $payload, string $secret, string $alg='HS256', array $head=null): string
 	{
 		$header = [
 			'typ' => 'JWT',
@@ -57,7 +64,11 @@ class Jwt
 		return $header . '.' . $payload . '.' . $signature;
 	}
 
-	public static function decode($token, $secret)
+	/**
+	 * @param string      $token
+	 * @param string|null $secret
+	 */
+	public static function decode(string $token, string	$secret=null)
 	{
 		if (empty($secret)) {
 			throw new Exception('JWT Error! | Secret may not be empty.');
@@ -94,7 +105,12 @@ class Jwt
 		return $payload;
 	}
 
-	private static function signature($message, $secret, $alg)
+	/**
+	 * @param string $message
+	 * @param string $secret
+	 * @param string $alg
+	 */
+	private static function signature(string $message, string	$secret, string	$alg)
 	{
 		if (!array_key_exists($alg, self::$algorithms)) {
 			throw new Exception('JWT Error! | Algorithm not supported.');
@@ -102,12 +118,19 @@ class Jwt
 		return hash_hmac(self::$algorithms[$alg], $message, $secret, true);
 	}
 
-	private static function verify($message, $signature, $secret, $alg)
+	/**
+	 * @param  string $message
+	 * @param  string $signature
+	 * @param  string $secret
+	 * @param  string $alg
+	 * @return boolean
+	 */
+	private static function verify(string $message, string $signature, string $secret, string $alg): bool
 	{
 		if (empty(self::$algorithms[$alg])) {
 			throw new Exception('JWT Error! | Algorithm not supported.');
 		}
-		$hash   = hash_hmac(self::$algorithms[$alg], $message, $secret, true);
+		$hash = hash_hmac(self::$algorithms[$alg], $message, $secret, true);
 		if (function_exists('hash_equals')) {
 			return hash_equals($signature, $hash);
 		}
@@ -120,12 +143,19 @@ class Jwt
 		return ($status === 0);
 	}
 
-	private static function urlSafeBase64Encode($data)
+	/**
+	 * @param  string $data
+	 * @return string
+	 */
+	private static function urlSafeBase64Encode(string $data): string
 	{
 		return str_replace('=', '', strtr(base64_encode($data), '+/', '-_'));
 	}
 
-	private static function urlSafeBase64Decode($data)
+	/**
+	 * @param string $data
+	 */
+	private static function urlSafeBase64Decode(string $data)
 	{
 		$remainder  = strlen($data) % 4;
 		if ($remainder) {
@@ -135,6 +165,9 @@ class Jwt
 		return base64_decode(strtr($data, '-_', '+/'));
 	}
 
+	/**
+	 * @param mixed $data
+	 */
 	private static function jsonEncode($data)
 	{
 		$json = json_encode($data);
@@ -146,7 +179,10 @@ class Jwt
 		return $json;
 	}
 
-	private static function jsonDecode($data)
+	/**
+	 * @param string $data
+	 */
+	private static function jsonDecode(string $data)
 	{
 		$obj = json_decode($data, false, 512, JSON_BIGINT_AS_STRING);
 		
@@ -158,7 +194,10 @@ class Jwt
 		return $obj;
 	}
 
-	private static function handleJsonError($errno)
+	/**
+	 * @param int $errno
+	 */
+	private static function handleJsonError(int $errno)
 	{
 		$messages = [
 			JSON_ERROR_DEPTH          => 'Maximum stack depth exceeded',
@@ -170,7 +209,11 @@ class Jwt
 		throw new Exception('JWT Error! | ' . isset($messages[$errno]) ? $messages[$errno] : 'Unknown JSON error: ' . $errno);
 	}
 
-	private static function safeStrLen($str)
+	/**
+	 * @param  string $str
+	 * @return integer
+	 */
+	private static function safeStrLen(string $str): int
 	{
 		if (function_exists('mb_strlen')) {
 			return mb_strlen($str, '8bit');
