@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 6.8
+ * @version 6.9
  */
 
 namespace BMVC\Libs;
@@ -151,9 +151,9 @@ class Lang
 		if ($return == true) {
 			if ($replace != null) {
 				if (is_array($replace)) {
-					return vsprintf(self::_get_text($text), $replace);
+					return @vsprintf(self::_get_text($text), $replace);
 				} else {
-					return sprintf(self::_get_text($text), $replace);
+					return @sprintf(self::_get_text($text), $replace);
 				}
 			} else {
 				return self::_get_text($text);
@@ -161,9 +161,9 @@ class Lang
 		} else {
 			if ($replace != null) {
 				if (is_array($replace)) {
-					vprintf(self::_get_text($text), $replace);
+					@vprintf(self::_get_text($text), $replace);
 				} else {
-					printf(self::_get_text($text), $replace);
+					@printf(self::_get_text($text), $replace);
 				}
 			} else {
 				echo self::_get_text($text);

@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs;
@@ -16,7 +16,7 @@ namespace BMVC\Libs;
 class FS
 {
 
-	use Dir, File;
+	use FS_Dir, FS_File;
 
 	private static $path;
 
