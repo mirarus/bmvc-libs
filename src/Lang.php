@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 6.9
+ * @version 7.0
  */
 
 namespace BMVC\Libs;
@@ -74,13 +74,15 @@ class Lang
 	{
 		$info = self::_get_lang_info($lang);
 		$current = self::$current_lang == $lang ? true : false;
+		$code = $info['code'];
 		$name = $current ? $info['name-local'] : $info['name-global'];
-		$url = url('lang/set/' . $info['code']);
+		$url = url('lang/set/' . $code);
 
 		if ($info == null) return [];
 
 		return [
 			'info' => $info,
+			'code' => $code,
 			'name' => $name,
 			'url' => $url,
 			'current' => $current

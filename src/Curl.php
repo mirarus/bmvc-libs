@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs;
@@ -164,9 +164,6 @@ class Curl
 	{
 		self::$error = '';
 		self::$ch 	 = curl_init();
-		if (is_array($params)) {
-			$params = build_query_string($params);
-		}
 		self::set_request_method($method);
 		self::set_request_options($url, $params);
 		self::set_request_headers();
@@ -208,7 +205,7 @@ class Curl
 	 * @param string     $url
 	 * @param array|null $params
 	 */
-	private static function set_request_options(string $url, array $params=null): void
+	private static function set_request_options(string $url, array $params=[]): void
 	{
 		curl_setopt(self::$ch, CURLOPT_URL, $url);
 		if (!empty($params)) {
