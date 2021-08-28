@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 1.6
+ * @version 1.7
  */
 
 namespace BMVC\Libs;
@@ -104,24 +104,26 @@ class Response
 	 * @param mixed        $data
 	 * @param bool|boolean $status
 	 * @param int|integer  $code
+	 * @param bool|boolean $cache
 	 */
-	public static function json($data=null, bool $status=true, int $code=200)
+	public static function json($data=null, bool $status=true, int $code=200, bool $cache=true)
 	{
 		self::setStatusCode($code);
-		@header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
+		if ($cache == true) @header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
 		@header('Content-type: application/json');
 		//@header('Status: ' . self::$statusCodes[$code]);
 		return json_encode(['status' => $status, 'message' => $data]);
 	}
 
 	/**
-	 * @param array
-	 * @param int|integer
+	 * @param array        $data
+	 * @param int|integer  $code
+	 * @param bool|boolean $cache
 	 */
-	public static function _json(array $data=[], int $code=200)
+	public static function _json(array $data=[], int $code=200, bool $cache=true)
 	{
 		self::setStatusCode($code);
-		@header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
+		if ($cache == true) @header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
 		@header('Content-type: application/json');
 		return json_encode($data);
 	}
