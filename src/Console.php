@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 1.4
+ * @version 1.5
  */
 
 namespace BMVC\Libs;
@@ -61,15 +61,19 @@ class CommandServerStart extends SymfonyCommand
 		$host = "127.0.0.1:8686";
 		$url = "http://$host";
 		$file = ($this->dir ? $this->dir : "../Run.php");
-		$file_ = trim(str_replace(trim(FS::app(), '\\'), "", $file), '/');
+		$file = FS::replace($file);
+		$dir = FS::explode($file);
+		$file_ = array_pop($dir);
+		$dir = FS::implode($dir);
+		$dir_ = trim(str_replace(trim(FS::app(), DIRECTORY_SEPARATOR), "", $dir), DIRECTORY_SEPARATOR);
 
 		//$this->_kill("php");
-		$this->_exec("php -S $host " . $file);
+		$this->_exec("php -S $host -t " . $dir_);
 		$this->_exec("start $url");
 
 		$output->writeln([
 			'',
-			'Sunucu "' . $file_ . '" dizininde baslatildi.',
+			'Sunucu "' . $dir_ . '" dizininde baslatildi.',
 			'------------------------------',
 			$host
 		]);
