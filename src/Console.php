@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 1.3
+ * @version 1.4
  */
 
 namespace BMVC\Libs;
@@ -60,15 +60,16 @@ class CommandServerStart extends SymfonyCommand
 	{
 		$host = "127.0.0.1:8686";
 		$url = "http://$host";
+		$file = ($this->dir ? $this->dir : "../Run.php");
+		$file_ = trim(str_replace(trim(FS::app(), '\\'), "", $file), '/');
 
 		//$this->_kill("php");
-
-		$this->_exec("php -S $host " . ($this->dir ? $this->dir : "../Run.php"));
+		$this->_exec("php -S $host " . $file);
 		$this->_exec("start $url");
 
 		$output->writeln([
 			'',
-			'Server baslatildi.',
+			'Sunucu "' . $file_ . '" dizininde baslatildi.',
 			'------------------------------',
 			$host
 		]);

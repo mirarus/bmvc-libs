@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 1.7
+ * @version 1.8
  */
 
 namespace BMVC\Libs;
@@ -116,12 +116,13 @@ class Response
 	}
 
 	/**
-	 * @param array        $data
+	 * @param array|null   $data
 	 * @param int|integer  $code
 	 * @param bool|boolean $cache
 	 */
-	public static function _json(array $data=[], int $code=200, bool $cache=true)
+	public static function _json(array $data=null, int $code=200, bool $cache=true)
 	{
+		if ($data == null) $data = [];
 		self::setStatusCode($code);
 		if ($cache == true) @header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
 		@header('Content-type: application/json');
