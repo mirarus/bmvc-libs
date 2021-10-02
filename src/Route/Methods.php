@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Route;
@@ -35,6 +35,11 @@ class Methods implements IMethods
 	 * @var string|null
 	 */
 	private static $name;
+
+	/**
+	 * @var string|callable
+	 */
+	protected static $notFound;
 
 	/**
 	 * @var array
@@ -79,6 +84,16 @@ class Methods implements IMethods
 	public static function name(string $name): Route
 	{
 		self::$name = $name;
+		return new Route;
+	}
+
+	/**
+	 * @param  string|callable $callback
+	 * @return Route
+	 */
+	public static function error($callback): Route
+	{
+		self::$notFound = $callback;
 		return new Route;
 	}
 

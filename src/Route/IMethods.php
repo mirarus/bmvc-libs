@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Route;
@@ -19,6 +19,7 @@ interface IMethods
 	public static function prefix(string $prefix): Route;
 	public static function ip(string $ip): Route;
 	public static function name(string $name): Route;
+	public static function error($callback): Route;
 	public static function get(string $uri = null, $callback): Route;
 	public static function post(string $uri = null, $callback): Route;
 	public static function put(string $uri = null, $callback): Route;

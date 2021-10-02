@@ -29,6 +29,11 @@ final class Route extends Methods
 		return (array) self::$routes;
 	}
 
+	public static function get_error()
+	{
+		return static::$notFound;
+	}
+
 	/**
 	 * TODO;
 	public static function url(string $name, array $params = []): string
