@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 4.1
+ * @version 4.2
  */
 
 namespace BMVC\Libs;
@@ -416,6 +416,16 @@ final class Route
 	public static function routes(): array
 	{
 		return self::$routes;
+	}
+
+	/**
+	 * @param  mixed $callback
+	 * @return Route
+	 */
+	public static function error($callback): Route
+	{
+		self::$notFound = $callback;
+		return new self;
 	}
 
 	/**
