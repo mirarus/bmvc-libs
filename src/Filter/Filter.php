@@ -15,7 +15,7 @@ namespace BMVC\Libs\Filter;
 
 use stdClass;
 
-abstract class Filter
+class Filter
 {
 
 	/**

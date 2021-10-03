@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\IP;
 
-abstract class IP
+class IP
 {
 
 	/**

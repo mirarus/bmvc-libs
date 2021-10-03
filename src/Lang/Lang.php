@@ -19,7 +19,7 @@ use BMVC\Libs\CL;
 use BMVC\Libs\Request;
 use BMVC\Libs\Route;
 
-abstract class Lang
+class Lang
 {
 
 	/**

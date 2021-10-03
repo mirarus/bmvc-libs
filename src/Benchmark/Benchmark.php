@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\Benchmark;
 
-abstract class Benchmark implements IBenchmark
+class Benchmark implements IBenchmark
 {
 
 	/**

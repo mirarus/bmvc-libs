@@ -19,7 +19,7 @@ use BMVC\Libs\Request;
 use BMVC\Libs\Response;
 use BMVC\Libs\MError;
 
-abstract class Route implements IRoute
+class Route implements IRoute
 {
 	use Method;
 

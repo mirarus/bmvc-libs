@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\FS;
 
-abstract class FS implements IFS
+class FS implements IFS
 {
 
 	use Dir, File;

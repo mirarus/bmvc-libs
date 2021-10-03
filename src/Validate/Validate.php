@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\Validate;
 
-abstract class Validate
+class Validate
 {
 
 	/**

@@ -27,7 +27,7 @@ namespace BMVC\Libs\Sitemap;
 use SimpleXMLElement;
 use BMVC\Libs\Header;
 
-abstract class Sitemap
+class Sitemap
 {
 
 	private static $xml;

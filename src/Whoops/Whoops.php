@@ -16,7 +16,7 @@ namespace BMVC\Libs\Whoops;
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 
-abstract class Whoops
+class Whoops
 {
 
 	/**

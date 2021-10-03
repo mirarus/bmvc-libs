@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\Cookie;
 
-abstract class Cookie
+class Cookie
 {
 
 	/**

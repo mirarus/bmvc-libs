@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\MError;
 
-abstract class MError implements IMError
+class MError implements IMError
 {
 
 	/**

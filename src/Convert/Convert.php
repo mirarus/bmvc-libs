@@ -16,7 +16,7 @@ namespace BMVC\Libs\Convert;
 use stdClass;
 use SimpleXMLElement;
 
-abstract class Convert
+class Convert
 {
 
 	/**
