@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\Browser;
 
-class Browser
+abstract class Browser
 {
 
 	private $_agent = '';

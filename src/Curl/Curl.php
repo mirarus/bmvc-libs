@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\Curl;
 
-class Curl
+abstract class Curl
 {
 	
 	private static

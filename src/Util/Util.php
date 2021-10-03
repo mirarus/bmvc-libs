@@ -179,7 +179,7 @@ class Util
 	 */
 	public function __call(string $class, string $method)
 	{
-		$class = str_replace('\\Util', null, __NAMESPACE__) . '\\' . $class . '\\' . $class;
+		$class = str_replace('\\Util', null, __NAMESPACE__) . '\\' . $class;
 		return new $class;
 	}
 
@@ -189,7 +189,7 @@ class Util
 	 */
 	public static function __callStatic(string $class, array $method)
 	{
-		$class = str_replace('\\Util', null, __NAMESPACE__) . '\\' . $class . '\\' . $class;
+		$class = str_replace('\\Util', null, __NAMESPACE__) . '\\' . $class;
 		return new $class;
 	}
 }

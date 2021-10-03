@@ -16,7 +16,7 @@ namespace BMVC\Libs\Jwt;
 use Exception;
 use DateTime;
 
-class Jwt
+abstract class Jwt
 {
 
 	/**

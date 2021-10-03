@@ -11,7 +11,7 @@
  * @version 0.0
  */
 
-namespace BMVC\Libs\Benchmark;
+namespace BMVC\Libs\BasicDB;
 
 interface IBasicDB
 {

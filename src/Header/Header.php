@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\Header;
 
-class Header
+abstract class Header
 {
 
 	private static $mime_types = [

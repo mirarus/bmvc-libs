@@ -15,7 +15,7 @@ namespace BMVC\Libs\Csrf;
 
 use stdClass;
 
-class Csrf
+abstract class Csrf
 {
 
 	/**

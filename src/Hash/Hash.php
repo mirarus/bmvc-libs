@@ -15,7 +15,7 @@ namespace BMVC\Libs\Hash;
 
 use Exception;
 
-class Hash
+abstract class Hash
 {
 
 	/**

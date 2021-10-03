@@ -15,7 +15,7 @@ namespace BMVC\Libs\Hook;
 
 use Closure;
 
-class Hook
+abstract class Hook
 {
 
 	/**

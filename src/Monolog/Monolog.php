@@ -18,7 +18,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-class Monolog
+abstract class Monolog
 {
 
 	public static $log;

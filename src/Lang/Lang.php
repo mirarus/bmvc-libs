@@ -19,7 +19,7 @@ use BMVC\Libs\CL;
 use BMVC\Libs\Request;
 use BMVC\Libs\Route;
 
-class Lang
+abstract class Lang
 {
 
 	/**
@@ -120,7 +120,7 @@ class Lang
 	/**
 	 * @param string|null $lang
 	 */
-	public static function set(string $lang=null): void
+	public static function set(string $lang = null): void
 	{				
 		if (empty($lang)) {
 			$lang = self::$current_lang;
@@ -133,7 +133,7 @@ class Lang
 	 * @param string $text
 	 * @param mixed $replace
 	 */
-	public static function __(string $text, $replace=null)
+	public static function __(string $text, $replace = null)
 	{
 		self::_init($text, false, $replace);
 	}
@@ -142,7 +142,7 @@ class Lang
 	 * @param string $text
 	 * @param mixed $replace
 	 */
-	public static function ___(string $text, $replace=null)
+	public static function ___(string $text, $replace = null)
 	{
 		return self::_init($text, true, $replace);
 	}
@@ -152,7 +152,7 @@ class Lang
 	 * @param bool|boolean $return
 	 * @param mixed  	     $replace
 	 */
-	private static function _init(string $text, bool $return=true, $replace=null)
+	private static function _init(string $text, bool $return = true, $replace = null)
 	{
 		if ($return == true) {
 			if ($replace != null) {
@@ -252,7 +252,7 @@ class Lang
 	 * @param string      $_xlang
 	 * @param string|null $par
 	 */
-	private static function _get_lang_info(string $_xlang, string $par=null)
+	private static function _get_lang_info(string $_xlang, string $par = null)
 	{
 		if ($_xlang == 'index') return;
 
@@ -307,7 +307,7 @@ class Lang
 	/**
 	 * @param array|null &$_file
 	 */
-	private static function _config_file(array &$_file=null)
+	private static function _config_file(array &$_file = null)
 	{
 		if (file_exists($file = FS::implode([self::$dir, 'config.php']))) {
 

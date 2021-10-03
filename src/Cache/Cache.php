@@ -16,7 +16,7 @@ namespace BMVC\Libs\Cache;
 use Exception;
 use BMVC\Libs\FS;
 
-class Cache
+abstract class Cache
 {
 
 	private static $path;

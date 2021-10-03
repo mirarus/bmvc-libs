@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\Str;
 
-class Str
+abstract class Str
 {
 
 	/**

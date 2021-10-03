@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\CL;
 
-class CL
+abstract class CL
 {
 
 	/**

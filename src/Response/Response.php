@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\Response;
 
-class Response
+abstract class Response
 {
 	
 	/**

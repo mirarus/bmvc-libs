@@ -13,7 +13,7 @@
 
 namespace BMVC\Libs\Session;
 
-class Session
+abstract class Session
 {
 
 	/**

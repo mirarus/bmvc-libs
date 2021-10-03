@@ -23,7 +23,7 @@ use function shmop_read;
 use function shmop_size;
 use function shmop_write;
 
-class Shmop
+abstract class Shmop
 {
 
 	/**

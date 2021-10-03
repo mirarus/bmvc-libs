@@ -31,7 +31,7 @@ use Exception;
  * @author Midori Koçak
  * @update 2 July 2015
  */
-class BasicDB extends PDO implements IBasicDB
+abstract class BasicDB extends PDO implements IBasicDB
 {
 
 	private

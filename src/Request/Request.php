@@ -19,7 +19,7 @@ use BMVC\Libs\Header;
 use BMVC\Libs\IP;
 use BMVC\Libs\Filter;
 
-class Request
+abstract class Request
 {
 	
 	const METHOD_HEAD = 'HEAD';

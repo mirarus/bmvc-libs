@@ -15,7 +15,7 @@ namespace BMVC\Libs\Composer;
 
 use BMVC\Libs\FS;
 
-class Composer
+abstract class Composer
 {
 	
 	public static function folderDelete()

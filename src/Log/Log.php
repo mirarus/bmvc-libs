@@ -18,7 +18,7 @@ use DateTime;
 use BMVC\Libs\FS;
 use BMVC\Libs\Request;
 
-class Log
+abstract class Log
 {
 
 	private static $dir = 'Logs';
