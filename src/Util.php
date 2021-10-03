@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs;
@@ -38,11 +38,36 @@ final class Util
 	}
 
 	/**
+	 * @return Request
+	 */
+	public static function request(): Request
+	{
+		return new Request; 		
+	}
+
+	/**
+	 * @return Response
+	 */
+	public static function response(): Response
+	{
+		return new Response; 		
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function get_method(): string
 	{
 		return filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_ENCODED);
+	}
+
+	/**
+	 * @param  string $key
+	 * @return boolean
+	 */
+	public static function check_method(string $key): bool
+	{
+		return (bool) (self::get_method() == $key);
 	}
 
 	/**
