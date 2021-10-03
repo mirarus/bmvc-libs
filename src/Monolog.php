@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Lib
+ * Monolog
  *
  * Mirarus BMVC
  * @package BMVC\Libs
@@ -13,18 +13,4 @@
 
 namespace BMVC\Libs;
 
-class Lib
-{
-
-	public function __call($class, $method)
-	{
-		$class = __NAMESPACE__ . '\\' . $class;
-		return new $class;
-	}
-
-	public static function __callStatic($class, $method)
-	{
-		$class = __NAMESPACE__ . '\\' . $class;
-		return new $class;
-	}
-}
+final class Monolog extends Monolog\Monolog {}

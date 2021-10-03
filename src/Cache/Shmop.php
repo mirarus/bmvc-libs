@@ -1,17 +1,18 @@
 <?php
 
+
 /**
- * Cache Shmop
+ * Shmop
  *
  * Mirarus BMVC
- * @package BMVC\Libs
+ * @package BMVC\Libs\Cache
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version 0.0
  */
 
-namespace BMVC\Libs;
+namespace BMVC\Libs\Cache;
 
 use DateTime;
 
@@ -22,7 +23,7 @@ use function shmop_read;
 use function shmop_size;
 use function shmop_write;
 
-class Cache_shmop
+class Shmop
 {
 
 	/**

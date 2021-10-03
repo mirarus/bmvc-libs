@@ -1,0 +1,24 @@
+{
+  "description": "Mirarus BMVC Composer Lib (Basic MVC Composer Lib)",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ali Güçlü",
+      "email": "aliguclutr@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.3 || ^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "BMVC\\Libs\\Composer\\": "./"
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
+}

@@ -13,6 +13,8 @@
 
 namespace BMVC\Libs\Route;
 
+use BMVC\Libs\CL;
+
 trait Method
 {
 

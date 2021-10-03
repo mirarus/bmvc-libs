@@ -14,10 +14,13 @@
 namespace BMVC\Libs\Route;
 
 use Closure;
+use BMVC\Libs\Util;
+use BMVC\Libs\Request;
+use BMVC\Libs\Response;
+use BMVC\Libs\MError;
 
-abstract class Route implements IRoute
+class Route implements IRoute
 {
-
 	use Method;
 
 	/**
@@ -107,7 +110,7 @@ abstract class Route implements IRoute
 
 				if (preg_match("#^{$url}$#", ('/' . Util::get_url()), $params)) {
 
-					if ($method === @Util::request()->getRequestMethod() && @Util::request()->checkIp($ip)) {
+					if ($method === @Request::getRequestMethod() && @Request::checkIp($ip)) {
 
 						$match = true;
 						array_shift($params);
@@ -289,10 +292,10 @@ abstract class Route implements IRoute
 		if (@self::$notFound) {
 			return self::$notFound;
 		} else {
-			if (Util::request()->isGet()) {
+			if (Request::isGet()) {
 				MError::print('404 Page Not Found!', (Util::get_url() ? 'Page: ' . Util::get_url() : null), true, 'Page Error!', null, true, 404);
 			} else {
-				echo Util::response()->_json((Util::get_url() ? [
+				echo Response::_json((Util::get_url() ? [
 					'message' => '404 Page Not Found!',
 					'page' => Util::get_url()
 				] : [

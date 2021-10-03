@@ -13,6 +13,9 @@
 
 namespace BMVC\Libs\Route;
 
+use BMVC\Libs\Request;
+use BMVC\Libs\Util;
+
 final class Route extends Methods
 {
 
@@ -55,7 +58,7 @@ final class Route extends Methods
 	 */
 	public static function run()
 	{
-		$routes = (array) self::routes()[Util::get_method()];
+		$routes = (array) self::routes()[Request::getRequestMethod()];
 
 		if (isset($routes) && !empty($routes)) {
 
@@ -69,7 +72,7 @@ final class Route extends Methods
 
 				if (preg_match("#^{$uri}$#", Util::get_url(), $params)) {
 
-					if ($ip && Util::get_ip() != $ip) return false;
+					if ($ip && !Request::checkIp($ip)) return false;
 
 					$url = array_shift($params);
 

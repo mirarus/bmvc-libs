@@ -8,12 +8,12 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.0
  */
 
 namespace BMVC\Libs\FS;
 
-abstract class FS implements IFS
+class FS implements IFS
 {
 
 	use Dir, File;
@@ -34,7 +34,7 @@ abstract class FS implements IFS
 	 */
 	public static function base(string $dir = null): string
 	{
-		$path = (self::$path ? self::$path : dirname(__DIR__));
+		$path = (self::$path ? self::$path : dirname(dirname(__DIR__)));
 		$path = ($dir ? self::implode([$path, $dir]) : ($path . DIRECTORY_SEPARATOR));
 
 		return self::replace($path);
