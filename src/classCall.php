@@ -13,4 +13,6 @@
 
 namespace BMVC\Libs;
 
-final class classCall extends classCall\classCall {}
+trait classCall {
+  use classCall\classCall;
+}
