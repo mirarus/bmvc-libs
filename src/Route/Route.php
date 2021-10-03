@@ -129,7 +129,7 @@ class Route implements IRoute
 			}
 		}
 
-		if ($match) self::get_404();
+		if (!$match) self::get_404();
 	}
 
 	/**
