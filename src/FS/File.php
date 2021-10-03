@@ -1,19 +1,19 @@
 <?php
 
 /**
- * FS_File
+ * File
  *
  * Mirarus BMVC
- * @package BMVC\Libs
+ * @package BMVC\Libs\FS
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 2.9
+ * @version 3.0
  */
 
-namespace BMVC\Libs;
+namespace BMVC\Libs\FS;
 
-trait FS_File
+trait File
 {
 
 	/**
@@ -21,14 +21,14 @@ trait FS_File
 	 * @param  string|null $type
 	 * @return boolean
 	 */
-	public static function is_file(string $file, string $type=null): bool
+	public static function is_file(string $file, string $type = null): bool
 	{
 		if ($type == 'app') {
 			$file = self::app($file);
 		} elseif ($type == 'base') {
 			$file = self::base($file);
 		}
-		return (is_file($file) && file_exists($file));
+		return (bool) (is_file($file) && file_exists($file));
 	}
 
 	/**
@@ -36,7 +36,7 @@ trait FS_File
 	 * @param  string|null $type
 	 * @return boolean
 	 */
-	public static function mk_file(string $file, string $type=null): bool
+	public static function mk_file(string $file, string $type = null): bool
 	{
 		if ($type == 'app') {
 			$file = self::app($file);
@@ -56,7 +56,7 @@ trait FS_File
 	 * @param  string|null $type
 	 * @return boolean
 	 */
-	public static function rm_file(string $file, string $type=null): bool
+	public static function rm_file(string $file, string $type = null): bool
 	{
 		if ($type == 'app') {
 			$file = self::app($file);
@@ -76,7 +76,7 @@ trait FS_File
 	 * @param  string|null $type
 	 * @return array
 	 */
-	public static function files(string $dir=null, string $type=null): array
+	public static function files(string $dir = null, string $type = null): array
 	{
 		if ($type == 'app') {
 			$dir = self::app($dir);

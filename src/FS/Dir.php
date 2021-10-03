@@ -1,19 +1,19 @@
 <?php
 
 /**
- * FS_Dir
+ * Dir
  *
  * Mirarus BMVC
- * @package BMVC\Libs
+ * @package BMVC\Libs\FS
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 2.9
+ * @version 3.0
  */
 
-namespace BMVC\Libs;
+namespace BMVC\Libs\FS;
 
-trait FS_Dir
+trait Dir
 {
 	
 	/**
@@ -21,14 +21,14 @@ trait FS_Dir
 	 * @param  string|null $type
 	 * @return boolean
 	 */
-	public static function is_dir(string $dir, string $type=null): bool
+	public static function is_dir(string $dir, string $type = null): bool
 	{
 		if ($type == 'app') {
 			$dir = self::app($dir);
 		} elseif ($type == 'base') {
 			$dir = self::base($dir);
 		}
-		return (is_dir($dir) && opendir($dir));
+		return (bool) (is_dir($dir) && opendir($dir));
 	}
 
 	/**
@@ -38,7 +38,7 @@ trait FS_Dir
 	 * @param  bool|boolean $recursive
 	 * @return boolean
 	 */
-	public static function mk_dir(string $dir, string $type=null, int $perms=0777, bool $recursive=true): bool
+	public static function mk_dir(string $dir, string $type = null, int $perms = 0777, bool $recursive = true): bool
 	{
 		if ($type == 'app') {
 			$dir = self::app($dir);
@@ -58,7 +58,7 @@ trait FS_Dir
 	 * @param  string|null $type
 	 * @return boolean
 	 */
-	public static function rm_dir(string $dir, string $type=null): bool
+	public static function rm_dir(string $dir, string $type = null): bool
 	{
 		if ($type == 'app') {
 			$dir = self::app($dir);
@@ -78,7 +78,7 @@ trait FS_Dir
 	 * @param  string|null $type
 	 * @return boolean
 	 */
-	public static function rm_dir_sub(string $dir, string $type=null): bool
+	public static function rm_dir_sub(string $dir, string $type = null): bool
 	{
 		if ($type == 'app') {
 			$dir = self::app($dir);
@@ -102,7 +102,7 @@ trait FS_Dir
 	 * @param  string|null $type
 	 * @return array
 	 */
-	public static function directories(string $dir=null, string $type=null): array
+	public static function directories(string $dir = null, string $type = null): array
 	{
 		if ($type == 'app') {
 			$dir = self::app($dir);
