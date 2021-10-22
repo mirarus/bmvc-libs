@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\MError;
@@ -19,27 +19,27 @@ class MError implements IMError
 	/**
 	 * @var boolean
 	 */
-	private static $html;
+	protected static $html;
 
 	/**
 	 * @var string
 	 */
-	private static $title;
+	protected static $title;
 
 	/**
 	 * @var boolean
 	 */
-	private static $stop;
+	protected static $stop;
 
 	/**
 	 * @var string
 	 */
-	private static $color;
+	protected static $color;
 
 	/**
 	 * @var array
 	 */
-	private static $colors = [
+	protected static $colors = [
 		'danger' => '244 67 54',
 		'warning' => '255 235 59',
 		'info' => '3 169 244',
@@ -118,62 +118,53 @@ class MError implements IMError
 		}
 
 		$stop = isset(self::$stop) ? self::$stop : $stop;
+
 		self::template($text, $message, $html, $title, $color, $stop, $response_code);
 		self::reset();
 	}
 
 	/**
-	 * @param array $array
+	 * @param  array $array
+	 * @return _MError
 	 */
-	public static function set(array $array): self
+	public static function set(array $array = null): _MError
 	{
-		array_map(function ($key, $value) {
-			if ($key == 'color') {
-				return self::color($value);
-			} if ($key == 'html') {
-				return self::html($value);
-			} if ($key == 'title') {
-				return self::title($value);
-			} if ($key == 'stop') {
-				return self::stop($value);
-			}
-		}, array_keys($array), array_values($array));
-		return new self;
-	}
-	
-	/**
-	 * @param string $color
-	 */
-	public static function color(string $color): self
-	{
-		self::$color = self::$colors[$color] ? self::$colors[$color] : self::$colors['info'];
-		return new self;
+		return (new _MError)->setData($array);
 	}
 
 	/**
-	 * @param bool|boolean $html
+	 * @param  string $color
+	 * @return _MError
 	 */
-	public static function html(bool $html = false): self
+	public static function color(string $color): _MError
 	{
-		self::$html = $html;
-		return new self;
+		return (new _MError)->setColor($color);
 	}
 
 	/**
-	 * @param string $title
+	 * @param  bool|boolean $bool
+	 * @return _MError
 	 */
-	public static function title(string $title): self
+	public static function html(bool $bool = false): _MError
 	{
-		self::$title = $title;
-		return new self;
+		return (new _MError)->setHtml($bool);
 	}
 
 	/**
-	 * @param bool|boolean $stop
+	 * @param  string $title
+	 * @return _MError
 	 */
-	public static function stop(bool $stop = true): self
+	public static function title(string $title): _MError
 	{
-		self::$stop = $stop;
-		return new self;
+		return (new _MError)->setTitle($title);
+	}
+
+	/**
+	 * @param  bool|boolean $stop
+	 * @return _MError
+	 */
+	public static function stop(bool $stop = true): _MError
+	{
+		return (new _MError)->setStop($stop);
 	}
 }
