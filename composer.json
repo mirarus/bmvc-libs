@@ -12,7 +12,6 @@
 	"require": {
 		"php": "^7.3 || ^8.0",
 		"ext-json": "*",
-		"ext-pdo": "*",
 		"ext-mbstring": "*",
 		"ext-intl" : "*",
 		"mirarus/bmvc-exception": "0.*",
