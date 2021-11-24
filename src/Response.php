@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Request
+ * Response
  *
  * Mirarus BMVC
  * @package BMVC\Libs
@@ -13,4 +13,4 @@
 
 namespace BMVC\Libs;
 
-final class Request extends Request\Request {}
+final class Response extends Response\Response {}
