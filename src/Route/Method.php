@@ -19,6 +19,20 @@ trait Method
 {
 
 	/**
+	 * @param  array $middlewares
+	 * @return Route
+	 */
+	public static function middleware(array $middlewares = []): Route
+	{
+		foreach ($middlewares as $middleware) {
+			self::$middlewares[$middleware] =[
+				'callback' => $middleware . '@handle'
+			];
+		}
+		return new self;
+	}
+
+	/**
 	 * @param  string|null $prefix
 	 * @return Route
 	 */

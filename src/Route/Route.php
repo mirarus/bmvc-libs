@@ -39,6 +39,11 @@ class Route implements IRoute
 	private static $groups = [];
 
 	/**
+	 * @var array
+	 */
+	private static $middlewares = [];
+
+	/**
 	 * @var string
 	 */
 	private static $prefix = '/';
@@ -181,6 +186,7 @@ class Route implements IRoute
 			];
 
 			if (self::$ip) $route_['ip'] = self::$ip;
+			if (self::$middlewares) $route_['middlewares'] = self::$middlewares;
 			if (self::$return) $route_['return'] = self::$return;
 			if (self::$namespaces) $route_['namespaces'] = self::$namespaces;
 
@@ -196,6 +202,7 @@ class Route implements IRoute
 		self::$groupped++;
 		self::$groups[] = [
 			'baseRoute'		=> self::$prefix,
+			'middlewares'	=> self::$middlewares,
 			'ip'					=> self::$ip,
 			'return'			=> self::$return,
 			'namespaces'	=> self::$namespaces
@@ -203,6 +210,7 @@ class Route implements IRoute
 		call_user_func($callback);
 		if (self::$groupped > 0) {
 			self::$prefix			= self::$groups[self::$groupped-1]['baseRoute'];
+			self::$middlewares	= self::$groups[self::$groupped-1]['middlewares'];
 			self::$ip					= self::$groups[self::$groupped-1]['ip'];
 			self::$return 		= self::$groups[self::$groupped-1]['return'];
 		//self::$namespaces	= self::$groups[self::$groupped-1]['namespaces'];
@@ -210,6 +218,7 @@ class Route implements IRoute
 		self::$groupped--;
 		if (self::$groupped <= 0) {
 			self::$prefix			= '/';
+			self::$middlewares	= [];
 			self::$ip					= '';
 			self::$return			= '';
 			self::$namespaces	= [];
@@ -243,12 +252,11 @@ class Route implements IRoute
 		return new self;
 	}
 
-
 	/**
 	 * @param  array  $middlewares
 	 * @return Route
 	 */
-	public static function middleware(array $middlewares = []): self
+	public static function middlewares(array $middlewares = []): self
 	{
 		$routeKey = array_search(end(self::$routes), self::$routes);
 		foreach ($middlewares as $middleware) {
