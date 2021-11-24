@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Route;
@@ -101,12 +101,13 @@ class Route implements IRoute
 
 			foreach ($routes as $route) {
 
-				$method			= $route['method'];
-				$action			= $route['callback'];
-				$url				= $route['pattern'];
-				$ip					= (isset($route['ip']) ? $route['ip'] : null);
-				$_return		= (isset($route['return']) ? $route['return'] : null);
-				$namespaces = (isset($route['namespaces']) ? $route['namespaces'] : null);
+				$method				= $route['method'];
+				$action				= $route['callback'];
+				$url					= $route['pattern'];
+				$ip						= (isset($route['ip']) ? $route['ip'] : null);
+				$_return			= (isset($route['return']) ? $route['return'] : null);
+				$namespaces		= (isset($route['namespaces']) ? $route['namespaces'] : null);
+				$middlewares	= (isset($route['middlewares']) ? $route['middlewares'] : null);
 
 				if (preg_match("#^{$url}$#", ('/' . Util::get_url()), $params)) {
 
@@ -116,13 +117,14 @@ class Route implements IRoute
 						array_shift($params);
 
 						return $return = [
-							'method'     => $method,
-							'action'     => $action,
-							'params'     => $params,
-							'namespaces' => $namespaces,
-							'url'        => $url,
-							'_url'       => Util::get_url(),
-							'_return'    => $_return,
+							'method'			=> $method,
+							'action'			=> $action,
+							'params'			=> $params,
+							'namespaces'	=> $namespaces,
+							'middlewares'	=> $middlewares,
+							'url'					=> $url,
+							'_url'				=> Util::get_url(),
+							'_return'			=> $_return,
 						];
 					}
 				}
@@ -193,24 +195,24 @@ class Route implements IRoute
 	{
 		self::$groupped++;
 		self::$groups[] = [
-			'baseRoute'  => self::$prefix,
-			'ip'         => self::$ip,
-			'return'     => self::$return,
-			'namespaces' => self::$namespaces
+			'baseRoute'		=> self::$prefix,
+			'ip'					=> self::$ip,
+			'return'			=> self::$return,
+			'namespaces'	=> self::$namespaces
 		];
 		call_user_func($callback);
 		if (self::$groupped > 0) {
-			self::$prefix	= self::$groups[self::$groupped-1]['baseRoute'];
-			self::$ip			= self::$groups[self::$groupped-1]['ip'];
-			self::$return = self::$groups[self::$groupped-1]['return'];
-		//self::$namespaces = self::$groups[self::$groupped-1]['namespaces'];
+			self::$prefix			= self::$groups[self::$groupped-1]['baseRoute'];
+			self::$ip					= self::$groups[self::$groupped-1]['ip'];
+			self::$return 		= self::$groups[self::$groupped-1]['return'];
+		//self::$namespaces	= self::$groups[self::$groupped-1]['namespaces'];
 		}
 		self::$groupped--;
 		if (self::$groupped <= 0) {
-			self::$prefix		  = '/';
-			self::$ip				  = '';
+			self::$prefix			= '/';
+			self::$ip					= '';
 			self::$return			= '';
-			self::$namespaces = [];
+			self::$namespaces	= [];
 		}
 		self::$prefix = @self::$groups[self::$groupped-1]['baseRoute'];
 	}
@@ -238,6 +240,22 @@ class Route implements IRoute
 	{
 		$routeKey = array_search(end(self::$routes), self::$routes);
 		self::$routes[$routeKey]['name'] = $name;
+		return new self;
+	}
+
+
+	/**
+	 * @param  array  $middlewares
+	 * @return Route
+	 */
+	public static function middleware(array $middlewares = []): self
+	{
+		$routeKey = array_search(end(self::$routes), self::$routes);
+		foreach ($middlewares as $middleware) {
+			self::$routes[$routeKey]['middlewares'][$middleware] =[
+				'callback' => $middleware . '@handle'
+			];
+		}
 		return new self;
 	}
 
