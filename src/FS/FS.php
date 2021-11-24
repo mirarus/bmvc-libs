@@ -8,14 +8,13 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\FS;
 
 class FS implements IFS
 {
-
 	use Dir, File;
 
 	private static $path;
@@ -104,6 +103,6 @@ class FS implements IFS
 	 */
 	public static function trim(string $arg = null): string
 	{
-		return @trim(self::replace($arg), DIRECTORY_SEPARATOR);
+		return @trim(@trim(self::replace($arg), DIRECTORY_SEPARATOR));
 	}
 }
