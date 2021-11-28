@@ -8,18 +8,15 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Route;
 
+use BMVC\Libs\{Util, Request, Response, MError};
 use Closure;
-use BMVC\Libs\Util;
-use BMVC\Libs\Request;
-use BMVC\Libs\Response;
-use BMVC\Libs\MError;
 
-class Route implements IRoute
+class Route implements IRoute, IMethod
 {
 	use Method;
 
@@ -209,19 +206,19 @@ class Route implements IRoute
 		];
 		call_user_func($callback);
 		if (self::$groupped > 0) {
-			self::$prefix			= self::$groups[self::$groupped-1]['baseRoute'];
+			self::$prefix				= self::$groups[self::$groupped-1]['baseRoute'];
 			self::$middlewares	= self::$groups[self::$groupped-1]['middlewares'];
-			self::$ip					= self::$groups[self::$groupped-1]['ip'];
-			self::$return 		= self::$groups[self::$groupped-1]['return'];
-		//self::$namespaces	= self::$groups[self::$groupped-1]['namespaces'];
+			self::$ip						= self::$groups[self::$groupped-1]['ip'];
+			self::$return 			= self::$groups[self::$groupped-1]['return'];
+		//self::$namespaces		= self::$groups[self::$groupped-1]['namespaces'];
 		}
 		self::$groupped--;
 		if (self::$groupped <= 0) {
-			self::$prefix			= '/';
+			self::$prefix				= '/';
 			self::$middlewares	= [];
-			self::$ip					= '';
-			self::$return			= '';
-			self::$namespaces	= [];
+			self::$ip						= '';
+			self::$return				= '';
+			self::$namespaces		= [];
 		}
 		self::$prefix = @self::$groups[self::$groupped-1]['baseRoute'];
 	}
@@ -249,21 +246,6 @@ class Route implements IRoute
 	{
 		$routeKey = array_search(end(self::$routes), self::$routes);
 		self::$routes[$routeKey]['name'] = $name;
-		return new self;
-	}
-
-	/**
-	 * @param  array  $middlewares
-	 * @return Route
-	 */
-	public static function middlewares(array $middlewares = []): self
-	{
-		$routeKey = array_search(end(self::$routes), self::$routes);
-		foreach ($middlewares as $middleware) {
-			self::$routes[$routeKey]['middlewares'][$middleware] =[
-				'callback' => $middleware . '@handle'
-			];
-		}
 		return new self;
 	}
 
