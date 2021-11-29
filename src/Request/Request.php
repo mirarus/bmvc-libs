@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Request;
@@ -19,7 +19,7 @@ use BMVC\Libs\Header;
 use BMVC\Libs\IP;
 use BMVC\Libs\Filter;
 
-class Request
+class Request implements IRequest
 {
 	
 	const METHOD_HEAD = 'HEAD';
