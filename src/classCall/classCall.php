@@ -22,7 +22,7 @@ trait classCall
 	 * @var array
 	 */
 	private static $namespace = [];
-	
+
 	/**
 	 * @var array
 	 */
@@ -145,17 +145,15 @@ trait classCall
 	public static function get(string $type, string $action, object &$return=null)
 	{
 		$action = CL::explode(CL::replace($action));
-		$class  = @array_pop($action);
+		$class	= @ucfirst(@array_pop($action));
 		
-		$_namespace = (self::$called_class ? self::$called_class : @get_called_class());
-		$_namespace = CL::trim(CL::replace(self::$namespace[$_namespace]));
-		$namespace  = (($action != null && @is_array($action)) ? CL::implode($action) : null);
-		$namespace  = CL::replace($namespace);
-		$namespace  = @ucfirst($namespace);
+		$_ns = (self::$called_class ? self::$called_class : @get_called_class());
+		$_ns = CL::trim(CL::replace(self::$namespace[$_ns]));
+		$ns  = (($action != null && @is_array($action)) ? CL::implode($action) : null);
+		$ns  = @ucfirst(CL::replace($ns));
 		
-		$class = @ucfirst($class);
-		$class = ($namespace != null) ? CL::implode([$namespace, $class]) : $class;
-		$class = ($_namespace != null) ? CL::implode([$_namespace, $class]) : $class;
+		$class = ($ns != null) ? CL::implode([$ns, $class]) : $class;
+		$class = ($_ns != null) ? CL::implode([$_ns, $class]) : $class;
 		$class = CL::replace($class);
 
 		$cls = (new $class((is_array(self::$params) && !empty(self::$params))));
