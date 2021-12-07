@@ -22,10 +22,12 @@ trait classCall
 	 * @var array
 	 */
 	private static $namespace = [];
+	
 	/**
 	 * @var array
 	 */
 	private static $params = [];
+
 	/**
 	 * @var array
 	 */
