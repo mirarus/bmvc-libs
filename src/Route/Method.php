@@ -25,7 +25,7 @@ trait Method
 	public static function middleware(array $middlewares = []): Route
 	{
 		foreach ($middlewares as $middleware) {
-			self::$middlewares[$middleware] =[
+			self::$middlewares[$middleware] = [
 				'callback' => $middleware . '@handle'
 			];
 		}

@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\classCall;
@@ -145,34 +145,22 @@ trait classCall
 		$action = CL::explode(CL::replace($action));
 		$class  = @array_pop($action);
 		
-		#
 		$_namespace = (self::$called_class ? self::$called_class : @get_called_class());
 		$_namespace = CL::trim(CL::replace(self::$namespace[$_namespace]));
 		$namespace  = (($action != null && @is_array($action)) ? CL::implode($action) : null);
 		$namespace  = CL::replace($namespace);
 		$namespace  = @ucfirst($namespace);
 		
-		#
-		$_class_ = '_' . strtolower($type) . '_';
-		$_class_ = ($namespace != null) ? CL::implode([$namespace, $_class_]) : $_class_;
-		$_class_ = ($_namespace != null) ? CL::implode([$_namespace, $_class_]) : $_class_;
-		$_class_ = CL::replace($_class_);
-		if (@class_exists($_class_)) new $_class_;
-		
-		#
-		$_class = @ucfirst($class);
-		$_class = ($namespace != null) ? CL::implode([$namespace, $_class]) : $_class;
-		$_class = ($_namespace != null) ? CL::implode([$_namespace, $_class]) : $_class;
-		$_class = CL::replace($_class);
+		$class = @ucfirst($class);
+		$class = ($namespace != null) ? CL::implode([$namespace, $class]) : $class;
+		$class = ($_namespace != null) ? CL::implode([$_namespace, $class]) : $class;
+		$class = CL::replace($class);
 
-		#
-		$_cl = (new $_class((is_array(self::$params) && !empty(self::$params))));
+		$cls = (new $class((is_array(self::$params) && !empty(self::$params))));
 	
-		#
 		return $return = [
-			'_class_' => $_class_,
-			'_class' => $_class,
-			'_cl' => $_cl,
+			'class' => $class,
+			'cls' => $cls
 		];
 	}
 }
