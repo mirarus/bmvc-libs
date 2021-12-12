@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Util;
@@ -35,6 +35,75 @@ class Util
 		}
 
 		return trim(trim($url), '/');
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function page_url(): string
+	{
+		$url = "";
+
+		if (isset($_ENV['DIR'])) {
+			$url = str_replace($_ENV['DIR'], null, trim($_SERVER['REQUEST_URI']));
+		} elseif (isset($_GET[self::$urlGetName])) {
+			$url = $_GET[self::$urlGetName];
+		} elseif (isset($_SERVER['PATH_INFO'])) {
+			$url = $_SERVER['PATH_INFO'];
+		}
+
+		return trim($url, '/');
+	}
+
+	/**
+	 * @param  string|null  $url
+	 * @param  bool|boolean $atRoot
+	 * @param  bool|boolean $atCore
+	 * @param  bool|boolean $parse
+	 * @return string|null
+	 */
+	public static function base_url(string $url=null, bool $atRoot=false, bool $atCore=false, bool $parse=false)
+	{
+		if (isset($_SERVER['HTTP_HOST'])) {
+			$http = (((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || $_SERVER['SERVER_PORT'] == 443 || (isset($_SERVER['HTTP_X_FORWARDED_PORT']) && $_SERVER['HTTP_X_FORWARDED_PORT'] == 443)) ? 'https' : 'http');
+			$hostname = $_SERVER['HTTP_HOST'];
+			$dir  = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+			$core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(dirname(__FILE__)))), NULL, PREG_SPLIT_NO_EMPTY);
+			$core = $core[0];
+			$tmplt = $atRoot ? ($atCore ? "%s://%s/%s/" : "%s://%s/") : ($atCore ? "%s://%s/%s/" : "%s://%s%s");
+			$end = $atRoot ? ($atCore ? $core : $hostname) : ($atCore ? $core : $dir);
+			$base_url = sprintf($tmplt, $http, $hostname, $end);
+		} else {
+			$base_url = 'http://localhost/';
+		}
+
+		$base_url = rtrim($base_url, '/');
+		if (!empty($url)) $base_url .= $url;
+
+		$base_url = @str_replace(trim(@$_ENV['PUBLIC_DIR'], '/'), null, rtrim($base_url, '/'));
+		$base_url = trim($base_url, '/') . '/';
+
+		if ($parse) {
+			$base_url = parse_url($base_url);
+			if (trim(self::base_url(), "/") == $base_url) $base_url['path'] = "/";
+		}
+		return $base_url;
+	}
+
+	/**
+	 * @param string|null  $url
+	 * @param bool|boolean $return
+	 * @param bool|boolean $cache
+	 */
+	public static function url(string $url = null, bool $print = false, bool $cache = false)
+	{
+		$_url = (($url ? (self::base_url() . $url) : self::base_url()) . ($cache ? ('?ct=' . time()) : null));
+
+		if ($print == true) {
+			echo $_url;
+		} else {
+			return $_url;
+		}
 	}
 
 	/**
@@ -171,6 +240,60 @@ class Util
 		$data = ($data == true ? json_decode($result, true) : $result);
 		curl_close($ch);
 		return $data;
+	}
+
+	/**
+	 * @param string       $par
+	 * @param int|integer  $time
+	 * @param bool|boolean $stop
+	 */
+	public static function redirect(string $par, int $time=0, bool $stop=true)
+	{
+		if ($time == 0) {
+			header("Location: " . $par);
+		} else {
+			header("Refresh: " . $time . "; url=" . $par);
+		}
+		if ($stop === true) die();
+	}
+
+	/**
+	 * @param string       $par
+	 * @param int|integer  $time
+	 * @param bool|boolean $stop
+	 */
+	public static function refresh(string $par, int $time=0, bool $stop=true)
+	{
+		if ($time == 0) {
+			echo "<meta http-equiv='refresh' content='URL=" . $par . "'>";
+		} else {
+			echo "<meta http-equiv='refresh' content='" . $time . ";URL=" . $par . "'>";
+		}
+		if ($stop === true) die();
+	}
+
+	/**
+	 * @param mixed        $data
+	 * @param bool|boolean $stop
+	 */
+	public static function pr($data, bool $stop=false)
+	{
+		echo "<pre>";
+		print_r($data);
+		echo "</pre>";
+		if ($stop === true) die();
+	}
+
+	/**
+	 * @param mixed        $data
+	 * @param bool|boolean $stop
+	 */
+	public static function dump($data, bool $stop=false)
+	{
+		echo "<pre>";
+		var_dump($data);
+		echo "</pre>";
+		if ($stop === true) die();
 	}
 
 	/**
