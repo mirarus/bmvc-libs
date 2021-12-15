@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Browser;
@@ -219,6 +219,7 @@ class Browser
 			'/webos/i'              =>  'Mobile'
 		];
 
+		$platform = null;
 		foreach ($os as $regex => $value) {
 			if (preg_match($regex, $this->_agent)) {
 				$platform = $value;
@@ -1075,7 +1076,9 @@ class Browser
 			return true;
 		} else if (stripos($this->_agent, 'mozilla') !== false && preg_match('/rv:[0-9]\.[0-9]/i', $this->_agent) && stripos($this->_agent, 'netscape') === false) {
 			$aversion = explode('', stristr($this->_agent, 'rv:'));
-			$this->setVersion(str_replace('rv:', '', $aversion[0]));
+			if ($aversion != null) {
+				$this->setVersion(str_replace('rv:', '', $aversion[0]));
+			}
 			$this->setBrowser(self::BROWSER_MOZILLA);
 			return true;
 		} else if (stripos($this->_agent, 'mozilla') !== false && preg_match('/mozilla\/([^ ]*)/i', $this->_agent, $matches) && stripos($this->_agent, 'netscape') === false) {

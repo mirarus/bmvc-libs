@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Jwt;
@@ -51,8 +51,8 @@ class Jwt
 			'typ' => 'JWT',
 			'alg' => $alg
 		];
-		if ($head !== null && is_array($head)) {
-			array_merge($head, $header);
+		if ($head != null) {
+			$header = array_merge($head, $header);
 		}
 		$payload['jwt']['exp'] = time() + self::$exp;
 		$payload['jwt']['jti'] = uniqid(time());
@@ -206,7 +206,8 @@ class Jwt
 			JSON_ERROR_SYNTAX         => 'Syntax error, malformed JSON',
 			JSON_ERROR_UTF8           => 'Malformed UTF-8 characters'
 		];
-		throw new Exception('JWT Error! | ' . isset($messages[$errno]) ? $messages[$errno] : 'Unknown JSON error: ' . $errno);
+
+		throw new Exception('JWT Error! | ' . (isset($messages[$errno]) ? $messages[$errno] : 'Unknown JSON error: ' . $errno));
 	}
 
 	/**

@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\MError;
@@ -117,7 +117,7 @@ class MError implements IMError
 			$title = isset($title) ? $title : self::$title;
 		}
 
-		$stop = isset(self::$stop) ? self::$stop : $stop;
+		$stop = self::$stop ?: $stop;
 
 		self::template($text, $message, $html, $title, $color, $stop, $response_code);
 		self::reset();

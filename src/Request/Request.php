@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Request;
@@ -149,9 +149,10 @@ class Request implements IRequest
 			ob_start();
 			$method = self::METHOD_GET;
 		} elseif ($method === self::METHOD_POST) {
-			if (function_exists('getallheaders'))
-				getallheaders();
 			$headers = [];
+			if (function_exists('getallheaders')) {
+				$headers = getallheaders();
+			}
 			foreach (self::_server() as $name => $value) {
 				if ((substr($name, 0, 5) == 'HTTP_') || ($name == 'CONTENT_TYPE') || ($name == 'CONTENT_LENGTH')) {
 					$headers[@strtr(ucwords(strtolower(@strtr(substr($name, 5), ['_' => ' ']))), [' ' => '-', 'Http' => 'HTTP'])] = $value;
@@ -236,7 +237,7 @@ class Request implements IRequest
 	 */
 	public static function isFormData(): bool
 	{
-		return (self::getRequestMethod() === self::METHOD_POST && is_null(self::getContentType())) || in_array(self::getMediaType(), self::$formDataMediaTypes);
+		return (self::getRequestMethod() == self::METHOD_POST && self::getContentType() == null) || in_array(self::getMediaType(), self::$formDataMediaTypes);
 	}
 
 	/**
@@ -334,7 +335,7 @@ class Request implements IRequest
 	 */
 	public static function getScheme(): string
 	{
-		return stripos(self::_server('SERVER_PROTOCOL'), 'https') === true ? 'https' : 'http';
+		return stripos(self::_server('SERVER_PROTOCOL'), 'https') == true ? 'https' : 'http';
 	}
 
 	/**
@@ -419,10 +420,8 @@ class Request implements IRequest
 	 */
 	public static function checkDomain(string $domain): bool
 	{
-		if (isset($domain) && !empty($domain)) {
-			if ($domain !== trim(str_replace('www.', '', self::_server('SERVER_NAME')), '/'))
-				return false;
-			return true;
+		if ($domain !== trim(str_replace('www.', '', self::_server('SERVER_NAME')), '/')) {
+			return false;
 		}
 		return true;
 	}
@@ -435,15 +434,14 @@ class Request implements IRequest
 	{
 		if (isset($ip) && !empty($ip)) {
 			if (is_array($ip)) {
-				if (!in_array(self::getIp(), $ip))
+				if (!in_array(self::getIp(), $ip)) {
 					return false;
-				return true;
+				}
 			} else {
-				if (self::getIp() != $ip)
+				if (self::getIp() != $ip) {
 					return false;
-				return true;
+				}
 			}
-			return true;
 		}
 		return true;
 	}

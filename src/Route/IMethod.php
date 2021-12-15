@@ -8,12 +8,10 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Route;
-
-use Closure;
 
 interface IMethod
 {
@@ -26,7 +24,7 @@ interface IMethod
   public static function get(string $pattern = null, $callback): Route;
   public static function post(string $pattern = null, $callback): Route;
   public static function patch(string $pattern = null, $callback): Route;
-  public static function delete(string $pattern = null, $callback, string $type = null): Route;
+  public static function delete(string $pattern = null, $callback): Route;
   public static function put(string $pattern = null, $callback): Route;
   public static function options(string $pattern = null, $callback): Route;
   public static function match(array $methods, string $pattern = null, $callback): Route;

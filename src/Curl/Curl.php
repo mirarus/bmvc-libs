@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Curl;
@@ -49,10 +49,10 @@ class Curl
 	}
 
 	/**
-	 * @param string $url
-	 * @param array  $params
+	 * @param string 			 $url
+	 * @param string|array $params
 	 */
-	public static function get(string $url, array $params=[])
+	public static function get(string $url, $params)
 	{
 		if (!empty($params)) {
 			$url .= (stripos($url, '?') !== false) ? '&' : '?';
@@ -110,7 +110,7 @@ class Curl
 	}
 
 	/**
-	 * @param mixed $referrer
+	 * @param mixed $agent
 	 */
 	public static function setUserAgent($agent)
 	{
@@ -160,7 +160,7 @@ class Curl
 	 * @param string $url
 	 * @param array  $params
 	 */
-	private static function request(string $method, string $url, array $params=[]): void
+	private static function request(string $method, string $url, array $params=[])
 	{
 		self::$error = '';
 		self::$ch 	 = curl_init();
@@ -169,7 +169,7 @@ class Curl
 		self::set_request_headers();
 		$response = curl_exec(self::$ch);
 		if ($response) {
-			$response = self::getResponse($response);
+			return self::getResponse($response);
 		} else {
 			self::$error = curl_errno(self::$ch) . ' - ' . curl_error(self::$ch);
 		}
@@ -202,8 +202,8 @@ class Curl
 	}
 
 	/**
-	 * @param string     $url
-	 * @param array|null $params
+	 * @param string $url
+	 * @param array  $params
 	 */
 	private static function set_request_options(string $url, array $params=[]): void
 	{
@@ -232,7 +232,7 @@ class Curl
 	/**
 	 * @param mixed $response
 	 */
-	private static function getResponse($response): void
+	private static function getResponse($response)
 	{
 		preg_match_all('#HTTP/\d\.\d.*?$.*?\r\n\r\n#ims', $response, $matches);
 		$headers_string = array_pop($matches[0]);

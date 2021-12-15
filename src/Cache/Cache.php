@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Cache;
@@ -120,6 +120,7 @@ class Cache
 			fclose($file);
 			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -133,6 +134,7 @@ class Cache
 			$cacheContent = self::loadCache();
 			return isset($cacheContent[$key]['data']);
 		}
+		return false;
 	}
 
 	/**

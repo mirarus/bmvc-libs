@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Console;
@@ -89,11 +89,6 @@ class CommandServerStart extends Command
 		} else {
 			exec($cmd . " > /dev/null &");  
 		}
-	}
-
-	private function _kill($cmd)
-	{
-		exec("taskkill /F /T /IM $cmd.exe > /dev/null &");
 	}
 }
 

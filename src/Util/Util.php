@@ -8,10 +8,12 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Util;
+
+use stdClass;
 
 class Util
 {
@@ -45,7 +47,7 @@ class Util
 		$url = '';
 
 		if (isset($_ENV['DIR'])) {
-			$url = str_replace($_ENV['DIR'], null, trim($_SERVER['REQUEST_URI']));
+			$url = str_replace($_ENV['DIR'], "", trim($_SERVER['REQUEST_URI']));
 		} elseif (isset($_GET[self::$urlGetName])) {
 			$url = $_GET[self::$urlGetName];
 		} elseif (isset($_SERVER['PATH_INFO'])) {
@@ -86,7 +88,7 @@ class Util
 		$base_url = rtrim($base_url, '/');
 		if (!empty($url)) $base_url .= $url;
 
-		$base_url = @str_replace(trim(@$_ENV['PUBLIC_DIR'], '/'), null, rtrim($base_url, '/'));
+		$base_url = @str_replace(trim(@$_ENV['PUBLIC_DIR'], '/'), "", rtrim($base_url, '/'));
 	//	$base_url = strtr(rtrim($base_url, '/'), [trim(@$_ENV['PUBLIC_DIR'], '/') => null]);
 		$base_url = trim($base_url, '/') . '/';
 
@@ -99,7 +101,7 @@ class Util
 
 	/**
 	 * @param string|null  $url
-	 * @param bool|boolean $return
+	 * @param bool|boolean $print
 	 * @param bool|boolean $cache
 	 */
 	public static function url(string $url = null, bool $print = false, bool $cache = false)
@@ -144,7 +146,7 @@ class Util
 public static function get_host(string $addr): string
 {
 	$parseUrl = parse_url(trim($addr));
-	return trim($parseUrl['host'] ? $parseUrl['host'] : array_shift(explode('/', $parseUrl['path'], 2)));
+	return trim($parseUrl['host'] ? $parseUrl['host'] : array_shift(@explode('/', $parseUrl['path'], 2)));
 }
 
 
@@ -219,10 +221,11 @@ public static function get_host(string $addr): string
 	public static function money($money, string $type='currency', string $locale='tr_TR')
 	{
 		if (extension_loaded('intl') && class_exists('NumberFormatter')) {
+			$fmt = new stdClass;
 			if ($type == 'decimal') {
-				$fmt = new NumberFormatter($locale, NumberFormatter::DECIMAL);
+				$fmt = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
 			} elseif ($type == 'currency') {
-				$fmt = new NumberFormatter($locale, NumberFormatter::CURRENCY);
+				$fmt = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
 			}
 			if ($type == 'currency') {
 				return trim($fmt->format($money), '₺') . '₺';
@@ -252,7 +255,7 @@ public static function get_host(string $addr): string
 	public static function curl(string $url, array $array=[], bool $data=false, bool $option=false)
 	{
 		if ($option) {
-			$domain = base64_encode(get_host(base_url()));
+			$domain = base64_encode(self::get_host(self::base_url()));
 			$ch = curl_init($url . '&domain=' . $domain);
 		} else {
 			$ch = curl_init($url);
@@ -344,7 +347,7 @@ public static function get_host(string $addr): string
 	 */
 	public function __call(string $class, string $method)
 	{
-		$class = str_replace('\\Util', null, __NAMESPACE__) . '\\' . $class;
+		$class = str_replace('\\Util', "", __NAMESPACE__) . '\\' . $class;
 		return new $class;
 	}
 
@@ -354,7 +357,7 @@ public static function get_host(string $addr): string
 	 */
 	public static function __callStatic(string $class, array $method)
 	{
-		$class = str_replace('\\Util', null, __NAMESPACE__) . '\\' . $class;
+		$class = str_replace('\\Util', "", __NAMESPACE__) . '\\' . $class;
 		return new $class;
 	}
 }

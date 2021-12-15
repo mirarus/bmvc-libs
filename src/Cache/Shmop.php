@@ -9,7 +9,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Cache;
@@ -67,7 +67,7 @@ class Shmop
 			}
 
 			if ($data) {
-				shmop_close();
+				shmop_close($id);
 				return $data;
 			} else {
 				return false;

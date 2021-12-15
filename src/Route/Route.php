@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Route;
@@ -92,14 +92,14 @@ class Route implements IRoute, IMethod
 	];
 
 	/**
-	 * @param &$return
+	 * @param mixed &$return
 	 */
 	public static function Run(&$return = null)
 	{
 		$routes = (array) self::$routes;
 		$match = false;
 
-		if (isset($routes) && !empty($routes)) {
+		if ($routes && $routes != null) {
 
 			foreach ($routes as $route) {
 
@@ -230,7 +230,7 @@ class Route implements IRoute, IMethod
 	public static function where($expressions): self
 	{
 		$routeKey = array_search(end(self::$routes), self::$routes);
-		$pattern = self::_parseUri(self::$routes[$routeKey]['pattern'], $expressions);
+		$pattern = Util::parse_uri(self::$routes[$routeKey]['pattern'], $expressions);
 		$pattern = '/' . implode('/', $pattern);
 		$pattern = '/^' . str_replace('/', '\/', $pattern) . '$/';
 		self::$routes[$routeKey]['pattern'] = $pattern;
@@ -256,6 +256,7 @@ class Route implements IRoute, IMethod
 	 */
 	public static function url(string $name, array $params = [])
 	{
+		$pattern = null;
 		foreach (self::$routes as $route) {
 			if (array_key_exists('name', $route) && $route['name'] == $name) {
 				$pattern = $route['pattern'];

@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Lang;
@@ -281,6 +281,9 @@ class Lang
 		}
 
 		if ($_config == false) {
+
+			$_lang_name = ['English', 'English'];
+
 			if (file_exists($file = FS::implode([self::$dir, $_xlang . '.php']))) {
 
 				include $file;

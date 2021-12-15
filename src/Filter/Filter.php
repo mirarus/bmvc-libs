@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Filter;
@@ -36,7 +36,6 @@ class Filter
 				}
 				return $string;
 			}
-			return false;
 		}
 		return false;
 	}
@@ -47,22 +46,18 @@ class Filter
 	 */
 	private static function prepareDataObject(string $string, array $array=[])
 	{
-		if (isset($string) && $string != '') {
+		$object = new stdClass();
+		$object->string = $string;
+		$object->filters = [
+			'strip_tags' => [], 
+			'addslashes' => [], 
+			'htmlspecialchars' => [ENT_QUOTES]
+		];
 
-			$object = new stdClass();
-			$object->string = $string;
-			$object->filters = [
-				'strip_tags' => [], 
-				'addslashes' => [], 
-				'htmlspecialchars' => [ENT_QUOTES]
-			];
-
-			if (count($array) > 0) {
-				$object->filters = $array;
-			}
-			return $object;
+		if (count($array) > 0) {
+			$object->filters = $array;
 		}
-		return false;
+		return $object;
 	}
 
 	/**

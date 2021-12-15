@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Validate;
@@ -17,11 +17,10 @@ class Validate
 {
 
 	/**
-	 * @param  string $method
-	 * @param  array  $args
-	 * @return mixed
+	 * @param string $method
+	 * @param mixed $args
 	 */
-	public static function call(string $method, $args=[])
+	public static function call(string $method, $args = null)
 	{	
 		$methods = get_class_methods(__CLASS__);
 		if (in_array($method, $methods)) {
@@ -331,7 +330,7 @@ class Validate
 	{
 		$var = str_replace("\n", " ", $var);
 		$var = str_replace(" ", "", $var);
-		return (isset($var) && !empty($var) && $var != '');
+		return (bool) $var;
 	}
 
 	/**
