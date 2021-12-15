@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Util;
@@ -26,7 +26,7 @@ class Util
 	 */
 	public static function get_url(): string
 	{
-		$url = "";
+		$url = '';
 
 		if (isset($_GET[self::$urlGetName])) {
 			$url = $_GET[self::$urlGetName];
@@ -42,7 +42,7 @@ class Util
 	 */
 	public static function page_url(): string
 	{
-		$url = "";
+		$url = '';
 
 		if (isset($_ENV['DIR'])) {
 			$url = str_replace($_ENV['DIR'], null, trim($_SERVER['REQUEST_URI']));
@@ -62,15 +62,21 @@ class Util
 	 * @param  bool|boolean $parse
 	 * @return string|null
 	 */
-	public static function base_url(string $url=null, bool $atRoot=false, bool $atCore=false, bool $parse=false)
+	public static function base_url(string $url = null, bool $atRoot = false, bool $atCore = false, bool $parse = false)
 	{
 		if (isset($_SERVER['HTTP_HOST'])) {
 			$http = (((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || $_SERVER['SERVER_PORT'] == 443 || (isset($_SERVER['HTTP_X_FORWARDED_PORT']) && $_SERVER['HTTP_X_FORWARDED_PORT'] == 443)) ? 'https' : 'http');
 			$hostname = $_SERVER['HTTP_HOST'];
+
 			$dir  = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+		//	$dir  = strtr($_SERVER['SCRIPT_NAME'], [basename($_SERVER['SCRIPT_NAME']) => '']);
+
 			$core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(dirname(__FILE__)))), NULL, PREG_SPLIT_NO_EMPTY);
+		//	$core = preg_split('@/@', strtr(realpath(dirname(dirname(__FILE__))), [$_SERVER['DOCUMENT_ROOT'] => '']), NULL, PREG_SPLIT_NO_EMPTY);
+
+
 			$core = $core[0];
-			$tmplt = $atRoot ? ($atCore ? "%s://%s/%s/" : "%s://%s/") : ($atCore ? "%s://%s/%s/" : "%s://%s%s");
+			$tmplt = $atRoot ? ($atCore ? '%s://%s/%s/' : '%s://%s/') : ($atCore ? '%s://%s/%s/' : '%s://%s%s');
 			$end = $atRoot ? ($atCore ? $core : $hostname) : ($atCore ? $core : $dir);
 			$base_url = sprintf($tmplt, $http, $hostname, $end);
 		} else {
@@ -81,11 +87,12 @@ class Util
 		if (!empty($url)) $base_url .= $url;
 
 		$base_url = @str_replace(trim(@$_ENV['PUBLIC_DIR'], '/'), null, rtrim($base_url, '/'));
+	//	$base_url = strtr(rtrim($base_url, '/'), [trim(@$_ENV['PUBLIC_DIR'], '/') => null]);
 		$base_url = trim($base_url, '/') . '/';
 
 		if ($parse) {
 			$base_url = parse_url($base_url);
-			if (trim(self::base_url(), "/") == $base_url) $base_url['path'] = "/";
+			if (trim(self::base_url(), '/') == $base_url) $base_url['path'] = '/';
 		}
 		return $base_url;
 	}
@@ -105,6 +112,41 @@ class Util
 			return $_url;
 		}
 	}
+
+	/**
+	 * @param  array        $parsed_url
+	 * @param  bool|boolean $domain
+	 * @return string
+	 */
+	public static function unparse_url(array $parsed_url = [], bool $domain = false): string
+	{
+		$scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
+		$host     = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+		$port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+		$user     = isset($parsed_url['user']) ? $parsed_url['user'] : '';
+		$pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : '';
+		$pass     = ($user || $pass) ? '$pass@' : '';
+		$path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+		$query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '';
+		$fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
+
+		if ($domain == true) {
+			return "$scheme$user$pass$host$port";
+		} else {
+			return "$scheme$user$pass$host$port$path$query$fragment";
+		}
+	}
+
+	/**
+ * @param  string $addr
+ * @return string
+ */
+public static function get_host(string $addr): string
+{
+	$parseUrl = parse_url(trim($addr));
+	return trim($parseUrl['host'] ? $parseUrl['host'] : array_shift(explode('/', $parseUrl['path'], 2)));
+}
+
 
 	/**
 	 * @param  string $needle
@@ -176,7 +218,7 @@ class Util
 	 */
 	public static function money($money, string $type='currency', string $locale='tr_TR')
 	{
-		if (extension_loaded('intl') && class_exists("NumberFormatter")) {
+		if (extension_loaded('intl') && class_exists('NumberFormatter')) {
 			if ($type == 'decimal') {
 				$fmt = new NumberFormatter($locale, NumberFormatter::DECIMAL);
 			} elseif ($type == 'currency') {
@@ -193,9 +235,9 @@ class Util
 
 			// if ($locale == 'tr_TR') {
 			if ($type == 'decimal') {
-				return number_format($money, 2, ",", ".");
+				return number_format($money, 2, ',', '.');
 			} elseif ($type == 'currency') {
-				return number_format($money, 2, ",", ".") . "₺";
+				return number_format($money, 2, ',', '.') . '₺';
 			}
 			// }
 		}
@@ -211,7 +253,7 @@ class Util
 	{
 		if ($option) {
 			$domain = base64_encode(get_host(base_url()));
-			$ch = curl_init($url . "&domain=" . $domain);
+			$ch = curl_init($url . '&domain=' . $domain);
 		} else {
 			$ch = curl_init($url);
 		}
@@ -250,9 +292,9 @@ class Util
 	public static function redirect(string $par, int $time=0, bool $stop=true)
 	{
 		if ($time == 0) {
-			header("Location: " . $par);
+			header('Location: ' . $par);
 		} else {
-			header("Refresh: " . $time . "; url=" . $par);
+			header('Refresh: ' . $time . '; url=' . $par);
 		}
 		if ($stop === true) die();
 	}
@@ -265,9 +307,9 @@ class Util
 	public static function refresh(string $par, int $time=0, bool $stop=true)
 	{
 		if ($time == 0) {
-			echo "<meta http-equiv='refresh' content='URL=" . $par . "'>";
+			echo '<meta http-equiv="refresh" content="URL=' . $par . '">';
 		} else {
-			echo "<meta http-equiv='refresh' content='" . $time . ";URL=" . $par . "'>";
+			echo '<meta http-equiv="refresh" content="' . $time . ';URL=' . $par . '">';
 		}
 		if ($stop === true) die();
 	}
@@ -278,9 +320,9 @@ class Util
 	 */
 	public static function pr($data, bool $stop=false)
 	{
-		echo "<pre>";
+		echo '<pre>';
 		print_r($data);
-		echo "</pre>";
+		echo '</pre>';
 		if ($stop === true) die();
 	}
 
@@ -290,9 +332,9 @@ class Util
 	 */
 	public static function dump($data, bool $stop=false)
 	{
-		echo "<pre>";
+		echo '<pre>';
 		var_dump($data);
-		echo "</pre>";
+		echo '</pre>';
 		if ($stop === true) die();
 	}
 

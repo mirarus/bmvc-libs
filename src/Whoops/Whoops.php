@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Whoops;
@@ -35,14 +35,9 @@ class Whoops
 	public static $environment;
 	public static $whoops;
 
-	/**
-	 * @param string      $key
-	 * @param string|null $val
-	 */
-	public static function set(string $key, string $val = null, bool $new = false)
+	public function __construct()
 	{
-		self::${$key} = $val;
-		if ($new == true) return new self;	
+		self::init();
 	}
 
 	public static function init(): void
@@ -53,7 +48,7 @@ class Whoops
 				$PPH->blacklist($key, $arg);
 			}
 		}
-		#
+	
 		$whoops = new Run;
 
 		if (self::$environment == 'development') {
@@ -78,5 +73,15 @@ class Whoops
 		} elseif (is_string($keys)) {
 			self::$blacklist[$name][] = $keys;
 		}
+	}
+
+	/**
+	 * @param string      $key
+	 * @param string|null $val
+	 */
+	public static function set(string $key, string $val = null, bool $new = false)
+	{
+		self::${$key} = $val;
+		if ($new == true) return new self;	
 	}
 }

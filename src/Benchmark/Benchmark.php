@@ -96,7 +96,7 @@ class Benchmark implements IBenchmark
 	 */
 	public static function memory(bool $text = false, bool $bmvc = true): string
 	{
-		$memory = (($bmvc && defined('MEMORY')) ? MEMORY : round(memory_get_usage() / 1024, 2));
+		$memory = (($bmvc && defined('MEMORY')) ? MEMORY : round(memory_get_usage() / 1024, 4));
 		if ($text) {
 			return "Memory Usage: " . $memory . " KB";
 		} else {
