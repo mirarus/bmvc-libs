@@ -8,20 +8,26 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Log;
 
 use Exception;
 use DateTime;
-use BMVC\Libs\FS;
-use BMVC\Libs\Request;
+use BMVC\Libs\{FS, Request};
 
 class Log
 {
 
+	/**
+	 * @var string
+	 */
 	private static $dir = 'Logs';
+
+	/**
+	 * @var string
+	 */
 	private static $name = 'bmvc';
 
 	/**
@@ -102,17 +108,19 @@ class Log
 
 	/**
 	 * @param string $text
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	private static function save(string $text): void
+	private static function save(string $text)
 	{
 		$dir = FS::app(self::$dir);
 		FS::mk_dir($dir);
 		$file = FS::implode([$dir, self::$name . '.log']);
 
 		$file = fopen($file, 'a');
-		if (fwrite($file, $text . "\r\n") === false) {
+		if (fwrite($file, $text . "\r\n") === false) { // @phpstan-ignore-line
 			throw new Exception('Log Error! | Failed to create log file. - Check the write permissions.');
 		}
-		fclose($file);
+		fclose($file); // @phpstan-ignore-line
 	}
 }

@@ -20,6 +20,8 @@ class Filter
 
 	/**
 	 * @param object $object
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function filterDataValue(object $object)
 	{
@@ -43,8 +45,10 @@ class Filter
 	/**
 	 * @param string $string
 	 * @param array  $array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	private static function prepareDataObject(string $string, array $array=[])
+	private static function prepareDataObject(string $string, array $array)
 	{
 		$object = new stdClass();
 		$object->string = $string;
@@ -61,10 +65,12 @@ class Filter
 	}
 
 	/**
-	 * @param  array  $filter
-	 * @param  array  $skip
+	 * @param array $filter
+	 * @param array $skip
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function filterXSS(array $filter, array $skip=[])
+	public static function filterXSS(array $filter, array $skip)
 	{
 		if (is_array($filter) && count($filter) > 0) {
 			foreach ($filter as $key => $value) {
@@ -85,6 +91,8 @@ class Filter
 
 	/**
 	 * @param mixed $text
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function filterDB($text)
 	{

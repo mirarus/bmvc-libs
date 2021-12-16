@@ -8,15 +8,19 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\FS;
 
 class FS implements IFS
 {
+
 	use Dir, File;
 
+	/**
+	 * @var string
+	 */
 	private static $path;
 
 	/**
@@ -56,6 +60,8 @@ class FS implements IFS
 	 * @param  string|null $type
 	 * @param  string|null $dir
 	 * @return string|array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function get(string $type = null, string $dir = null)
 	{
@@ -73,15 +79,19 @@ class FS implements IFS
 
 	/**
 	 * @param mixed $arg
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function replace($arg = null)
 	{
-		return @str_replace(['/', '//', '\\'], DIRECTORY_SEPARATOR, $arg);
+		return @str_replace(['/', '//', '\\'], DIRECTORY_SEPARATOR, $arg); // @phpstan-ignore-line
 	}
 	
 	/**
 	 * @param  array  $arg
 	 * @return string
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function implode(array $arg): string
 	{
@@ -91,6 +101,8 @@ class FS implements IFS
 	/**
 	 * @param  string $arg
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function explode(string $arg): array
 	{

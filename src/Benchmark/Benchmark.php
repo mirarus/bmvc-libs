@@ -31,7 +31,7 @@ class Benchmark implements IBenchmark
 		}
 		for ($i=0; $i < $count; $i++) {
 			foreach ($functions as $function) {
-				$r = call_user_func_array($function, array($i));
+				$r = call_user_func_array($function, array($i)); // @phpstan-ignore-line
 			}
 		}
 		return number_format(microtime(true) - $time_start, 3);
@@ -53,7 +53,7 @@ class Benchmark implements IBenchmark
 		$string = "the quick brown fox jumps over the lazy dog";
 		for ($i=0; $i < $count; $i++) {
 			foreach ($functions as $function) {
-				$r = call_user_func_array($function, array($string));
+				$r = call_user_func_array($function, array($string)); // @phpstan-ignore-line
 			}
 		}
 		return number_format(microtime(true) - $time_start, 3);

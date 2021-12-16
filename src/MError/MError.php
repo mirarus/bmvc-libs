@@ -38,6 +38,8 @@ class MError implements IMError
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	protected static $colors = [
 		'danger' => '244 67 54',
@@ -50,6 +52,8 @@ class MError implements IMError
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $border = [
 		'top' => '60',
@@ -126,8 +130,10 @@ class MError implements IMError
 	/**
 	 * @param  array $array
 	 * @return _MError
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function set(array $array = null): _MError
+	public static function set(array $array): _MError
 	{
 		return (new _MError)->setData($array);
 	}

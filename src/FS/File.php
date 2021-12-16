@@ -75,6 +75,8 @@ trait File
 	 * @param  string|null $dir
 	 * @param  string|null $type
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function files(string $dir = null, string $type = null): array
 	{
@@ -86,12 +88,12 @@ trait File
 			$dir = (!$dir ? self::app() : $dir);
 		}
 
-		$adir = @array_slice(@scandir($dir), 2);
+		$adir = @array_slice((array) @scandir($dir), 2);
 		
 		$array = [];
 		if ($adir) {
 			foreach ($adir as $d) {
-				if (self::is_file($d)) $array[] = $d;
+				if (self::is_file((string) $d)) $array[] = $d;
 			}
 		}
 		return $array;

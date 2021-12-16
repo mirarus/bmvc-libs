@@ -19,9 +19,9 @@ interface IFS
 	public static function setPath(string $path): void;
 	public static function base(string $dir = null): string;
 	public static function app(string $dir = null): string;
-	public static function get(string $type = null, string $dir = null);
-	public static function replace($arg = null);
-	public static function implode(array $arg): string;
-	public static function explode(string $arg): array;
+	public static function get(string $type = null, string $dir = null); // @phpstan-ignore-line
+	public static function replace($arg = null); // @phpstan-ignore-line
+	public static function implode(array $arg): string; // @phpstan-ignore-line
+	public static function explode(string $arg): array; // @phpstan-ignore-line
 	public static function trim(string $arg = null): string;
 }

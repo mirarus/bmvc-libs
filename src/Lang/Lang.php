@@ -8,16 +8,13 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Lang;
 
 use Exception;
-use BMVC\Libs\FS;
-use BMVC\Libs\CL;
-use BMVC\Libs\Request;
-use BMVC\Libs\Route;
+use BMVC\Libs\{FS, CL, Request, Route};
 
 class Lang
 {
@@ -29,6 +26,8 @@ class Lang
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $langs = [];
 
@@ -57,7 +56,7 @@ class Lang
 				$lang = call_user_func_array($func, $_lang);
 
 				if ($lang) {
-					self::$current_lang = self::$lang = $lang;
+					self::$current_lang = self::$lang = $lang; // @phpstan-ignore-line
 				}
 			} else {
 				self::$current_lang = self::$lang = $_lang;
@@ -73,6 +72,8 @@ class Lang
 	/**
 	 * @param  string $lang
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function get_lang(string $lang): array
 	{
@@ -95,6 +96,8 @@ class Lang
 
 	/**
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function get_langs(): array
 	{
@@ -132,6 +135,8 @@ class Lang
 	/**
 	 * @param string $text
 	 * @param mixed $replace
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function __(string $text, $replace = null)
 	{
@@ -141,6 +146,8 @@ class Lang
 	/**
 	 * @param string $text
 	 * @param mixed $replace
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function ___(string $text, $replace = null)
 	{
@@ -151,6 +158,8 @@ class Lang
 	 * @param string       $text
 	 * @param bool|boolean $return
 	 * @param mixed  	     $replace
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function _init(string $text, bool $return = true, $replace = null)
 	{
@@ -159,7 +168,7 @@ class Lang
 				if (is_array($replace)) {
 					return @vsprintf(self::_get_text($text), $replace);
 				} else {
-					return @sprintf(self::_get_text($text), $replace);
+					return @sprintf(self::_get_text($text), $replace); // @phpstan-ignore-line
 				}
 			} else {
 				return self::_get_text($text);
@@ -169,7 +178,7 @@ class Lang
 				if (is_array($replace)) {
 					@vprintf(self::_get_text($text), $replace);
 				} else {
-					@printf(self::_get_text($text), $replace);
+					@printf(self::_get_text($text), $replace); // @phpstan-ignore-line
 				}
 			} else {
 				echo self::_get_text($text);
@@ -179,6 +188,8 @@ class Lang
 
 	/**
 	 * @param string $text
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function _get_text(string $text)
 	{
@@ -208,11 +219,10 @@ class Lang
 
 				$_lang = [];
 				include $file;
-				if (isset($_lang[$text])) {
-					return $_lang[$text];
+				if (in_array($text, $_lang)) {
+					return $_lang[$text]; // @phpstan-ignore-line
 				} else {
-					$text = ucfirst(str_replace(['-', '_'], ' ', $text));
-					return $text;
+					return ucfirst(str_replace(['-', '_'], ' ', $text));
 				}
 			} else {
 				throw new Exception('Language Not Found! | Language: ' . self::$current_lang);
@@ -220,6 +230,9 @@ class Lang
 		}
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	private static function _get_langs()
 	{
 		$_config = false;
@@ -234,7 +247,7 @@ class Lang
 		if ($_config == false) {
 
 			$files = [];
-			foreach (glob(FS::implode([self::$dir, '*.php'])) as $file) {
+			foreach (glob(FS::implode([self::$dir, '*.php'])) as $file) { // @phpstan-ignore-line
 				if ($file != FS::implode([self::$dir, 'index.php'])) {
 
 					$_lang = [];
@@ -251,6 +264,8 @@ class Lang
 	/**
 	 * @param string      $_xlang
 	 * @param string|null $par
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function _get_lang_info(string $_xlang, string $par = null)
 	{
@@ -298,6 +313,7 @@ class Lang
 			}
 		}
 
+		// @phpstan-ignore-next-line
 		if (@$_lang != null && @$_data['code'] != null && @$_data['name-global'] != null && @$_data['name-local'] != null) {
 			if ($par != null) {
 				return $_data[$par];
@@ -309,6 +325,8 @@ class Lang
 
 	/**
 	 * @param array|null &$_file
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function _config_file(array &$_file = null)
 	{

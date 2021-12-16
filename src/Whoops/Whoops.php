@@ -22,7 +22,7 @@ class Whoops
 	/**
 	 * @var array
 	 */
-	private static $blacklist = [
+	private static $blacklist = [ // @phpstan-ignore-line
 		'_GET' => [],
 		'_POST' => [],
 		'_FILES' => [],
@@ -32,7 +32,14 @@ class Whoops
 		'_ENV' => []
 	];
 
+	/**
+	 * @var string
+	 */
 	public static $environment;
+
+	/**
+	 * @var object
+	 */
 	public static $whoops;
 
 	public function __construct()
@@ -79,7 +86,7 @@ class Whoops
 	 * @param string      $key
 	 * @param string|null $val
 	 */
-	public static function set(string $key, string $val = null, bool $new = false)
+	public static function set(string $key, string $val = null, bool $new = false) // @phpstan-ignore-line
 	{
 		self::${$key} = $val;
 		if ($new == true) return new self;	

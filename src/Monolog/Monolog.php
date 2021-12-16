@@ -21,8 +21,19 @@ use Monolog\Logger;
 class Monolog
 {
 
+	/**
+	 * @var object
+	 */
 	public static $log;
+
+	/**
+	 * @var string
+	 */
 	private static $dir = 'Logs';
+
+	/**
+	 * @var string
+	 */
 	private static $name = 'bmvc';
 
 	/**
@@ -57,6 +68,8 @@ class Monolog
 	/**
 	 * @param string      $key
 	 * @param string|null $val
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function set(string $key, string $val = null, bool $new = false)
 	{

@@ -19,16 +19,16 @@ class Str
 	/**
 	 * @param  string      $string
 	 * @param  int         $start
-	 * @param  int|null    $length
+	 * @param  int         $length
 	 * @param  string|null $encoding
 	 * @return string
 	 */
-	public static function substr(string $string, int $start, int $length=null, string $encoding=null): string
+	public static function substr(string $string, int $start, int $length = 0, string $encoding = null): string
 	{
 		$encoding = $encoding == null ? "UTF-8" : null;
 
 		if (function_exists('mb_substr')) {
-			return mb_substr($string, $start, $length, $encoding);
+			return mb_substr($string, $start, $length, (string) $encoding);
 		} else {
 			return substr($string, $start, $length);
 		}
@@ -51,7 +51,7 @@ class Str
 	 * @param  string|null $encoding
 	 * @return string
 	 */
-	public static function mb_strtoupper(string $str, string $encoding=null): string
+	public static function mb_strtoupper(string $str, string $encoding = null): string
 	{
 		$encoding = $encoding == null ? "UTF-8" : null;
 
@@ -61,7 +61,7 @@ class Str
 		$str = str_replace($search, $replace, $str);
 
 		if (function_exists('mb_strtoupper')) {
-			return mb_strtoupper($str, $encoding);
+			return mb_strtoupper($str, (string) $encoding);
 		} else {
 			return $str;
 		}
@@ -70,8 +70,10 @@ class Str
 	/**
 	 * @param int    $var
 	 * @param string $pattern
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function code_gen(int $var, string $pattern='alpnum') 
+	public static function code_gen(int $var, string $pattern = 'alpnum')
 	{
 		$chars = []; 
 		if ($pattern == 'alpnum') {
@@ -85,7 +87,7 @@ class Str
 		} elseif ($pattern == 'uppercase') {
 			$chars = array_merge(range('A', 'Z'));
 		}
-		srand((float) microtime() * 100000); 
+		srand((int) microtime() * 100000); 
 		shuffle($chars); 
 		$result = ''; 
 		for ($i=0; $i < $var; $i++) { 
@@ -96,22 +98,28 @@ class Str
 	}
 
 	/**
-	 * @param int|integer $int
+	 * @param  int|integer $int
+	 * @return string
 	 */
-	public static function unique_key(int $int=10)
+	public static function unique_key(int $int = 10): string
 	{
-		return hash('sha512', session_id() . bin2hex(openssl_random_pseudo_bytes($int)));
+		return hash('sha512', session_id() . bin2hex((string) openssl_random_pseudo_bytes($int)));
 	}
 
 	/**
 	 * @param  string      $str
-	 * @param  array       $options
+	 * @param  array|null  $options
 	 * @param  string|null $encoding
 	 * @return string
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function slug(string $str, array $options=[], string $encoding=null): string
+	public static function slug(string $str, array $options = null, string $encoding = null): string
 	{
 		$encoding = $encoding == null ? "UTF-8" : null;
+
+		$str = (string) $str;
+		$encoding = (string) $encoding;
 
 		if (function_exists('mb_convert_encoding')) {
 			$str = mb_convert_encoding($str, $encoding, mb_list_encodings());
@@ -124,17 +132,18 @@ class Str
 			'replacements' => array(),
 			'transliterate' => true
 		);
-		$options = array_merge($defaults, $options);
+		$options = array_merge($defaults, $options); // @phpstan-ignore-line
+
 		$char_map = array(
-			'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'AE', 'Ç' => 'C',
+			'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'AE', 'Ç' => 'C', // @phpstan-ignore-line
 			'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
-			'Ð' => 'D', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ő' => 'O',
-			'Ø' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ű' => 'U', 'Ý' => 'Y', 'Þ' => 'TH',
+			'Ð' => 'D', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ő' => 'O', // @phpstan-ignore-line
+			'Ø' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ű' => 'U', 'Ý' => 'Y', 'Þ' => 'TH', // @phpstan-ignore-line
 			'ß' => 'ss',
-			'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'ae', 'ç' => 'c',
+			'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'ae', 'ç' => 'c', // @phpstan-ignore-line
 			'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
-			'ð' => 'd', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ő' => 'o',
-			'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'ű' => 'u', 'ý' => 'y', 'þ' => 'th',
+			'ð' => 'd', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ő' => 'o', // @phpstan-ignore-line
+			'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'ű' => 'u', 'ý' => 'y', 'þ' => 'th', // @phpstan-ignore-line
 			'ÿ' => 'y',
 			'©' => '(c)',
 			'Α' => 'A', 'Β' => 'B', 'Γ' => 'G', 'Δ' => 'D', 'Ε' => 'E', 'Ζ' => 'Z', 'Η' => 'H', 'Θ' => '8',
@@ -161,10 +170,10 @@ class Str
 			'я' => 'ya',
 			'Є' => 'Ye', 'І' => 'I', 'Ї' => 'Yi', 'Ґ' => 'G',
 			'є' => 'ye', 'і' => 'i', 'ї' => 'yi', 'ґ' => 'g',
-			'Č' => 'C', 'Ď' => 'D', 'Ě' => 'E', 'Ň' => 'N', 'Ř' => 'R', 'Š' => 'S', 'Ť' => 'T', 'Ů' => 'U',
-			'Ž' => 'Z',
-			'č' => 'c', 'ď' => 'd', 'ě' => 'e', 'ň' => 'n', 'ř' => 'r', 'š' => 's', 'ť' => 't', 'ů' => 'u',
-			'ž' => 'z',
+			'Č' => 'C', 'Ď' => 'D', 'Ě' => 'E', 'Ň' => 'N', 'Ř' => 'R', 'Š' => 'S', 'Ť' => 'T', 'Ů' => 'U', // @phpstan-ignore-line
+			'Ž' => 'Z', // @phpstan-ignore-line
+			'č' => 'c', 'ď' => 'd', 'ě' => 'e', 'ň' => 'n', 'ř' => 'r', 'š' => 's', 'ť' => 't', 'ů' => 'u', // @phpstan-ignore-line
+			'ž' => 'z', // @phpstan-ignore-line
 			'Ą' => 'A', 'Ć' => 'C', 'Ę' => 'e', 'Ł' => 'L', 'Ń' => 'N', 'Ó' => 'o', 'Ś' => 'S', 'Ź' => 'Z',
 			'Ż' => 'Z',
 			'ą' => 'a', 'ć' => 'c', 'ę' => 'e', 'ł' => 'l', 'ń' => 'n', 'ó' => 'o', 'ś' => 's', 'ź' => 'z',
@@ -174,18 +183,18 @@ class Str
 			'ā' => 'a', 'č' => 'c', 'ē' => 'e', 'ģ' => 'g', 'ī' => 'i', 'ķ' => 'k', 'ļ' => 'l', 'ņ' => 'n',
 			'š' => 's', 'ū' => 'u', 'ž' => 'z'
 		);
-		$str = preg_replace(array_keys($options['replacements']), $options['replacements'], $str);
+		$str = (string) preg_replace(array_keys($options['replacements']), $options['replacements'], $str);
 		if ($options['transliterate']) {
-			$str = str_replace(array_keys($char_map), $char_map, $str);
+			$str = (string) str_replace(array_keys($char_map), $char_map, $str);
 		}
-		$str = preg_replace('/[^\p{L}\p{Nd}]+/u', $options['delimiter'], $str);
-		$str = preg_replace('/(' . preg_quote($options['delimiter'], '/') . '){2,}/', '$1', $str);
+		$str = (string) preg_replace('/[^\p{L}\p{Nd}]+/u', $options['delimiter'], $str);
+		$str = (string) preg_replace('/(' . preg_quote($options['delimiter'], '/') . '){2,}/', '$1', $str);
 		if (function_exists('mb_substr')) {
-			$str = mb_substr($str, 0, ($options['limit'] ? $options['limit'] : mb_strlen($str, $encoding)), $encoding);
+			$str = mb_substr((string) $str, 0, ($options['limit'] ? $options['limit'] : mb_strlen((string) $str, (string) $encoding)), (string) $encoding);
 		}
-		$str = trim($str, $options['delimiter']);
+		$str = trim((string) $str, $options['delimiter']);
 		if (function_exists('mb_strtolower')) {
-			$str = $options['lowercase'] ? mb_strtolower($str, $encoding) : $str;
+			$str = $options['lowercase'] ? mb_strtolower($str, (string) $encoding) : $str;
 		}
 		return $str;
 	}

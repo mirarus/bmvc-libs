@@ -23,6 +23,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Console extends Application
 {
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function __construct($dir=null)
 	{
 		parent::__construct('BMVC', '@Beta');
@@ -41,14 +44,23 @@ class Console extends Application
 class CommandServerStart extends Command
 {
 
+	/**
+	 * @var string
+	 */
 	private $dir;
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function __construct($dir=null)
 	{
 		parent::__construct();
 		$this->dir = $dir;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function configure()
 	{
 		$this
@@ -82,12 +94,15 @@ class CommandServerStart extends Command
 		return static::SUCCESS;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	private function _exec($cmd)
 	{
 		if (substr(php_uname(), 0, 7) == "Windows") {
-			pclose(popen("start /B " . $cmd, "r")); 
+			pclose(popen("start /B " . $cmd, "r"));   // @phpstan-ignore-line
 		} else {
-			exec($cmd . " > /dev/null &");  
+			exec($cmd . " > /dev/null &");
 		}
 	}
 }
@@ -95,6 +110,9 @@ class CommandServerStart extends Command
 class CommandServerStop extends Command
 {
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function configure()
 	{
 		$this
@@ -116,6 +134,9 @@ class CommandServerStop extends Command
 		return static::SUCCESS;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	private function _kill($cmd)
 	{
 		exec("taskkill /F /T /IM $cmd.exe > /dev/null &");
@@ -125,6 +146,9 @@ class CommandServerStop extends Command
 class CommandMakeController extends Command
 {
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function configure()
 	{
 		$this
@@ -136,7 +160,7 @@ class CommandMakeController extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$data = CmakeCM('controller', $input->getArgument('class'));
+		$data = CmakeCM('controller', $input->getArgument('class')); // @phpstan-ignore-line
 
 		if ($data['status']) {
 			$output->writeln([
@@ -161,6 +185,9 @@ class CommandMakeController extends Command
 class CommandMakeModel extends Command
 {
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function configure()
 	{
 		$this
@@ -172,7 +199,7 @@ class CommandMakeModel extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$data = CmakeCM('model', $input->getArgument('class'));
+		$data = CmakeCM('model', $input->getArgument('class')); // @phpstan-ignore-line
 
 		if ($data['status']) {
 			$output->writeln([
@@ -197,6 +224,9 @@ class CommandMakeModel extends Command
 class CommandClearLog extends Command
 {
 
+/**
+ * @phpstan-ignore-next-line
+ */
 	protected function configure()
 	{
 		$this
@@ -207,7 +237,7 @@ class CommandClearLog extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		array_map('unlink', glob(FS::app("Logs/*")));
+		array_map('unlink', glob(FS::app("Logs/*"))); // @phpstan-ignore-line
 
 		$output->writeln([
 			'',
@@ -219,6 +249,13 @@ class CommandClearLog extends Command
 	}
 }
 
+
+/**
+ * @param string $type
+ * @param string $class
+ *
+ * @phpstan-ignore-next-line
+ */
 function CmakeCM(string $type, string $class): array
 {
 	$useLib = ucfirst($type);
@@ -243,8 +280,8 @@ function CmakeCM(string $type, string $class): array
 
 		$f = fopen($file, 'w');
 		$content = "<?php\n\n{$namespace}use BMVC\\Core\\{$useLib};\n\nclass $class\n{\n\n\tpublic function index()\n\t{\n\t\t\n\t}\n}";
-		fwrite($f, $content);
-		fclose($f);
+		fwrite($f, $content); // @phpstan-ignore-line
+		fclose($f); // @phpstan-ignore-line
 
 		return [
 			'status' => true,
@@ -253,7 +290,14 @@ function CmakeCM(string $type, string $class): array
 	}
 }
 
-function PsExecute($command, $timeout = 60, $sleep = 2) {
+/**
+ * @param string  $command
+ * @param integer $timeout
+ * @param integer $sleep
+ *
+ * @phpstan-ignore-next-line
+ */
+function PsExecute(string $command, $timeout = 60, $sleep = 2) {
 
 	$pid = PsExec($command);
 
@@ -274,7 +318,12 @@ function PsExecute($command, $timeout = 60, $sleep = 2) {
 	return false;
 }
 
-function PsExec($commandJob) {
+/**
+ * @param string $commandJob
+ *
+ * @phpstan-ignore-next-line
+ */
+function PsExec(string $commandJob) {
 	$command = $commandJob.' > /dev/null 2>&1 & echo $!';
 	exec($command, $op);
 	$pid = (int)$op[0];
@@ -282,7 +331,13 @@ function PsExec($commandJob) {
 	return false;
 }
 
-function PsExists($pid) {
+
+/**
+ * @param int $pid
+ *
+ * @phpstan-ignore-next-line
+ */
+function PsExists(int $pid) {
 	exec("ps ax | grep $pid 2>&1", $output);
 	while( list(,$row) = each($output) ) {
 		$row_array = explode(" ", $row);
@@ -294,7 +349,12 @@ function PsExists($pid) {
 	}
 	return false;
 }
-
-function PsKill($pid) {
+	
+/**
+ * @param int $pid
+ *
+ * @phpstan-ignore-next-line
+ */
+function PsKill(int $pid) {
 	exec("kill -9 $pid", $output);
 }

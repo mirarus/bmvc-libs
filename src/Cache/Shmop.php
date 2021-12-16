@@ -9,7 +9,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Cache;
@@ -28,6 +28,8 @@ class Shmop
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $caches = [];
 
@@ -35,12 +37,14 @@ class Shmop
 	 * @param mixed $data
 	 * @param string $name
 	 * @param int    $timeout
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function save_cache($data, string $name, int $timeout)
 	{
 		$id = shmop_open(self::get_cache_id($name), "a", 0, 0);
-		shmop_delete($id);
-		shmop_close($id);
+		shmop_delete($id); // @phpstan-ignore-line
+		shmop_close($id); // @phpstan-ignore-line
 
 		$id = shmop_open(self::get_cache_id($name), "c", 0644, strlen(serialize($data)));
 
@@ -54,6 +58,8 @@ class Shmop
 
 	/**
 	 * @param string $name
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function get_cache(string $name)
 	{
@@ -79,6 +85,8 @@ class Shmop
 
 	/**
 	 * @param string $name
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function get_cache_id(string $name)
 	{
@@ -89,6 +97,8 @@ class Shmop
 	/**
 	 * @param string $name
 	 * @param int    $int
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function set_timeout(string $name, int $int)
 	{
@@ -102,16 +112,18 @@ class Shmop
 		} else {
 			$tl = [];
 		}
-		shmop_delete($id);
-		shmop_close($id);
+		shmop_delete($id); // @phpstan-ignore-line
+		shmop_close($id); // @phpstan-ignore-line
 
-		$tl[$name] = $timeout;
+		$tl[$name] = $timeout; // @phpstan-ignore-line
 		$id = shmop_open(100, "c", 0644, strlen(serialize($tl)));
-		shmop_write($id, serialize($tl), 0);
+		shmop_write($id, serialize($tl), 0); // @phpstan-ignore-line
 	}
 
 	/**
 	 * @param string $name
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function check_timeout(string $name)
 	{
@@ -126,7 +138,7 @@ class Shmop
 		}
 		shmop_close($id);
 
-		$timeout = $tl[$name];
+		$timeout = $tl[$name]; // @phpstan-ignore-line
 		return (intval($now) > intval($timeout));
 	}
 }

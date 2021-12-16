@@ -30,8 +30,14 @@ use BMVC\Libs\Header;
 class Sitemap
 {
 
+	/**
+	 * @var object
+	 */
 	private static $xml;
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	private static function xml()
 	{
 		if (self::$xml == null) {
@@ -42,10 +48,11 @@ class Sitemap
 	}
 
 	/**
-	 * @param  array $data
-	 * @return Sitemap
+	 * @param array $data
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function set(array $data): Sitemap
+	public static function set(array $data): self
 	{
 		self::xml();
 
@@ -60,7 +67,7 @@ class Sitemap
 		}
 
 		if (is_array($data_) && $data_ != null) {
-			$xml = self::$xml->addChild('url');
+			$xml = self::$xml->addChild('url'); // @phpstan-ignore-line
 			foreach ($data_ as $key => $val) {
 				$xml->addChild($key, $val);
 			}
@@ -69,12 +76,15 @@ class Sitemap
 		return new self;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function run()
 	{
 		self::xml();
 
 		Header::set('content-type', 'text/xml');
 
-		return self::$xml->asXML();
+		return self::$xml->asXML(); // @phpstan-ignore-line
 	}
 }

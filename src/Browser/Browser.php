@@ -16,16 +16,59 @@ namespace BMVC\Libs\Browser;
 class Browser
 {
 
+	/**
+	 * @var string
+	 */
 	private $_agent = '';
+
+	/**
+	 * @var string
+	 */
 	private $_browser_name = '';
+
+	/**
+	 * @var string
+	 */
 	private $_version = '';
+
+	/**
+	 * @var string
+	 */
 	private $_platform = '';
+
+	/**
+	 * @var string
+	 */
 	private $_os = '';
+
+	/**
+	 * @var boolean
+	 */
 	private $_is_aol = false;
+
+	/**
+	 * @var boolean
+	 */
 	private $_is_mobile = false;
+
+	/**
+	 * @var boolean
+	 */
 	private $_is_tablet = false;
+
+	/**
+	 * @var boolean
+	 */
 	private $_is_robot = false;
+
+	/**
+	 * @var boolean
+	 */
 	private $_is_facebook = false;
+
+	/**
+	 * @var string
+	 */
 	private $_aol_version = '';
 
 	const BROWSER_UNKNOWN = 'unknown';
@@ -121,6 +164,9 @@ class Browser
 
 	const OPERATING_SYSTEM_UNKNOWN = 'unknown';
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function __construct($userAgent = "")
 	{
 		$this->reset();
@@ -131,6 +177,9 @@ class Browser
 		}
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function reset()
 	{
 		$this->_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "";
@@ -146,51 +195,81 @@ class Browser
 		$this->_aol_version = self::VERSION_UNKNOWN;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	function isBrowser($browserName)
 	{
 		return (0 == strcasecmp($this->_browser_name, trim($browserName)));
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function getBrowser()
 	{
 		return $this->_browser_name;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function setBrowser($browser)
 	{
 		$this->_browser_name = $browser;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function getPlatform()
 	{
 		return $this->_platform;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function setPlatform($platform)
 	{
 		$this->_platform = $platform;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function getVersion()
 	{
 		return $this->_version;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function setVersion($version)
 	{
 		$this->_version = preg_replace('/[^0-9,.,a-z,A-Z-]/', '', $version);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function getAolVersion()
 	{
 		return $this->_aol_version;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function setAolVersion($version)
 	{
 		$this->_aol_version = preg_replace('/[^0-9,.,a-z,A-Z]/', '', $version);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function getOs()
 	{
 		$os = [
@@ -229,61 +308,97 @@ class Browser
 		return $platform ? $platform : $this->_os;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function isAol()
 	{
 		return $this->_is_aol;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function isMobile()
 	{
 		return $this->_is_mobile;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function isTablet()
 	{
 		return $this->_is_tablet;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function isRobot()
 	{
 		return $this->_is_robot;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function isFacebook()
 	{
 		return $this->_is_facebook;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function setAol($isAol)
 	{
 		$this->_is_aol = $isAol;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function setMobile($value = true)
 	{
 		$this->_is_mobile = $value;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function setTablet($value = true)
 	{
 		$this->_is_tablet = $value;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function setRobot($value = true)
 	{
 		$this->_is_robot = $value;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function setFacebook($value = true)
 	{
 		$this->_is_facebook = $value;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function getUserAgent()
 	{
 		return $this->_agent;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function setUserAgent($agent_string)
 	{
 		$this->reset();
@@ -291,6 +406,9 @@ class Browser
 		$this->determine();
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public function isChromeFrame()
 	{
 		return (strpos($this->_agent, "chromeframe") !== false);
@@ -304,6 +422,9 @@ class Browser
 		"<strong>Platform:</strong> {$this->getPlatform()}<br/>";
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function determine()
 	{
 		$this->checkPlatform();
@@ -311,6 +432,9 @@ class Browser
 		$this->checkForAol();
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowsers()
 	{
 		return (
@@ -395,10 +519,13 @@ class Browser
 		);
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserBlackBerry()
 	{
 		if (stripos($this->_agent, 'blackberry') !== false) {
-			$aresult = explode("/", stristr($this->_agent, "BlackBerry"));
+			$aresult = explode("/", (string) stristr($this->_agent, "BlackBerry"));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -410,13 +537,16 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkForAol()
 	{
 		$this->setAol(false);
 		$this->setAolVersion(self::VERSION_UNKNOWN);
 
 		if (stripos($this->_agent, 'aol') !== false) {
-			$aversion = explode(' ', stristr($this->_agent, 'AOL'));
+			$aversion = explode(' ', (string) stristr($this->_agent, 'AOL'));
 			if (isset($aversion[1])) {
 				$this->setAol(true);
 				$this->setAolVersion(preg_replace('/[^0-9\.a-z]/i', '', $aversion[1]));
@@ -426,10 +556,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserGoogleBot()
 	{
 		if (stripos($this->_agent, 'googlebot') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'googlebot'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'googlebot'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -441,10 +574,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexBot()
 	{
 		if (stripos($this->_agent, 'YandexBot') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexBot'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexBot'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -456,10 +592,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexImageResizerBot()
 	{
 		if (stripos($this->_agent, 'YandexImageResizer') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexImageResizer'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexImageResizer'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -471,10 +610,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexCatalogBot()
 	{
 		if (stripos($this->_agent, 'YandexCatalog') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexCatalog'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexCatalog'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -486,10 +628,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexNewsBot()
 	{
 		if (stripos($this->_agent, 'YandexNews') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexNews'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexNews'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -501,10 +646,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexMetrikaBot()
 	{
 		if (stripos($this->_agent, 'YandexMetrika') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexMetrika'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexMetrika'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -516,10 +664,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexDirectBot()
 	{
 		if (stripos($this->_agent, 'YandexDirect') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexDirect'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexDirect'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -531,10 +682,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexWebmasterBot()
 	{
 		if (stripos($this->_agent, 'YandexWebmaster') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexWebmaster'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexWebmaster'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -546,10 +700,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexFaviconsBot()
 	{
 		if (stripos($this->_agent, 'YandexFavicons') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexFavicons'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexFavicons'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -561,10 +718,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexBlogsBot()
 	{
 		if (stripos($this->_agent, 'YandexBlogs') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexBlogs'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexBlogs'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -576,10 +736,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexMediaBot()
 	{
 		if (stripos($this->_agent, 'YandexMedia') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexMedia'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexMedia'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -591,10 +754,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexVideoBot()
 	{
 		if (stripos($this->_agent, 'YandexVideo') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexVideo'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexVideo'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -606,10 +772,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandexImagesBot()
 	{
 		if (stripos($this->_agent, 'YandexImages') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YandexImages'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YandexImages'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(';', '', $aversion[0]));
@@ -621,10 +790,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserMSNBot()
 	{
 		if (stripos($this->_agent, "msnbot") !== false) {
-			$aresult = explode("/", stristr($this->_agent, "msnbot"));
+			$aresult = explode("/", (string) stristr($this->_agent, "msnbot"));
 			if (isset($aresult[1])) {
 				$aversion = explode(" ", $aresult[1]);
 				$this->setVersion(str_replace(";", "", $aversion[0]));
@@ -636,10 +808,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserBingBot()
 	{
 		if (stripos($this->_agent, "bingbot") !== false) {
-			$aresult = explode("/", stristr($this->_agent, "bingbot"));
+			$aresult = explode("/", (string) stristr($this->_agent, "bingbot"));
 			if (isset($aresult[1])) {
 				$aversion = explode(" ", $aresult[1]);
 				$this->setVersion(str_replace(";", "", $aversion[0]));
@@ -651,10 +826,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserW3CValidator()
 	{
 		if (stripos($this->_agent, 'W3C-checklink') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'W3C-checklink'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'W3C-checklink'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -664,7 +842,7 @@ class Browser
 		} else if (stripos($this->_agent, 'W3C_Validator') !== false) {
 			// Some of the Validator versions do not delineate w/ a slash - add it back in
 			$ua = str_replace("W3C_Validator ", "W3C_Validator/", $this->_agent);
-			$aresult = explode('/', stristr($ua, 'W3C_Validator'));
+			$aresult = explode('/', (string) stristr($ua, 'W3C_Validator'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -679,10 +857,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserSlurp()
 	{
 		if (stripos($this->_agent, 'slurp') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'Slurp'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Slurp'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -695,10 +876,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserEdge()
 	{
 		if (stripos($this->_agent, 'Edge/') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'Edge'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Edge'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -712,6 +896,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserInternetExplorer()
 	{
 		//  Test for IE11
@@ -723,7 +910,7 @@ class Browser
 		else if (stripos($this->_agent, 'microsoft internet explorer') !== false) {
 			$this->setBrowser(self::BROWSER_IE);
 			$this->setVersion('1.0');
-			$aresult = stristr($this->_agent, '/');
+			$aresult = (string) stristr($this->_agent, '/');
 			if (preg_match('/308|425|426|474|0b1/i', $aresult)) {
 				$this->setVersion('1.5');
 			}
@@ -732,14 +919,14 @@ class Browser
 		else if (stripos($this->_agent, 'msie') !== false && stripos($this->_agent, 'opera') === false) {
 			// See if the browser is the odd MSN Explorer
 			if (stripos($this->_agent, 'msnb') !== false) {
-				$aresult = explode(' ', stristr(str_replace(';', '; ', $this->_agent), 'MSN'));
+				$aresult = explode(' ', (string) stristr(str_replace(';', '; ', $this->_agent), 'MSN'));
 				if (isset($aresult[1])) {
 					$this->setBrowser(self::BROWSER_MSN);
 					$this->setVersion(str_replace(array('(', ')', ';'), '', $aresult[1]));
 					return true;
 				}
 			}
-			$aresult = explode(' ', stristr(str_replace(';', '; ', $this->_agent), 'msie'));
+			$aresult = explode(' ', (string) stristr(str_replace(';', '; ', $this->_agent), 'msie'));
 			if (isset($aresult[1])) {
 				$this->setBrowser(self::BROWSER_IE);
 				$this->setVersion(str_replace(array('(', ')', ';'), '', $aresult[1]));
@@ -774,7 +961,7 @@ class Browser
 			}
 		} // Test for Pocket IE
 		else if (stripos($this->_agent, 'mspie') !== false || stripos($this->_agent, 'pocket') !== false) {
-			$aresult = explode(' ', stristr($this->_agent, 'mspie'));
+			$aresult = explode(' ', (string) stristr($this->_agent, 'mspie'));
 			if (isset($aresult[1])) {
 				$this->setPlatform(self::PLATFORM_WINDOWS_CE);
 				$this->setBrowser(self::BROWSER_POCKET_IE);
@@ -794,10 +981,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserOpera()
 	{
 		if (stripos($this->_agent, 'opera mini') !== false) {
-			$resultant = stristr($this->_agent, 'opera mini');
+			$resultant = (string) stristr($this->_agent, 'opera mini');
 			if (preg_match('/\//', $resultant)) {
 				$aresult = explode('/', $resultant);
 				if (isset($aresult[1])) {
@@ -805,7 +995,7 @@ class Browser
 					$this->setVersion($aversion[0]);
 				}
 			} else {
-				$aversion = explode(' ', stristr($resultant, 'opera mini'));
+				$aversion = explode(' ', (string) stristr($resultant, 'opera mini'));
 				if (isset($aversion[1])) {
 					$this->setVersion($aversion[1]);
 				}
@@ -814,7 +1004,7 @@ class Browser
 			$this->setMobile(true);
 			return true;
 		} else if (stripos($this->_agent, 'opera') !== false) {
-			$resultant = stristr($this->_agent, 'opera');
+			$resultant = (string) stristr($this->_agent, 'opera');
 			if (preg_match('/Version\/(1*.*)$/', $resultant, $matches)) {
 				$this->setVersion($matches[1]);
 			} else if (preg_match('/\//', $resultant)) {
@@ -824,7 +1014,7 @@ class Browser
 					$this->setVersion($aversion[0]);
 				}
 			} else {
-				$aversion = explode(' ', stristr($resultant, 'opera'));
+				$aversion = explode(' ', (string) stristr($resultant, 'opera'));
 				$this->setVersion(isset($aversion[1]) ? $aversion[1] : "");
 			}
 			if (stripos($this->_agent, 'Opera Mobi') !== false) {
@@ -833,7 +1023,7 @@ class Browser
 			$this->_browser_name = self::BROWSER_OPERA;
 			return true;
 		} else if (stripos($this->_agent, 'OPR') !== false) {
-			$resultant = stristr($this->_agent, 'OPR');
+			$resultant = (string) stristr($this->_agent, 'OPR');
 			if (preg_match('/\//', $resultant)) {
 				$aresult = explode('/', str_replace("(", " ", $resultant));
 				if (isset($aresult[1])) {
@@ -850,10 +1040,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserChrome()
 	{
 		if (stripos($this->_agent, 'Chrome') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'Chrome'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Chrome'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -872,10 +1065,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserWebTv()
 	{
 		if (stripos($this->_agent, 'webtv') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'webtv'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'webtv'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -886,10 +1082,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserNetPositive()
 	{
 		if (stripos($this->_agent, 'NetPositive') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'NetPositive'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'NetPositive'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion(str_replace(array('(', ')', ';'), '', $aversion[0]));
@@ -900,10 +1099,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserGaleon()
 	{
 		if (stripos($this->_agent, 'galeon') !== false) {
-			$aresult = explode(' ', stristr($this->_agent, 'galeon'));
+			$aresult = explode(' ', (string) stristr($this->_agent, 'galeon'));
 			$aversion = explode('/', $aresult[0]);
 			if (isset($aversion[1])) {
 				$this->setVersion($aversion[1]);
@@ -914,10 +1116,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserKonqueror()
 	{
 		if (stripos($this->_agent, 'Konqueror') !== false) {
-			$aresult = explode(' ', stristr($this->_agent, 'Konqueror'));
+			$aresult = explode(' ', (string) stristr($this->_agent, 'Konqueror'));
 			$aversion = explode('/', $aresult[0]);
 			if (isset($aversion[1])) {
 				$this->setVersion($aversion[1]);
@@ -928,10 +1133,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserIcab()
 	{
 		if (stripos($this->_agent, 'icab') !== false) {
-			$aversion = explode(' ', stristr(str_replace('/', ' ', $this->_agent), 'icab'));
+			$aversion = explode(' ', (string) stristr(str_replace('/', ' ', $this->_agent), 'icab'));
 			if (isset($aversion[1])) {
 				$this->setVersion($aversion[1]);
 				$this->setBrowser(self::BROWSER_ICAB);
@@ -941,10 +1149,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserOmniWeb()
 	{
 		if (stripos($this->_agent, 'omniweb') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'omniweb'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'omniweb'));
 			$aversion = explode(' ', isset($aresult[1]) ? $aresult[1] : "");
 			$this->setVersion($aversion[0]);
 			$this->setBrowser(self::BROWSER_OMNIWEB);
@@ -953,10 +1164,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserPhoenix()
 	{
 		if (stripos($this->_agent, 'Phoenix') !== false) {
-			$aversion = explode('/', stristr($this->_agent, 'Phoenix'));
+			$aversion = explode('/', (string) stristr($this->_agent, 'Phoenix'));
 			if (isset($aversion[1])) {
 				$this->setVersion($aversion[1]);
 				$this->setBrowser(self::BROWSER_PHOENIX);
@@ -966,10 +1180,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserFirebird()
 	{
 		if (stripos($this->_agent, 'Firebird') !== false) {
-			$aversion = explode('/', stristr($this->_agent, 'Firebird'));
+			$aversion = explode('/', (string) stristr($this->_agent, 'Firebird'));
 			if (isset($aversion[1])) {
 				$this->setVersion($aversion[1]);
 				$this->setBrowser(self::BROWSER_FIREBIRD);
@@ -979,6 +1196,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserNetscapeNavigator9Plus()
 	{
 		if (stripos($this->_agent, 'Firefox') !== false && preg_match('/Navigator\/([^ ]*)/i', $this->_agent, $matches)) {
@@ -993,6 +1213,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserShiretoko()
 	{
 		if (stripos($this->_agent, 'Mozilla') !== false && preg_match('/Shiretoko\/([^ ]*)/i', $this->_agent, $matches)) {
@@ -1003,6 +1226,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserIceCat()
 	{
 		if (stripos($this->_agent, 'Mozilla') !== false && preg_match('/IceCat\/([^ ]*)/i', $this->_agent, $matches)) {
@@ -1013,6 +1239,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserNokia()
 	{
 		if (preg_match("/Nokia([^\/]+)\/([^ SP]+)/i", $this->_agent, $matches)) {
@@ -1028,6 +1257,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserFirefox()
 	{
 		if (stripos($this->_agent, 'safari') === false) {
@@ -1052,10 +1284,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserIceweasel()
 	{
 		if (stripos($this->_agent, 'Iceweasel') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'Iceweasel'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Iceweasel'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1066,16 +1301,19 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserMozilla()
 	{
 		if (stripos($this->_agent, 'mozilla') !== false && preg_match('/rv:[0-9].[0-9][a-b]?/i', $this->_agent) && stripos($this->_agent, 'netscape') === false) {
-			$aversion = explode(' ', stristr($this->_agent, 'rv:'));
+			$aversion = explode(' ', (string) stristr($this->_agent, 'rv:'));
 			preg_match('/rv:[0-9].[0-9][a-b]?/i', $this->_agent, $aversion);
 			$this->setVersion(str_replace('rv:', '', $aversion[0]));
 			$this->setBrowser(self::BROWSER_MOZILLA);
 			return true;
 		} else if (stripos($this->_agent, 'mozilla') !== false && preg_match('/rv:[0-9]\.[0-9]/i', $this->_agent) && stripos($this->_agent, 'netscape') === false) {
-			$aversion = explode('', stristr($this->_agent, 'rv:'));
+			$aversion = explode('', (string) stristr($this->_agent, 'rv:'));
 			if ($aversion != null) {
 				$this->setVersion(str_replace('rv:', '', $aversion[0]));
 			}
@@ -1089,10 +1327,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserLynx()
 	{
 		if (stripos($this->_agent, 'lynx') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'Lynx'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Lynx'));
 			$aversion = explode(' ', (isset($aresult[1]) ? $aresult[1] : ""));
 			$this->setVersion($aversion[0]);
 			$this->setBrowser(self::BROWSER_LYNX);
@@ -1101,10 +1342,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserAmaya()
 	{
 		if (stripos($this->_agent, 'amaya') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'Amaya'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Amaya'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1115,6 +1359,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserSafari()
 	{
 		if (
@@ -1122,7 +1369,7 @@ class Browser
 			stripos($this->_agent, 'iPhone') === false && 
 			stripos($this->_agent, 'iPod') === false
 		) {
-			$aresult = explode('/', stristr($this->_agent, 'Version'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Version'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1135,11 +1382,14 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserSamsung()
 	{
 		if (stripos($this->_agent, 'SamsungBrowser') !== false) {
 
-			$aresult = explode('/', stristr($this->_agent, 'SamsungBrowser'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'SamsungBrowser'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1152,10 +1402,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserSilk()
 	{
 		if (stripos($this->_agent, 'Silk') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'Silk'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Silk'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1168,10 +1421,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserIframely()
 	{
 		if (stripos($this->_agent, 'Iframely') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'Iframely'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Iframely'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1184,10 +1440,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserCocoa()
 	{
 		if (stripos($this->_agent, 'CocoaRestClient') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'CocoaRestClient'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'CocoaRestClient'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1200,6 +1459,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkFacebookExternalHit()
 	{
 		if (stristr($this->_agent, 'FacebookExternalHit')) {
@@ -1210,6 +1472,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkForFacebookIos()
 	{
 		if (stristr($this->_agent, 'FBIOS')) {
@@ -1219,9 +1484,12 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function getSafariVersionOnIos()
 	{
-		$aresult = explode('/', stristr($this->_agent, 'Version'));
+		$aresult = explode('/', (string) stristr($this->_agent, 'Version'));
 		if (isset($aresult[1])) {
 			$aversion = explode(' ', $aresult[1]);
 			$this->setVersion($aversion[0]);
@@ -1230,9 +1498,12 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function getChromeVersionOnIos()
 	{
-		$aresult = explode('/', stristr($this->_agent, 'CriOS'));
+		$aresult = explode('/', (string) stristr($this->_agent, 'CriOS'));
 		if (isset($aresult[1])) {
 			$aversion = explode(' ', $aresult[1]);
 			$this->setVersion($aversion[0]);
@@ -1242,6 +1513,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowseriPhone()
 	{
 		if (stripos($this->_agent, 'iPhone') !== false) {
@@ -1257,6 +1531,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowseriPad()
 	{
 		if (stripos($this->_agent, 'iPad') !== false) {
@@ -1271,6 +1548,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowseriPod()
 	{
 		if (stripos($this->_agent, 'iPod') !== false) {
@@ -1285,10 +1565,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserAndroid()
 	{
 		if (stripos($this->_agent, 'Android') !== false) {
-			$aresult = explode(' ', stristr($this->_agent, 'Android'));
+			$aresult = explode(' ', (string) stristr($this->_agent, 'Android'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1306,10 +1589,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserVivaldi()
 	{
 		if (stripos($this->_agent, 'Vivaldi') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'Vivaldi'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'Vivaldi'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1320,10 +1606,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserYandex()
 	{
 		if (stripos($this->_agent, 'YaBrowser') !== false) {
-			$aresult = explode('/', stristr($this->_agent, 'YaBrowser'));
+			$aresult = explode('/', (string) stristr($this->_agent, 'YaBrowser'));
 			if (isset($aresult[1])) {
 				$aversion = explode(' ', $aresult[1]);
 				$this->setVersion($aversion[0]);
@@ -1344,10 +1633,13 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkBrowserPlayStation()
 	{
 		if (stripos($this->_agent, 'PlayStation ') !== false) {
-			$aresult = explode(' ', stristr($this->_agent, 'PlayStation '));
+			$aresult = explode(' ', (string) stristr($this->_agent, 'PlayStation '));
 			$this->setBrowser(self::BROWSER_PLAYSTATION);
 			if (isset($aresult[0])) {
 				$aversion = explode(')', $aresult[2]);
@@ -1361,6 +1653,9 @@ class Browser
 		return false;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	protected function checkPlatform()
 	{
 		if (stripos($this->_agent, 'windows') !== false) {

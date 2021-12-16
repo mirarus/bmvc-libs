@@ -17,24 +17,8 @@ class Validate
 {
 
 	/**
-	 * @param string $method
-	 * @param mixed $args
-	 */
-	public static function call(string $method, $args = null)
-	{	
-		$methods = get_class_methods(__CLASS__);
-		if (in_array($method, $methods)) {
-			if (is_array($args)) {
-				return call_user_func_array([__CLASS__, $method], $args);
-			} else {
-				return call_user_func([__CLASS__, $method], $args);
-			}
-		}
-	}
-
-	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function is_nem($arg): bool
 	{
@@ -43,7 +27,7 @@ class Validate
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function nis_em($arg): bool
 	{
@@ -52,7 +36,7 @@ class Validate
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */	
 	public static function is($arg): bool
 	{
@@ -61,7 +45,7 @@ class Validate
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function nis($arg): bool
 	{
@@ -70,7 +54,7 @@ class Validate
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function nem($arg): bool
 	{
@@ -79,7 +63,7 @@ class Validate
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function em($arg): bool
 	{
@@ -88,25 +72,25 @@ class Validate
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function integer($arg): bool
 	{
-		return filter_var($arg, FILTER_VALIDATE_INT);
+		return (bool) filter_var($arg, FILTER_VALIDATE_INT);
 	}
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function float($arg): bool
 	{
-		return filter_var($arg, FILTER_VALIDATE_FLOAT);
+		return (bool) filter_var($arg, FILTER_VALIDATE_FLOAT);
 	}
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function numeric($arg): bool
 	{
@@ -115,54 +99,54 @@ class Validate
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function url($arg): bool
 	{
-		return filter_var($arg, FILTER_VALIDATE_URL);
+		return (bool) filter_var($arg, FILTER_VALIDATE_URL);
 	}
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function ip_adress($arg): bool
 	{
-		return filter_var($arg, FILTER_VALIDATE_IP);
+		return (bool) filter_var($arg, FILTER_VALIDATE_IP);
 	}
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function ipv4($arg): bool
 	{
-		return filter_var($arg, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+		return (bool) filter_var($arg, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 	}
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function ipv6($arg): bool
 	{
-		return filter_var($arg, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+		return (bool) filter_var($arg, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 	}
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function email($arg): bool
 	{
-		return filter_var($arg, FILTER_VALIDATE_EMAIL);
+		return (bool) filter_var($arg, FILTER_VALIDATE_EMAIL);
 	}
 
 	/**
-	 * @param  mixed $arg
+	 * @param  string|array $arg
 	 * @return mixed
 	 */
-	public static function sanitize($arg)
+	public static function sanitize($arg) // @phpstan-ignore-line
 	{
 		if (!is_array($arg)) {
 			return filter_var(trim($arg), FILTER_SANITIZE_STRING);
@@ -174,49 +158,49 @@ class Validate
 	}
 
 	/**
-	 * @param  mixed $arg
-	 * @return bool
+	 * @param  string|array $arg
+	 * @return boolean
 	 */
-	public static function nullable($arg): bool
+	public static function nullable($arg): bool // @phpstan-ignore-line
 	{
 		return is_array($arg) ? (empty($arg) === true) : (trim($arg) === '');
 	}
 
 	/**
-	 * @param  mixed $arg
-	 * @return bool
+	 * @param  string|array $arg
+	 * @return boolean
 	 */
-	public static function required($arg): bool
+	public static function required($arg): bool // @phpstan-ignore-line
 	{
 		return is_array($arg) ? (empty($arg) === false) : (trim($arg) !== '');
 	}
 
 	/**
-	 * @param  mixed $arg
-	 * @param  mixed $length
-	 * @return bool
+	 * @param  string $arg
+	 * @param  int    $length
+	 * @return boolean
 	 */
-	public static function min_len($arg, $length): bool
+	public static function min_len(string $arg, int $length): bool
 	{
 		return (strlen(trim($arg)) < $length) === false;
 	}
 
 	/**
-	 * @param  mixed $arg
-	 * @param  mixed $length
-	 * @return bool
+	 * @param  string $arg
+	 * @param  int    $length
+	 * @return boolean
 	 */
-	public static function max_len($arg, $length): bool
+	public static function max_len(string $arg, int $length): bool
 	{
 		return (strlen(trim($arg)) > $length) === false;
 	}
 
 	/**
-	 * @param  mixed $arg
-	 * @param  mixed $length
-	 * @return bool
+	 * @param  string $arg
+	 * @param  int    $length
+	 * @return boolean
 	 */
-	public static function exact_len($arg, $length): bool
+	public static function exact_len(string $arg, int $length): bool
 	{
 		return (strlen(trim($arg)) == $length) !== false;
 	}
@@ -234,7 +218,7 @@ class Validate
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function alpha_num($arg): bool
 	{
@@ -242,26 +226,26 @@ class Validate
 	}
 
 	/**
-	 * @param  mixed $arg
-	 * @return bool
+	 * @param  string $arg
+	 * @return boolean
 	 */
-	public static function alpha_dash($arg): bool
+	public static function alpha_dash(string $arg): bool
 	{
 		return (!preg_match("/^([-a-z0-9_-])+$/i", $arg)) ? false : true;
 	}
 
 	/**
-	 * @param  mixed $arg
-	 * @return bool
+	 * @param  string $arg
+	 * @return boolean
 	 */
-	public static function alpha_space($arg): bool
+	public static function alpha_space(string $arg): bool
 	{
 		return (!preg_match("/^([A-Za-z0-9- ])+$/i", $arg)) ? false : true;
 	}
 
 	/**
 	 * @param  mixed $arg
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function boolean($arg): bool
 	{
@@ -272,7 +256,7 @@ class Validate
 	/**
 	 * @param  mixed $arg
 	 * @param  mixed $min
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function min_numeric($arg, $min): bool
 	{
@@ -282,7 +266,7 @@ class Validate
 	/**
 	 * @param  mixed $arg
 	 * @param  mixed $max
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function max_numeric($arg, $max): bool
 	{
@@ -290,11 +274,11 @@ class Validate
 	}
 
 	/**
-	 * @param  mixed $arg
-	 * @param  mixed $part
-	 * @return bool
+	 * @param  string $arg
+	 * @param  int|string $part
+	 * @return boolean
 	 */
-	public static function contains($arg, $part): bool
+	public static function contains(string $arg, $part): bool
 	{
 		return strpos($arg, $part) !== false;
 	}
@@ -302,7 +286,7 @@ class Validate
 	/**
 	 * @param  mixed $arg
 	 * @param  mixed $field
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function matches($arg, $field): bool
 	{
@@ -310,10 +294,10 @@ class Validate
 	}
 
 	/**
-	 * @param  mixed $str
+	 * @param  string $str
 	 * @return mixed
 	 */
-	public static function initials($str)
+	public static function initials(string $str)
 	{
 		$ret = '';
 		foreach (explode(' ', $str) as $Word) {
@@ -323,10 +307,10 @@ class Validate
 	}
 
 	/**
-	 * @param  mixed $var
-	 * @return bool
+	 * @param  string $var
+	 * @return boolean
 	 */
-	public static function check($var): bool
+	public static function check(string $var): bool
 	{
 		$var = str_replace("\n", " ", $var);
 		$var = str_replace(" ", "", $var);
@@ -334,12 +318,12 @@ class Validate
 	}
 
 	/**
-	 * @param  mixed $arg
-	 * @return mixed
+	 * @param  string $arg
+	 * @return boolean
 	 */
-	public static function cc($arg)
+	public static function cc(string $arg): bool
 	{
-		$number = preg_replace('/\D/', '', $arg);
+		$number = (string) preg_replace('/\D/', '', $arg);
 		if (function_exists('mb_strlen')) {
 			$length = mb_strlen($number);
 		} else {
@@ -350,13 +334,13 @@ class Validate
 		for ($i=0; $i < $length; $i++) {
 			$digit = $number[$i];
 			if ($i % 2 == $parity) {
-				$digit *= 2;
+				$digit *= 2; // @phpstan-ignore-line
 				if ($digit > 9) {
 					$digit -= 9;
 				}
 			}
 			$total += $digit;
 		}
-		return $total % 10 == 0;
+		return (bool) $total % 10 == 0;
 	}
 }

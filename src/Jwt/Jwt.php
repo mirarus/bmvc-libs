@@ -31,6 +31,8 @@ class Jwt
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $algorithms = [
 		'HS256' => 'SHA256',
@@ -44,8 +46,10 @@ class Jwt
 	 * @param  string     $alg
 	 * @param  array|null $head
 	 * @return string
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function encode(array $payload, string $secret, string $alg='HS256', array $head=null): string
+	public static function encode(array $payload, string $secret, string $alg='HS256', array $head = null): string
 	{
 		$header = [
 			'typ' => 'JWT',
@@ -55,7 +59,7 @@ class Jwt
 			$header = array_merge($head, $header);
 		}
 		$payload['jwt']['exp'] = time() + self::$exp;
-		$payload['jwt']['jti'] = uniqid(time());
+		$payload['jwt']['jti'] = uniqid((string) time());
 		$payload['jwt']['iat'] = time();
 		$header         = self::urlSafeBase64Encode(self::jsonEncode($header));
 		$payload        = self::urlSafeBase64Encode(self::jsonEncode($payload));
@@ -67,8 +71,10 @@ class Jwt
 	/**
 	 * @param string      $token
 	 * @param string|null $secret
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function decode(string $token, string	$secret=null)
+	public static function decode(string $token, string	$secret = null)
 	{
 		if (empty($secret)) {
 			throw new Exception('JWT Error! | Secret may not be empty.');
@@ -84,7 +90,7 @@ class Jwt
 		if (null === ($payload = self::jsonDecode(self::urlSafeBase64Decode($payload64)))) {
 			throw new Exception('JWT Error! | Invalid claims encoding.');
 		}
-		if (false === ($signature = self::urlSafeBase64Decode($sign64))) {
+		if (!($signature = self::urlSafeBase64Decode($sign64))) {
 			throw new Exception('JWT Error! | Invalid signature encoding.');
 		}
 		if (empty($header->alg)) {
@@ -109,6 +115,8 @@ class Jwt
 	 * @param string $message
 	 * @param string $secret
 	 * @param string $alg
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function signature(string $message, string	$secret, string	$alg)
 	{
@@ -153,9 +161,10 @@ class Jwt
 	}
 
 	/**
-	 * @param string $data
+	 * @param  string $data
+	 * @return string
 	 */
-	private static function urlSafeBase64Decode(string $data)
+	private static function urlSafeBase64Decode(string $data): string
 	{
 		$remainder  = strlen($data) % 4;
 		if ($remainder) {
@@ -167,6 +176,8 @@ class Jwt
 
 	/**
 	 * @param mixed $data
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function jsonEncode($data)
 	{
@@ -181,6 +192,8 @@ class Jwt
 
 	/**
 	 * @param string $data
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function jsonDecode(string $data)
 	{
@@ -196,6 +209,8 @@ class Jwt
 
 	/**
 	 * @param int $errno
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function handleJsonError(int $errno)
 	{

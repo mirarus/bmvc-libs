@@ -33,18 +33,20 @@ class Request implements IRequest
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $formDataMediaTypes = ['application/x-www-form-urlencoded'];
 
-	public $body;
-	public $server;
-	public $request;
-	public $env;
-	public $session;
-	public $cookie;
-	public $files;
-	public $post;
-	public $get;
+	public $body; // @phpstan-ignore-line
+	public $server; // @phpstan-ignore-line
+	public $request; // @phpstan-ignore-line
+	public $env; // @phpstan-ignore-line
+	public $session; // @phpstan-ignore-line
+	public $cookie; // @phpstan-ignore-line
+	public $files; // @phpstan-ignore-line
+	public $post; // @phpstan-ignore-line
+	public $get; // @phpstan-ignore-line
 
 	public function __construct()
 	{
@@ -70,14 +72,14 @@ class Request implements IRequest
 		if ($type == 'object') {
 			$this->body    = Convert::arr_obj($_body);
 
-			$this->server  = $this->body->server;
-			$this->request = $this->body->request;
-			$this->env     = $this->body->env;
-			$this->session = $this->body->session;
-			$this->cookie  = $this->body->cookie;
-			$this->files   = $this->body->files;
-			$this->post    = $this->body->post;
-			$this->get     = $this->body->get;
+			$this->server  = $this->body->server; // @phpstan-ignore-line
+			$this->request = $this->body->request; // @phpstan-ignore-line
+			$this->env     = $this->body->env; // @phpstan-ignore-line
+			$this->session = $this->body->session; // @phpstan-ignore-line
+			$this->cookie  = $this->body->cookie; // @phpstan-ignore-line
+			$this->files   = $this->body->files; // @phpstan-ignore-line
+			$this->post    = $this->body->post; // @phpstan-ignore-line
+			$this->get     = $this->body->get; // @phpstan-ignore-line
 		} elseif ($type == 'array') {
 			$this->body    = $_body;
 
@@ -105,8 +107,10 @@ class Request implements IRequest
 
 	/**
 	 * @param string|null $key
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function _server(string $key=null)
+	public static function _server(string $key = null)
 	{
 		if ($key) {
 			return isset($_SERVER[$key]) ? $_SERVER[$key] : null;
@@ -117,8 +121,10 @@ class Request implements IRequest
 	/**
 	 * @param string|null $key
 	 * @param mixed       $default
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function header(string $key=null, $default=null)
+	public static function header(string $key = null, $default = null)
 	{
 		$_header = Header::extract(self::_server());
 		
@@ -256,13 +262,15 @@ class Request implements IRequest
 		$contentType = self::getContentType();
 		if ($contentType) {
 			$contentTypeParts = preg_split('/\s*[;,]\s*/', $contentType);
-			return strtolower($contentTypeParts[0]);
+			return strtolower($contentTypeParts[0]); // @phpstan-ignore-line
 		}
 		return null;
 	}
 
 	/**
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function getMediaTypeParams(): array
 	{
@@ -270,9 +278,9 @@ class Request implements IRequest
 		$contentTypeParams = [];
 		if ($contentType) {
 			$contentTypeParts = preg_split('/\s*[;,]\s*/', $contentType);
-			$contentTypePartsLength = count($contentTypeParts);
+			$contentTypePartsLength = count($contentTypeParts); // @phpstan-ignore-line
 			for ($i = 1; $i < $contentTypePartsLength; $i++) {
-				$paramParts = explode('=', $contentTypeParts[$i]);
+				$paramParts = explode('=', $contentTypeParts[$i]); // @phpstan-ignore-line
 				$contentTypeParams[strtolower($paramParts[0])] = $paramParts[1];
 			}
 		}
@@ -446,9 +454,12 @@ class Request implements IRequest
 		return true;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function inputToPost()
 	{
-		$_POST = Convert::obj_arr(json_decode(file_get_contents('php://input')));
+		$_POST = Convert::obj_arr(json_decode(file_get_contents('php://input'))); // @phpstan-ignore-line
 	}
 
 	/**
@@ -457,7 +468,7 @@ class Request implements IRequest
 	 * @param  bool|boolean $xss_filter
 	 * @return mixed
 	 */
-	public static function server(string $data=null, bool $db_filter=true, bool $xss_filter=true)
+	public static function server(string $data = null, bool $db_filter = true, bool $xss_filter = true)
 	{
 		return self::rea(self::_server(), $data, $db_filter, $xss_filter);
 	}
@@ -468,7 +479,7 @@ class Request implements IRequest
 	 * @param  bool|boolean $xss_filter
 	 * @return mixed
 	 */
-	public static function request(string $data=null, bool $db_filter=true, bool $xss_filter=true)
+	public static function request(string $data = null, bool $db_filter = true, bool $xss_filter = true)
 	{
 		return self::rea($_REQUEST, $data, $db_filter, $xss_filter);
 	}
@@ -477,7 +488,7 @@ class Request implements IRequest
 	 * @param  string|null $data
 	 * @return mixed
 	 */
-	public static function env(string $data=null)
+	public static function env(string $data = null)
 	{
 		return self::rea($_ENV, $data, false, false);
 	}
@@ -486,7 +497,7 @@ class Request implements IRequest
 	 * @param  string|null $data
 	 * @return mixed
 	 */
-	public static function session(string $data=null)
+	public static function session(string $data = null)
 	{
 		return self::rea($_SESSION, $data, false, false);
 	}
@@ -495,7 +506,7 @@ class Request implements IRequest
 	 * @param  string|null $data
 	 * @return mixed
 	 */
-	public static function cookie(string $data=null)
+	public static function cookie(string $data = null)
 	{
 		return self::rea($_COOKIE, $data, false, false);
 	}
@@ -505,7 +516,7 @@ class Request implements IRequest
 	 * @param  bool|boolean $xss_filter
 	 * @return mixed
 	 */
-	public static function files(string $data=null, bool $xss_filter=true)
+	public static function files(string $data = null, bool $xss_filter = true)
 	{
 		return self::rea($_FILES, $data, false, $xss_filter);
 	}
@@ -516,7 +527,7 @@ class Request implements IRequest
 	 * @param  bool|boolean $xss_filter
 	 * @return mixed
 	 */
-	public static function post(string $data=null, bool $db_filter=true, bool $xss_filter=true)
+	public static function post(string $data = null, bool $db_filter = true, bool $xss_filter = true)
 	{
 		return self::rea($_POST, $data, $db_filter, $xss_filter);
 	}
@@ -527,7 +538,7 @@ class Request implements IRequest
 	 * @param  bool|boolean $xss_filter
 	 * @return mixed
 	 */
-	public static function get(string $data=null, bool $db_filter=true, bool $xss_filter=true)
+	public static function get(string $data = null, bool $db_filter = true, bool $xss_filter = true)
 	{
 		return self::rea($_GET, $data, $db_filter, $xss_filter);
 	}
@@ -539,7 +550,7 @@ class Request implements IRequest
 	 * @param  bool|boolean $xss_filter
 	 * @return mixed
 	 */
-	public static function filter(string $data=null, string $type='post', bool $db_filter=true, bool $xss_filter=true)
+	public static function filter(string $data = null, string $type='post', bool $db_filter = true, bool $xss_filter = true)
 	{
 		if ($type == 'server') {
 			return self::server($data, $db_filter, $xss_filter);
@@ -565,7 +576,7 @@ class Request implements IRequest
 	 * @param  string      $body_type
 	 * @return object
 	 */
-	public static function body(string $method=null, string $body_type='object'): object
+	public static function body(string $method = null, string $body_type='object'): object
 	{
 		$class = new self;
 
@@ -591,20 +602,20 @@ class Request implements IRequest
 	 * @param  bool|boolean $xss_filter
 	 * @return mixed
 	 */
-	private static function rea($method, string $data=null, bool $db_filter=true, bool $xss_filter=true)
+	private static function rea($method, string $data = null, bool $db_filter = true, bool $xss_filter = true)
 	{
 		if ($xss_filter == true) {
-			$method = Filter::filterXSS($method);
+			$method = Filter::filterXSS($method); // @phpstan-ignore-line
 		}
 
 		if (isset($data) && !empty($data)) {
 			if ($db_filter == true) {
-				if (isset($method[$data])) {
-					return self::methodDB($method[$data]);
+				if (isset($method[$data])) { // @phpstan-ignore-line
+					return self::methodDB($method[$data]); // @phpstan-ignore-line
 				}
 			} else {
-				if (isset($method[$data])) {
-					return $method[$data];
+				if (isset($method[$data])) { // @phpstan-ignore-line
+					return $method[$data]; // @phpstan-ignore-line
 				}
 			}
 		} else {
@@ -618,13 +629,15 @@ class Request implements IRequest
 
 	/**
 	 * @param mixed $method
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function methodDB($method)
 	{
 		if (is_array($method)) {
 			$md = [];
 			foreach ($method as $k => $v) {
-				if (count($method) > 0) {
+				if (count($method) > 0) { // @phpstan-ignore-line
 					$md[$k] = self::methodDB($v);
 				}
 			}

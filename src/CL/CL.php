@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\CL;
@@ -29,15 +29,19 @@ class CL
 
 	/**
 	 * @param mixed $arg
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function replace($arg=null)
 	{
-		return @str_replace(['/', '//'], '\\', $arg);
+		return @str_replace(['/', '//'], '\\', $arg); // @phpstan-ignore-line
 	}
 
 	/**
 	 * @param  array  $arg
 	 * @return string
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function implode(array $arg): string
 	{
@@ -47,6 +51,8 @@ class CL
 	/**
 	 * @param  string $arg
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function explode(string $arg): array
 	{

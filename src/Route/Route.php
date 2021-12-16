@@ -21,22 +21,28 @@ class Route implements IRoute, IMethod
 	use Method;
 
 	/**
-	 * @var string
+	 * @var mixed
 	 */
-	public static $notFound = '';
+	public static $notFound;
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $routes = [];
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $groups = [];
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $middlewares = [];
 
@@ -57,6 +63,8 @@ class Route implements IRoute, IMethod
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $namespaces = [];
 
@@ -72,6 +80,8 @@ class Route implements IRoute, IMethod
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $patterns = [
 		':all'        => '(.*)',
@@ -92,9 +102,11 @@ class Route implements IRoute, IMethod
 	];
 
 	/**
-	 * @param mixed &$return
+	 * @param array &$return
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function Run(&$return = null)
+	public static function Run(array &$return = null)
 	{
 		$routes = (array) self::$routes;
 		$match = false;
@@ -132,7 +144,7 @@ class Route implements IRoute, IMethod
 				}
 			}
 		}
-
+		// @phpstan-ignore-next-line
 		if (!$match) self::get_404();
 	}
 
@@ -145,10 +157,10 @@ class Route implements IRoute, IMethod
 	{		
 		$closure = null;
 		if ($pattern == '/') {
-			$pattern = self::$prefix . trim($pattern, '/');
+			$pattern = self::$prefix . trim((string) $pattern, '/');
 		} else {
 			if (self::$prefix == '/') {
-				$pattern = self::$prefix . trim($pattern, '/');
+				$pattern = self::$prefix . trim((string) $pattern, '/');
 			} else {
 				$pattern = self::$prefix . $pattern;
 			}
@@ -224,10 +236,11 @@ class Route implements IRoute, IMethod
 	}
 
 	/**
-	 * @param  mixed $expressions
-	 * @return Route
+	 * @param array $expressions
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function where($expressions): self
+	public static function where(array $expressions): self
 	{
 		$routeKey = array_search(end(self::$routes), self::$routes);
 		$pattern = Util::parse_uri(self::$routes[$routeKey]['pattern'], $expressions);
@@ -238,11 +251,12 @@ class Route implements IRoute, IMethod
 	}
 
 	/**
-	 * @param  string $name
-	 * @param  array  $params
-	 * @return Route
+	 * @param string $name
+	 * @param array  $params
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function name(string $name, array $params = []): self
+	public static function name(string $name, array $params): self
 	{
 		$routeKey = array_search(end(self::$routes), self::$routes);
 		self::$routes[$routeKey]['name'] = $name;
@@ -250,13 +264,15 @@ class Route implements IRoute, IMethod
 	}
 
 	/**
-	 * @param  string $name
-	 * @param  array  $params
+	 * @param  string 		$name
+	 * @param  array|null $params
 	 * @return string
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function url(string $name, array $params = [])
+	public static function url(string $name, array $params = null): string
 	{
-		$pattern = null;
+		$pattern = "";
 		foreach (self::$routes as $route) {
 			if (array_key_exists('name', $route) && $route['name'] == $name) {
 				$pattern = $route['pattern'];
@@ -270,6 +286,8 @@ class Route implements IRoute, IMethod
 
 	/**
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function routes(): array
 	{
@@ -277,8 +295,7 @@ class Route implements IRoute, IMethod
 	}
 
 	/**
-	 * @param  mixed $callback
-	 * @return Route
+	 * @param mixed $callback
 	 */
 	public static function error($callback): self
 	{
@@ -287,8 +304,7 @@ class Route implements IRoute, IMethod
 	}
 
 	/**
-	 * @param  mixed $callback
-	 * @return Route
+	 * @param mixed $callback
 	 */
 	public static function set_404($callback): self
 	{
@@ -296,6 +312,9 @@ class Route implements IRoute, IMethod
 		return new self;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	public static function get_404()
 	{
 		if (@self::$notFound) {
@@ -318,8 +337,10 @@ class Route implements IRoute, IMethod
 	 * @param  array  $urls
 	 * @param  string $url
 	 * @return mixed
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function url_check(array $urls = [], string $url)
+	public static function url_check(array $urls, string $url)
 	{
 		if (!in_array($url, $urls)) {
 			self::get_404();

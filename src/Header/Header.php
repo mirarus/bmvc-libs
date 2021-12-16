@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Header;
@@ -16,6 +16,11 @@ namespace BMVC\Libs\Header;
 class Header
 {
 
+	/**
+	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
+	 */
 	private static $mime_types = [
 		'binary' => 'application/octet-stream',
 
@@ -75,6 +80,8 @@ class Header
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $special = [
 		'CONTENT_TYPE',
@@ -88,6 +95,8 @@ class Header
 	/**
 	 * @param  array $data
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function extract(array $data): array
 	{
@@ -108,20 +117,22 @@ class Header
 	 * @param string      $key
 	 * @param string|null $val
 	 */
-	public static function set(string $key, string $val=null): void
+	public static function set(string $key, string $val = null): void
 	{
 		header(($val ? ($key . ': ' . $val) : $key));
 	}
 
 	/**
 	 * @param string|null $key
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function get(string $key=null)
+	public static function get(string $key = null)
 	{
 		$headers = array_merge(
 			getallheaders(), 
 			self::parse(headers_list()), 
-			self::parse($http_response_header)
+			self::parse($http_response_header) // @phpstan-ignore-line
 		);
 
 		if ($key == null) {
@@ -136,11 +147,13 @@ class Header
 	/**
 	 * @param  array|null $headers
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	private static function parse(array $headers=null): array
+	private static function parse(array $headers = null): array
 	{
 		$array = [];
-		foreach ($headers as $header) {
+		foreach ($headers as $header) { // @phpstan-ignore-line
 			$header = explode(":", $header);
 			$array[trim(array_shift($header))] = trim(implode(':', $header));
 		}
@@ -151,7 +164,7 @@ class Header
 	 * @param  string|null $key
 	 * @return boolean
 	 */
-	public static function check_type(string $key=null): bool
+	public static function check_type(string $key = null): bool
 	{
 		return (bool) (self::get('Content-type') == self::$mime_types[$key]);
 	}

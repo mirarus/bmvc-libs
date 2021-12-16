@@ -133,7 +133,7 @@ class Csrf
 	/**
 	 * @param string $page
 	 * @param int    $expiry
-	 * @return mixed
+	 * @phpstan-ignore-next-line
 	 */
 	private static function setNewToken(string $page, int $expiry)
 	{
@@ -149,10 +149,11 @@ class Csrf
 	}
 
 	/**
-	 * @param  string|null $page
-	 * @return mixed
+	 * @param string|null $page
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	private static function getSessionToken(string $page=null)
+	private static function getSessionToken(string $page = null)
 	{
 		return !empty($_SESSION['csrf_tokens'][$page]) ? $_SESSION['csrf_tokens'][$page] : null;
 	}

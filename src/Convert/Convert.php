@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Convert;
@@ -22,6 +22,8 @@ class Convert
 	/**
 	 * @param  array  $array
 	 * @return object
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function arr_obj(array $array): object
 	{
@@ -40,12 +42,14 @@ class Convert
 	/**
 	 * @param  object $object
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function obj_arr(object $object): array
 	{
 		$array = [];
 		if (is_object($object)) {
-			foreach ($object as $key => $value) {
+			foreach ($object as $key => $value) { // @phpstan-ignore-line
 				if (is_object($value)) {
 					$value = self::obj_arr($value);
 				}
@@ -57,9 +61,11 @@ class Convert
 
 	/**
 	 * @param array       $array
-	 * @param object|null &$xml
+	 * @param object|null $xml
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function arr_xml(array $array, object &$xml=null)
+	public static function arr_xml(array $array, object $xml = null)
 	{
 		if ($xml == null) {
 			$xml = new SimpleXMLElement('<result/>');
@@ -67,12 +73,12 @@ class Convert
 		if (is_array($array)) {
 			foreach ($array as $key => $val) {
 				if (is_array($val)) {
-					self::arr_xml($val, $xml->addChild($key));
+					self::arr_xml($val, $xml->addChild($key)); // @phpstan-ignore-line
 				} else {
-					$xml->addChild($key, $val);
+					$xml->addChild($key, $val); // @phpstan-ignore-line
 				}
 			}
 		}
-		return $xml->asXML();
+		return $xml->asXML(); // @phpstan-ignore-line
 	}
 }

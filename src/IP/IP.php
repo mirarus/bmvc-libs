@@ -23,6 +23,8 @@ class IP
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $trustedProxies = [];
 
@@ -38,7 +40,7 @@ class IP
 	{
 		$ip = self::getFromProxy();
 		if ($ip) {
-			return $ip;
+			return $ip; // @phpstan-ignore-line
 		}
 
 		if (getenv("HTTP_CLIENT_IP")) {
@@ -66,7 +68,7 @@ class IP
 	}
 
 	/**
-	 * @return mixed
+	 * @return string|bool
 	 */
 	private static function getFromProxy()
 	{

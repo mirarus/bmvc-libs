@@ -8,26 +8,75 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Curl;
 
 class Curl
 {
-	
-	private static
-	$ch = null,
-	$error = '',
-	$followRedirects = true,
-	$options = [],
-	$headers = [],
-	$referrer = null,
-	$useCookie = false,
-	$cookieFile = '',
-	$userAgent = '',
-	$responseBody = '',
-	$responseHeader = [];
+
+	/**
+	 * @var resource
+	 */
+	private static $ch;
+
+	/**
+	 * @var string
+	 */
+	private static $error;
+
+	/**
+	 * @var boolean
+	 */
+	private static $followRedirects = true;
+
+	/**
+	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
+	 */
+	private static $options = [];
+
+	/**
+	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
+	 */
+	private static $headers = [];
+
+	/**
+	 * @var string
+	 */
+	private static $referrer = null;
+
+	/**
+	 * @var boolean
+	 */
+	private static $useCookie = false;
+
+	/**
+	 * @var string
+	 */
+	private static $cookieFile;
+
+
+	/**
+	 * @var string
+	 */
+	private static $userAgent;
+
+	/**
+	 * @var string
+	 */
+	private static $responseBody;
+
+	/**
+	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
+	 */
+	private static $responseHeader = [];
 
 	public function __construct()
 	{
@@ -42,6 +91,8 @@ class Curl
 	/**
 	 * @param string $url
 	 * @param array  $params
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function head(string $url, array $params=[])
 	{
@@ -51,6 +102,8 @@ class Curl
 	/**
 	 * @param string 			 $url
 	 * @param string|array $params
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function get(string $url, $params)
 	{
@@ -58,12 +111,14 @@ class Curl
 			$url .= (stripos($url, '?') !== false) ? '&' : '?';
 			$url .= (is_string($params)) ? $params : http_build_query($params, '', '&');
 		}
-		self::request('GET', $url);
+		self::request('GET', $url); // @phpstan-ignore-line
 	}
 
 	/**
 	 * @param string $url
 	 * @param array  $params
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function post(string $url, array $params=[])
 	{
@@ -73,6 +128,8 @@ class Curl
 	/**
 	 * @param string $url
 	 * @param array  $params
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function put(string $url, array $params=[])
 	{
@@ -82,6 +139,8 @@ class Curl
 	/**
 	 * @param string $url
 	 * @param array  $params
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function delete(string $url, array $params=[])
 	{
@@ -90,6 +149,8 @@ class Curl
 
 	/**
 	 * @param string|null $key
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function responseHeader(string $key=null)
 	{
@@ -104,23 +165,28 @@ class Curl
 		}
 	}
 
-	public static function responseBody()
+	/**
+	 * @return string
+	 */
+	public static function responseBody(): string
 	{
 		return self::$responseBody;
 	}
 
 	/**
-	 * @param mixed $agent
+	 * @param  string $agent
+	 * @return string
 	 */
-	public static function setUserAgent($agent)
+	public static function setUserAgent(string $agent): string
 	{
 		return self::$userAgent = $agent;
 	}
 
 	/**
-	 * @param mixed $referrer
+	 * @param  string $referrer
+	 * @return string
 	 */
-	public static function setReferrer($referrer)
+	public static function setReferrer($referrer): string
 	{
 		return self::$referrer = $referrer;
 	}
@@ -129,8 +195,10 @@ class Curl
 	 * @param  mixed $header
 	 * @param  mixed $val
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function setHeader($header, $val=null): array
+	public static function setHeader($header, $val = null): array
 	{
 		if (is_array($header)) {
 			self::$headers = $header;
@@ -144,8 +212,10 @@ class Curl
 	 * @param  mixed $options
 	 * @param  mixed $val
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function setOptions($options, $val=null): array
+	public static function setOptions($options, $val = null): array
 	{
 		if (is_array($options)) {
 			self::$options = $options;
@@ -159,8 +229,10 @@ class Curl
 	 * @param string $method
 	 * @param string $url
 	 * @param array  $params
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	private static function request(string $method, string $url, array $params=[])
+	private static function request(string $method, string $url, array $params)
 	{
 		self::$error = '';
 		self::$ch 	 = curl_init();
@@ -169,7 +241,7 @@ class Curl
 		self::set_request_headers();
 		$response = curl_exec(self::$ch);
 		if ($response) {
-			return self::getResponse($response);
+			return self::getResponse($response); // @phpstan-ignore-line
 		} else {
 			self::$error = curl_errno(self::$ch) . ' - ' . curl_error(self::$ch);
 		}
@@ -204,8 +276,10 @@ class Curl
 	/**
 	 * @param string $url
 	 * @param array  $params
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	private static function set_request_options(string $url, array $params=[]): void
+	private static function set_request_options(string $url, array $params): void
 	{
 		curl_setopt(self::$ch, CURLOPT_URL, $url);
 		if (!empty($params)) {
@@ -225,14 +299,16 @@ class Curl
 			curl_setopt(self::$ch, CURLOPT_REFERER, self::$referrer);
 		}
 		foreach (self::$options as $option => $val) {
-			curl_setopt(self::$ch, constant('CURLOPT_' . str_replace('CURLOPT_', '', strtoupper($option))), $val);
+			curl_setopt(self::$ch, constant('CURLOPT_' . str_replace('CURLOPT_', '', strtoupper($option))), $val); // @phpstan-ignore-line
 		}
 	}
 
 	/**
-	 * @param mixed $response
+	 * @param string $response
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	private static function getResponse($response)
+	private static function getResponse(string $response)
 	{
 		preg_match_all('#HTTP/\d\.\d.*?$.*?\r\n\r\n#ims', $response, $matches);
 		$headers_string = array_pop($matches[0]);
@@ -249,7 +325,10 @@ class Curl
 		}
 	}
 
-	public static function getError()
+	/**
+	 * @return string
+	 */
+	public static function getError(): string
 	{
 		return self::$error;
 	}

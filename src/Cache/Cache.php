@@ -18,10 +18,25 @@ use BMVC\Libs\FS;
 
 class Cache
 {
-
+	
+	/**
+	 * @var string
+	 */
 	private static $path;
+
+	/**
+	 * @var string
+	 */
 	private static $filename;
+
+	/**
+	 * @var string
+	 */
 	private static $extension;
+
+	/**
+	 * @var int
+	 */
 	private static $expire;
 
 	public function __construct()
@@ -60,6 +75,8 @@ class Cache
 	/**
 	 * @param string      $key
 	 * @param string|null $filename
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function read(string $key, string $filename = null)
 	{
@@ -73,6 +90,8 @@ class Cache
 
 	/**
 	 * @param string $key
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function delete(string $key)
 	{
@@ -117,7 +136,7 @@ class Cache
 	{
 		if (FS::is_file(self::getCacheDir())) {
 			$file = fopen(self::getCacheDir(), 'w');
-			fclose($file);
+			fclose($file); // @phpstan-ignore-line
 			return true;
 		}
 		return false;
@@ -185,6 +204,9 @@ class Cache
 		return self::$extension;
 	}
 
+	/**
+	 * @phpstan-ignore-next-line
+	 */
 	private static function checkCacheDir()
 	{
 		if (!is_dir(self::getPath()) && !mkdir(self::getPath(), 0775, true)) {
@@ -200,6 +222,8 @@ class Cache
 
 	/**
 	 * @param string|null $filename
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function getCacheDir(string $filename = null)
 	{
@@ -209,11 +233,13 @@ class Cache
 		if (is_null($filename)) {
 			$filename = preg_replace('/[^0-9a-z\.\_\-]/i', '', strtolower(self::getFileName()));
 		}
-		return self::getPath() . '/' . md5($filename) . self::getExtension();
+		return self::getPath() . '/' . md5($filename) . self::getExtension(); // @phpstan-ignore-line
 	}
 
 	/**
 	 * @param string|null $filename
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static function loadCache(string $filename = null)
 	{
@@ -224,7 +250,7 @@ class Cache
 			return false;
 		}
 		$file = file_get_contents(self::getCacheDir($filename));
-		return json_decode($file, true);
+		return json_decode($file, true); // @phpstan-ignore-line
 	}
 
 	/**

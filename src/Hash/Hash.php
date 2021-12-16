@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Hash;
@@ -26,8 +26,10 @@ class Hash
 	/**
 	 * @param string $value
 	 * @param array  $options
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function make(string $value, array $options=[])
+	public static function make(string $value, array $options)
 	{
 		if (!array_key_exists('cost', $options)) {
 			$options['cost'] = self::$cost;
@@ -52,8 +54,10 @@ class Hash
 	/**
 	 * @param string $hashedValue
 	 * @param array  $options
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function rehash(string $hashedValue, array $options=[])
+	public static function rehash(string $hashedValue, array $options)
 	{
 		if (!array_key_exists('cost', $options)) {
 			$options['cost'] = self::$cost;

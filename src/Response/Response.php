@@ -18,6 +18,8 @@ class Response
 	
 	/**
 	 * @var array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	private static $statusCodes = [
 		100 => 'Continue',
@@ -74,6 +76,8 @@ class Response
 	
 	/**
 	 * @param int $code
+	 * 
+	 * @phpstan-ignore-next-line
 	 */
 	public static function setStatusCode(int $code)
 	{
@@ -81,18 +85,18 @@ class Response
 	}
 
 	/**
-	 * @return int
+	 * @return int|integer
 	 */
 	public static function getStatusCode(): int
 	{
-		return http_response_code();
+		return (int) http_response_code();
 	}
 
 	/**
 	 * @param  int|null $code
 	 * @return string
 	 */
-	public static function getStatusMessage(int $code=null): string
+	public static function getStatusMessage(int $code = null): string
 	{
 		if (is_null($code)) {
 			return self::$statusCodes[self::getStatusCode()];
@@ -105,8 +109,10 @@ class Response
 	 * @param bool|boolean $status
 	 * @param int|integer  $code
 	 * @param bool|boolean $cache
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function json($data=null, bool $status=true, int $code=200, bool $cache=true)
+	public static function json($data = null, bool $status = true, int $code = 200, bool $cache = true)
 	{
 		self::setStatusCode($code);
 		if ($cache == true) @header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
@@ -119,8 +125,10 @@ class Response
 	 * @param array|null   $data
 	 * @param int|integer  $code
 	 * @param bool|boolean $cache
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function _json(array $data=null, int $code=200, bool $cache=true)
+	public static function _json(array $data = null, int $code = 200, bool $cache = true)
 	{
 		if ($data == null) $data = [];
 		self::setStatusCode($code);

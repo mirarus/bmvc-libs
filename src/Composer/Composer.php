@@ -17,7 +17,10 @@ use BMVC\Libs\FS;
 
 class Composer
 {
-	
+
+  /**
+   * @phpstan-ignore-next-line
+   */
 	public static function folderDelete()
 	{
 		FS::rm_dir_sub(".git");

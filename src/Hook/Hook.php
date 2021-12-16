@@ -20,8 +20,10 @@ class Hook
 
 	/**
 	 * @param string      $name
-	 * @param mixed      $callback
+	 * @param mixed       $callback
 	 * @param string|null $value
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function hook_load(string $name, $callback = null, string $value = null)
 	{
@@ -42,6 +44,8 @@ class Hook
 	/**
 	 * @param string       $name
 	 * @param Closure|null $callback
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function add_action(string $name, Closure $callback = null)
 	{
@@ -51,6 +55,8 @@ class Hook
 	/**
 	 * @param string      $name
 	 * @param string|null $value
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function do_action(string $name, string $value = null)
 	{
@@ -58,10 +64,11 @@ class Hook
 	}
 
 	/**
-	 * @param string $name
+	 * @param  string $name
+	 * @return boolean
 	 */
-	public static function remove_action(string $name)
+	public static function remove_action(string $name): bool
 	{
-		return self::hook_load($name, false);
+		return (bool) self::hook_load($name, false);
 	}
 }

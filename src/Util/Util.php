@@ -71,13 +71,9 @@ class Util
 			$hostname = $_SERVER['HTTP_HOST'];
 
 			$dir  = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-		//	$dir  = strtr($_SERVER['SCRIPT_NAME'], [basename($_SERVER['SCRIPT_NAME']) => '']);
+			$core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', (string) realpath(dirname(dirname(__FILE__)))), null, PREG_SPLIT_NO_EMPTY);
 
-			$core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(dirname(__FILE__)))), NULL, PREG_SPLIT_NO_EMPTY);
-		//	$core = preg_split('@/@', strtr(realpath(dirname(dirname(__FILE__))), [$_SERVER['DOCUMENT_ROOT'] => '']), NULL, PREG_SPLIT_NO_EMPTY);
-
-
-			$core = $core[0];
+			$core = $core[0];  // @phpstan-ignore-line
 			$tmplt = $atRoot ? ($atCore ? '%s://%s/%s/' : '%s://%s/') : ($atCore ? '%s://%s/%s/' : '%s://%s%s');
 			$end = $atRoot ? ($atCore ? $core : $hostname) : ($atCore ? $core : $dir);
 			$base_url = sprintf($tmplt, $http, $hostname, $end);
@@ -89,12 +85,11 @@ class Util
 		if (!empty($url)) $base_url .= $url;
 
 		$base_url = @str_replace(trim(@$_ENV['PUBLIC_DIR'], '/'), "", rtrim($base_url, '/'));
-	//	$base_url = strtr(rtrim($base_url, '/'), [trim(@$_ENV['PUBLIC_DIR'], '/') => null]);
 		$base_url = trim($base_url, '/') . '/';
 
 		if ($parse) {
 			$base_url = parse_url($base_url);
-			if (trim(self::base_url(), '/') == $base_url) $base_url['path'] = '/';
+			if (trim((string) self::base_url(), '/') == $base_url) $base_url['path'] = '/';  // @phpstan-ignore-line
 		}
 		return $base_url;
 	}
@@ -103,6 +98,8 @@ class Util
 	 * @param string|null  $url
 	 * @param bool|boolean $print
 	 * @param bool|boolean $cache
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function url(string $url = null, bool $print = false, bool $cache = false)
 	{
@@ -119,6 +116,8 @@ class Util
 	 * @param  array        $parsed_url
 	 * @param  bool|boolean $domain
 	 * @return string
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function unparse_url(array $parsed_url = [], bool $domain = false): string
 	{
@@ -139,14 +138,15 @@ class Util
 		}
 	}
 
-	/**
+/**
  * @param  string $addr
  * @return string
  */
 public static function get_host(string $addr): string
 {
-	$parseUrl = parse_url(trim($addr));
-	return trim($parseUrl['host'] ? $parseUrl['host'] : array_shift(@explode('/', $parseUrl['path'], 2)));
+	$parse = parse_url(trim($addr));
+	$array = explode('/', $parse['path'], 2); // @phpstan-ignore-line
+	return trim($parse['host'] ? $parse['host'] : array_shift($array)); // @phpstan-ignore-line
 }
 
 
@@ -154,6 +154,8 @@ public static function get_host(string $addr): string
 	 * @param  string $needle
 	 * @param  array  $haystack
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function array_search(string $needle, array $haystack = []): array
 	{
@@ -171,19 +173,22 @@ public static function get_host(string $addr): string
 	}
 
 	/**
-	 * @param  string $uri
-	 * @param  array  $expressions
+	 * @param  string 		$uri
+	 * @param  array|null $expressions
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function parse_uri(string $uri, array $expressions = []): array
+	public static function parse_uri(string $uri, array $expressions = null): array
 	{
 		$pattern = explode('/', ltrim($uri, '/'));
 		foreach ($pattern as $key => $val) {
 			if (preg_match('/[\[{\(].*[\]}\)]/U', $val, $matches)) {
 				foreach ($matches as $match) {
 					$matchKey = substr($match, 1, -1);
-					if (array_key_exists($matchKey, $expressions))
+					if (array_key_exists($matchKey, $expressions)) { // @phpstan-ignore-line
 						$pattern[$key] = $expressions[$matchKey];
+					}
 				}
 			}
 		}
@@ -214,11 +219,13 @@ public static function get_host(string $addr): string
 	}
 
 	/**
-	 * @param string|integer $money
-	 * @param string				 $type
-	 * @param string				 $locale
+	 * @param int    $money
+	 * @param string $type
+	 * @param string $locale
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function money($money, string $type='currency', string $locale='tr_TR')
+	public static function money(int $money, string $type = 'currency', string $locale = 'tr_TR')
 	{
 		if (extension_loaded('intl') && class_exists('NumberFormatter')) {
 			$fmt = new stdClass;
@@ -228,9 +235,9 @@ public static function get_host(string $addr): string
 				$fmt = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
 			}
 			if ($type == 'currency') {
-				return trim($fmt->format($money), '₺') . '₺';
+				return trim($fmt->format($money), '₺') . '₺'; // @phpstan-ignore-line
 			} else {
-				return $fmt->format($money);
+				return $fmt->format($money); // @phpstan-ignore-line
 			}
 		} else {
 
@@ -251,39 +258,41 @@ public static function get_host(string $addr): string
 	 * @param array        $array
 	 * @param bool|boolean $data
 	 * @param bool|boolean $option
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function curl(string $url, array $array=[], bool $data=false, bool $option=false)
+	public static function curl(string $url, array $array = [], bool $data = false, bool $option = false)
 	{
 		if ($option) {
-			$domain = base64_encode(self::get_host(self::base_url()));
+			$domain = base64_encode(self::get_host(self::base_url())); // @phpstan-ignore-line
 			$ch = curl_init($url . '&domain=' . $domain);
 		} else {
 			$ch = curl_init($url);
 		}
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 120);
-		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // @phpstan-ignore-line
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // @phpstan-ignore-line
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // @phpstan-ignore-line
+		curl_setopt($ch, CURLOPT_FRESH_CONNECT, true); // @phpstan-ignore-line
+		curl_setopt($ch, CURLOPT_TIMEOUT, 120); // @phpstan-ignore-line
+		curl_setopt($ch, CURLOPT_HEADER, false); // @phpstan-ignore-line
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // @phpstan-ignore-line
 		if (is_array($array)) {
 			$_array = [];
 			foreach ($array as $key => $val) {
 				$_array[] = $key . '=' . urlencode($val);
 			}
 
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, join('&', $_array));
+			curl_setopt($ch, CURLOPT_POST, true); // @phpstan-ignore-line
+			curl_setopt($ch, CURLOPT_POSTFIELDS, join('&', $_array)); // @phpstan-ignore-line
 		}
-		curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+		curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']); // @phpstan-ignore-line
 
-		$result = curl_exec($ch);
-		if (curl_errno($ch) != 0 && empty($result)) {
+		$result = curl_exec($ch); // @phpstan-ignore-line
+		if (curl_errno($ch) != 0 && empty($result)) { // @phpstan-ignore-line
 			$result = false;
 		}
-		$data = ($data == true ? json_decode($result, true) : $result);
-		curl_close($ch);
+		$data = ($data == true ? json_decode($result, true) : $result); // @phpstan-ignore-line
+		curl_close($ch); // @phpstan-ignore-line
 		return $data;
 	}
 
@@ -291,8 +300,10 @@ public static function get_host(string $addr): string
 	 * @param string       $par
 	 * @param int|integer  $time
 	 * @param bool|boolean $stop
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function redirect(string $par, int $time=0, bool $stop=true)
+	public static function redirect(string $par, int $time = 0, bool $stop = true)
 	{
 		if ($time == 0) {
 			header('Location: ' . $par);
@@ -306,8 +317,10 @@ public static function get_host(string $addr): string
 	 * @param string       $par
 	 * @param int|integer  $time
 	 * @param bool|boolean $stop
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function refresh(string $par, int $time=0, bool $stop=true)
+	public static function refresh(string $par, int $time = 0, bool $stop = true)
 	{
 		if ($time == 0) {
 			echo '<meta http-equiv="refresh" content="URL=' . $par . '">';
@@ -320,8 +333,10 @@ public static function get_host(string $addr): string
 	/**
 	 * @param mixed        $data
 	 * @param bool|boolean $stop
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function pr($data, bool $stop=false)
+	public static function pr($data, bool $stop = false)
 	{
 		echo '<pre>';
 		print_r($data);
@@ -332,8 +347,10 @@ public static function get_host(string $addr): string
 	/**
 	 * @param mixed        $data
 	 * @param bool|boolean $stop
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function dump($data, bool $stop=false)
+	public static function dump($data, bool $stop = false)
 	{
 		echo '<pre>';
 		var_dump($data);
@@ -343,9 +360,11 @@ public static function get_host(string $addr): string
 
 	/**
 	 * @param string $class
-	 * @param string $method
+	 * @param array $method
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public function __call(string $class, string $method)
+	public function __call(string $class, $method)
 	{
 		$class = str_replace('\\Util', "", __NAMESPACE__) . '\\' . $class;
 		return new $class;
@@ -354,8 +373,10 @@ public static function get_host(string $addr): string
 	/**
 	 * @param string $class
 	 * @param array  $method
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function __callStatic(string $class, array $method)
+	public static function __callStatic(string $class, $method)
 	{
 		$class = str_replace('\\Util', "", __NAMESPACE__) . '\\' . $class;
 		return new $class;

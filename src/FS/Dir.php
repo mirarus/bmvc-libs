@@ -101,6 +101,8 @@ trait Dir
 	 * @param  string|null $dir
 	 * @param  string|null $type
 	 * @return array
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function directories(string $dir = null, string $type = null): array
 	{
@@ -112,12 +114,12 @@ trait Dir
 			$dir = (!$dir ? self::app() : $dir);
 		}
 
-		$adir = @array_slice(@scandir($dir), 2);
+		$adir = @array_slice((array) @scandir($dir), 2);
 		
 		$array = [];
 		if ($adir) {
 			foreach ($adir as $d) {
-				if (self::is_dir($d)) $array[] = $d;
+				if (self::is_dir((string) $d)) $array[] = $d;
 			}
 		}
 		return $array;

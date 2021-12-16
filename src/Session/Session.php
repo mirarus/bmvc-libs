@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Session;
@@ -20,7 +20,7 @@ class Session
 	 * @param mixed $storage
 	 * @param mixed $content
 	 */
-	public static function set($storage, $content=null): void
+	public static function set($storage, $content = null): void
 	{
 		if (is_array($storage)) {
 			foreach ($storage as $key => $value) {
@@ -34,8 +34,10 @@ class Session
 	/**
 	 * @param string|null $storage
 	 * @param string|null $child
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function get(string $storage=null, string $child=null)
+	public static function get(string $storage = null, string $child = null)
 	{
 		if (is_null($storage)) {
 			return $_SESSION;
@@ -46,8 +48,10 @@ class Session
 	/**
 	 * @param string      $storage
 	 * @param string|null $child
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function has(string $storage, string $child=null)
+	public static function has(string $storage, string $child = null)
 	{
 		if ($child === null) {
 			if (isset($_SESSION[$storage])) {
@@ -64,7 +68,7 @@ class Session
 	 * @param string|null $storage
 	 * @param string|null $child
 	 */
-	public static function delete(string $storage=null, string $child=null): void
+	public static function delete(string $storage = null, string $child = null): void
 	{
 		if (is_null($storage)) {
 			session_unset();

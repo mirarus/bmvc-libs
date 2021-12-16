@@ -20,7 +20,7 @@ class Cookie
 	 * @param mixed $storage
 	 * @param mixed $content
 	 */
-	public static function set($storage, $content=null): void
+	public static function set($storage, $content = null): void
 	{
 		if (is_array($storage)) {
 			foreach ($storage as $key => $value) {
@@ -34,8 +34,10 @@ class Cookie
 	/**
 	 * @param string|null $storage
 	 * @param string|null $child
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function get(string $storage=null, string $child=null)
+	public static function get(string $storage = null, string $child = null)
 	{
 		if (is_null($storage)) {
 			return $_COOKIE;
@@ -46,8 +48,10 @@ class Cookie
 	/**
 	 * @param string      $storage
 	 * @param string|null $child
+	 *
+	 * @phpstan-ignore-next-line
 	 */
-	public static function has(string $storage, string $child=null)
+	public static function has(string $storage, string $child = null)
 	{
 		if ($child === null) {
 			if (isset($_COOKIE[$storage])) {
@@ -64,7 +68,7 @@ class Cookie
 	 * @param string      $storage
 	 * @param string|null $child
 	 */
-	public static function delete(string $storage, string $child=null): void
+	public static function delete(string $storage, string $child = null): void
 	{
 		if ($child === null) {
 			if (isset($_COOKIE[$storage])) {
