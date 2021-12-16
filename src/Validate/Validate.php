@@ -310,11 +310,11 @@ class Validate
 	 * @param  string $var
 	 * @return boolean
 	 */
-	public static function check(string $var): bool
+	public static function check($var): bool
 	{
 		$var = str_replace("\n", " ", $var);
 		$var = str_replace(" ", "", $var);
-		return (bool) $var;
+		return (isset($var) && !empty($var) && $var != '');
 	}
 
 	/**

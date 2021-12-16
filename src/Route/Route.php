@@ -252,11 +252,11 @@ class Route implements IRoute, IMethod
 
 	/**
 	 * @param string $name
-	 * @param array  $params
+	 * @param array|null  $params
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function name(string $name, array $params): self
+	public static function name(string $name, array $params = null): self
 	{
 		$routeKey = array_search(end(self::$routes), self::$routes);
 		self::$routes[$routeKey]['name'] = $name;

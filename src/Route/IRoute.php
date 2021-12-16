@@ -21,7 +21,7 @@ interface IRoute
   public static function Run(array &$return = null); // @phpstan-ignore-line
   public static function group(Closure $callback); // @phpstan-ignore-line
   public static function where(array $expressions): Route; // @phpstan-ignore-line
-  public static function name(string $name, array $params): Route; // @phpstan-ignore-line
+  public static function name(string $name, array $params = null): Route; // @phpstan-ignore-line
   public static function url(string $name, array $params = null): string; // @phpstan-ignore-line
   public static function routes(): array; // @phpstan-ignore-line
   public static function error($callback): Route; // @phpstan-ignore-line
