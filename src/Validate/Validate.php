@@ -307,12 +307,12 @@ class Validate
 	}
 
 	/**
-	 * @param  string $var
+	 * @param  mixed $var
 	 * @return boolean
 	 */
 	public static function check($var): bool
 	{
-		$var = str_replace("\n", " ", $var);
+		$var = str_replace("\n", " ", $var); // @phpstan-ignore-line
 		$var = str_replace(" ", "", $var);
 		return (isset($var) && !empty($var) && $var != ''); // @phpstan-ignore-line
 	}

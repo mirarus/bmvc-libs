@@ -31,7 +31,7 @@ class Hash
 	 */
 	public static function make(string $value, array $options = null)
 	{
-		if (!array_key_exists('cost', $options)) {
+		if (!array_key_exists('cost', $options)) { // @phpstan-ignore-line
 			$options['cost'] = self::$cost;
 		}
 		$hash = password_hash($value, PASSWORD_DEFAULT, $options);
@@ -45,6 +45,8 @@ class Hash
 	 * @param  string $value
 	 * @param  string $hashedValue
 	 * @return boolean
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function check(string $value, string $hashedValue): bool
 	{
@@ -59,7 +61,7 @@ class Hash
 	 */
 	public static function rehash(string $hashedValue, array $options = null)
 	{
-		if (!array_key_exists('cost', $options)) {
+		if (!array_key_exists('cost', $options)) { // @phpstan-ignore-line
 			$options['cost'] = self::$cost;
 		}
 		return password_needs_rehash($hashedValue, PASSWORD_DEFAULT, $options);
