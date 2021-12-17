@@ -24,12 +24,12 @@ class Hash
 	private static $cost = 12;
 
 	/**
-	 * @param string $value
-	 * @param array  $options
+	 * @param string     $value
+	 * @param array|null $options
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function make(string $value, array $options)
+	public static function make(string $value, array $options = null)
 	{
 		if (!array_key_exists('cost', $options)) {
 			$options['cost'] = self::$cost;
@@ -52,12 +52,12 @@ class Hash
 	}
 
 	/**
-	 * @param string $hashedValue
-	 * @param array  $options
+	 * @param string     $hashedValue
+	 * @param array|null $options
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function rehash(string $hashedValue, array $options)
+	public static function rehash(string $hashedValue, array $options = null)
 	{
 		if (!array_key_exists('cost', $options)) {
 			$options['cost'] = self::$cost;
