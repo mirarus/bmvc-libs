@@ -94,7 +94,7 @@ class Curl
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function head(string $url, array $params=[])
+	public static function head(string $url, array $params=[]): void
 	{
 		self::request('HEAD', $url, $params);
 	}
@@ -105,7 +105,7 @@ class Curl
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function get(string $url, $params)
+	public static function get(string $url, $params): void
 	{
 		if (!empty($params)) {
 			$url .= (stripos($url, '?') !== false) ? '&' : '?';
@@ -120,7 +120,7 @@ class Curl
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function post(string $url, array $params=[])
+	public static function post(string $url, array $params=[]): void
 	{
 		self::request('POST', $url, $params);
 	}
@@ -131,7 +131,7 @@ class Curl
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function put(string $url, array $params=[])
+	public static function put(string $url, array $params=[]): void
 	{
 		self::request('PUT', $url, $params);
 	}
@@ -142,7 +142,7 @@ class Curl
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function delete(string $url, array $params=[])
+	public static function delete(string $url, array $params=[]): void
 	{
 		self::request('DELETE', $url, $params);
 	}
@@ -305,10 +305,8 @@ class Curl
 
 	/**
 	 * @param string $response
-	 *
-	 * @phpstan-ignore-next-line
 	 */
-	private static function getResponse(string $response)
+	private static function getResponse(string $response): void
 	{
 		preg_match_all('#HTTP/\d\.\d.*?$.*?\r\n\r\n#ims', $response, $matches);
 		$headers_string = array_pop($matches[0]);

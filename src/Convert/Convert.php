@@ -20,12 +20,11 @@ class Convert
 {
 
 	/**
-	 * @param  array  $array
-	 * @return object
+	 * @param array  $array
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function arr_obj(array $array): object
+	public static function arr_obj(array $array): stdClass
 	{
 		$object = new stdClass();
 		if (is_array($array)) {

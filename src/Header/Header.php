@@ -93,10 +93,13 @@ class Header
 	];
 
 	/**
-	 * @param  array $data
+	 * @param array $data
+	 *
 	 * @return array
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @psalm-return array<string, mixed>
 	 */
 	public static function extract(array $data): array
 	{
@@ -124,8 +127,9 @@ class Header
 
 	/**
 	 * @param string|null $key
+	 * @return (mixed|string)[]|null|string
 	 *
-	 * @phpstan-ignore-next-line
+	 * @psalm-return array<mixed|string>|null|string
 	 */
 	public static function get(string $key = null)
 	{
@@ -135,7 +139,7 @@ class Header
 			self::parse($http_response_header) // @phpstan-ignore-line
 		);
 
-		if ($key == null) {
+		if ($key == null) { // @phpstan-ignore-line
 			return $headers;
 		} else {
 			foreach ($headers as $hkey => $hval) {
@@ -145,10 +149,13 @@ class Header
 	}
 
 	/**
-	 * @param  array|null $headers
-	 * @return array
+	 * @param array|null $headers
+	 *
+	 * @return string[]
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @psalm-return array<string, string>
 	 */
 	private static function parse(array $headers = null): array
 	{

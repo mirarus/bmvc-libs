@@ -32,7 +32,7 @@ class CL
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function replace($arg=null)
+	public static function replace($arg=null): string
 	{
 		return @str_replace(['/', '//'], '\\', $arg); // @phpstan-ignore-line
 	}
@@ -49,10 +49,13 @@ class CL
 	}
 
 	/**
-	 * @param  string $arg
-	 * @return array
+	 * @param string $arg
+	 *
+	 * @return string[]
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @psalm-return non-empty-list<string>
 	 */
 	public static function explode(string $arg): array
 	{

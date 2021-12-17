@@ -57,11 +57,14 @@ class FS implements IFS
 	}
 
 	/**
-	 * @param  string|null $type
-	 * @param  string|null $dir
-	 * @return string|array
+	 * @param string|null $type
+	 * @param string|null $dir
+	 *
+	 * @return (array|string)[]|string
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @psalm-return array{base: array|string, app: array|string}|string
 	 */
 	public static function get(string $type = null, string $dir = null)
 	{
@@ -78,9 +81,8 @@ class FS implements IFS
 	}
 
 	/**
-	 * @param mixed $arg
-	 *
-	 * @phpstan-ignore-next-line
+	 * @param  mixed $arg
+	 * @return string
 	 */
 	public static function replace($arg = null)
 	{
@@ -100,9 +102,9 @@ class FS implements IFS
 
 	/**
 	 * @param  string $arg
-	 * @return array
-	 *
-	 * @phpstan-ignore-next-line
+	 * @return string[]
+	 *	 *
+	 * @psalm-return non-empty-list<string>
 	 */
 	public static function explode(string $arg): array
 	{

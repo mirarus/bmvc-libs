@@ -98,11 +98,14 @@ trait Dir
 	}
 
 	/**
-	 * @param  string|null $dir
-	 * @param  string|null $type
-	 * @return array
+	 * @param string|null $dir
+	 * @param string|null $type
+	 *
+	 * @return (false|string)[]
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @psalm-return list<false|string>
 	 */
 	public static function directories(string $dir = null, string $type = null): array
 	{

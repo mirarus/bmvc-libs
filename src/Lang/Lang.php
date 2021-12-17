@@ -14,7 +14,7 @@
 namespace BMVC\Libs\Lang;
 
 use Exception;
-use BMVC\Libs\{FS, CL, Request, Route};
+use BMVC\Libs\{FS, CL, Util, Request, Route};
 
 class Lang
 {
@@ -63,17 +63,17 @@ class Lang
 			}
 		}
 
-		self::$langs = self::_get_langs();
+		self::$langs = self::_get_langs(); // @phpstan-ignore-line
 		self::$current_lang = self::get();
 
 		self::_routes();
 	}
 
 	/**
-	 * @param  string $lang
-	 * @return array
+	 * @param string $lang
+	 * @return (bool|mixed)[]
 	 *
-	 * @phpstan-ignore-next-line
+	 * @psalm-return array{info?: mixed, code?: mixed, name?: mixed, url?: mixed, current?: bool}
 	 */
 	public static function get_lang(string $lang): array
 	{
@@ -81,7 +81,7 @@ class Lang
 		$current = self::$current_lang == $lang ? true : false;
 		$code = $info['code'];
 		$name = $current ? $info['name-local'] : $info['name-global'];
-		$url = url('lang/set/' . $code);
+		$url = Util::url('lang/set/' . $code);
 
 		if ($info == null) return [];
 
@@ -98,6 +98,8 @@ class Lang
 	 * @return array
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @psalm-return array
 	 */
 	public static function get_langs(): array
 	{
@@ -231,7 +233,9 @@ class Lang
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
+	 * @return (int|string)[]|null
+	 *
+	 * @psalm-return list<array-key>|null
 	 */
 	private static function _get_langs()
 	{
@@ -244,7 +248,7 @@ class Lang
 			if (array_keys($file) != 'index') return array_keys($file);
 		}
 
-		if ($_config == false) {
+		if ($_config == false) { // @phpstan-ignore-line
 
 			$files = [];
 			foreach (glob(FS::implode([self::$dir, '*.php'])) as $file) { // @phpstan-ignore-line
@@ -327,10 +331,12 @@ class Lang
 	 * @param array|null &$_file
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return array|null
 	 */
 	private static function _config_file(array &$_file = null)
 	{
-		if (file_exists($file = FS::implode([self::$dir, 'config.php']))) {
+		if (file_exists($file = FS::implode([self::$dir, 'config.php']))) { // @phpstan-ignore-line
 
 			$_file_ = include ($file);
 
@@ -347,7 +353,7 @@ class Lang
 			Route::match(['GET', 'POST'], 'set/{lowercase}', function($lang) {
 				self::set($lang);
 				if (Request::isGet()) {
-					redirect(url());
+					Util::redirect(Util::url());
 				}
 			});
 

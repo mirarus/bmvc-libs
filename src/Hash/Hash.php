@@ -29,7 +29,7 @@ class Hash
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function make(string $value, array $options = null)
+	public static function make(string $value, array $options = null): string
 	{
 		if (!array_key_exists('cost', $options)) { // @phpstan-ignore-line
 			$options['cost'] = self::$cost;
@@ -45,8 +45,6 @@ class Hash
 	 * @param  string $value
 	 * @param  string $hashedValue
 	 * @return boolean
-	 *
-	 * @phpstan-ignore-next-line
 	 */
 	public static function check(string $value, string $hashedValue): bool
 	{
@@ -59,7 +57,7 @@ class Hash
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function rehash(string $hashedValue, array $options = null)
+	public static function rehash(string $hashedValue, array $options = null): bool
 	{
 		if (!array_key_exists('cost', $options)) { // @phpstan-ignore-line
 			$options['cost'] = self::$cost;

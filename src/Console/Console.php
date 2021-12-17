@@ -60,6 +60,8 @@ class CommandServerStart extends Command
 
 	/**
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return void
 	 */
 	protected function configure()
 	{
@@ -97,7 +99,7 @@ class CommandServerStart extends Command
 	/**
 	 * @phpstan-ignore-next-line
 	 */
-	private function _exec($cmd)
+	private function _exec(string $cmd): void
 	{
 		if (substr(php_uname(), 0, 7) == "Windows") {
 			pclose(popen("start /B " . $cmd, "r"));   // @phpstan-ignore-line
@@ -112,6 +114,8 @@ class CommandServerStop extends Command
 
 	/**
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return void
 	 */
 	protected function configure()
 	{
@@ -136,8 +140,10 @@ class CommandServerStop extends Command
 
 	/**
 	 * @phpstan-ignore-next-line
+	 *
+	 * @psalm-param 'php' $cmd
 	 */
-	private function _kill($cmd)
+	private function _kill(string $cmd): void
 	{
 		exec("taskkill /F /T /IM $cmd.exe > /dev/null &");
 	}
@@ -148,6 +154,8 @@ class CommandMakeController extends Command
 
 	/**
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return void
 	 */
 	protected function configure()
 	{
@@ -187,6 +195,8 @@ class CommandMakeModel extends Command
 
 	/**
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return void
 	 */
 	protected function configure()
 	{
@@ -225,8 +235,10 @@ class CommandClearLog extends Command
 {
 
 /**
- * @phpstan-ignore-next-line
- */
+	 * @phpstan-ignore-next-line
+	 *
+	 * @return void
+	 */
 	protected function configure()
 	{
 		$this
@@ -255,6 +267,10 @@ class CommandClearLog extends Command
  * @param string $class
  *
  * @phpstan-ignore-next-line
+ *
+ * @return (bool|string)[]
+ *
+ * @psalm-return array{status: bool, file: string}
  */
 function CmakeCM(string $type, string $class): array
 {
@@ -297,7 +313,7 @@ function CmakeCM(string $type, string $class): array
  *
  * @phpstan-ignore-next-line
  */
-function PsExecute(string $command, $timeout = 60, $sleep = 2) {
+function PsExecute(string $command, $timeout = 60, $sleep = 2): bool {
 
 	$pid = PsExec($command);
 
@@ -322,6 +338,8 @@ function PsExecute(string $command, $timeout = 60, $sleep = 2) {
  * @param string $commandJob
  *
  * @phpstan-ignore-next-line
+ *
+ * @return false|int
  */
 function PsExec(string $commandJob) {
 	$command = $commandJob.' > /dev/null 2>&1 & echo $!';
@@ -337,7 +355,7 @@ function PsExec(string $commandJob) {
  *
  * @phpstan-ignore-next-line
  */
-function PsExists(int $pid) {
+function PsExists(int $pid): bool {
 	exec("ps ax | grep $pid 2>&1", $output);
 	while( list(,$row) = each($output) ) {
 		$row_array = explode(" ", $row);
@@ -355,6 +373,6 @@ function PsExists(int $pid) {
  *
  * @phpstan-ignore-next-line
  */
-function PsKill(int $pid) {
+function PsKill(int $pid): void {
 	exec("kill -9 $pid", $output);
 }

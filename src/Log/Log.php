@@ -108,10 +108,8 @@ class Log
 
 	/**
 	 * @param string $text
-	 *
-	 * @phpstan-ignore-next-line
 	 */
-	private static function save(string $text)
+	private static function save(string $text): void
 	{
 		$dir = FS::app(self::$dir);
 		FS::mk_dir($dir);

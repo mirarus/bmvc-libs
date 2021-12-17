@@ -93,7 +93,7 @@ class Cache
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function delete(string $key)
+	public static function delete(string $key): void
 	{
 		$content = self::loadCache();
 		if (is_array($content)) {
@@ -108,9 +108,11 @@ class Cache
 	}
 
 	/**
-	 * @return integer
+	 * @return int
+	 *
+	 * @psalm-return 0|positive-int
 	 */
-	public static function deleteExpiredCache(): int
+	public static function deleteExpiredCache()
 	{
 		$count = 0;
 		$content = self::loadCache();
@@ -206,6 +208,8 @@ class Cache
 
 	/**
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return null|true
 	 */
 	private static function checkCacheDir()
 	{
@@ -224,6 +228,8 @@ class Cache
 	 * @param string|null $filename
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return false|string
 	 */
 	private static function getCacheDir(string $filename = null)
 	{

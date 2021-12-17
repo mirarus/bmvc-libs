@@ -105,6 +105,10 @@ class Route implements IRoute, IMethod
 	 * @param array &$return
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return (mixed|null|string|string[])[]|null
+	 *
+	 * @psalm-return array{method: string, action: mixed, params: array<string>, namespaces: mixed|null, middlewares: mixed|null, url: mixed, _url: string, _return: mixed|null}|null
 	 */
 	public static function Run(array &$return = null)
 	{
@@ -334,9 +338,10 @@ class Route implements IRoute, IMethod
 	}
 
 	/**
-	 * @param  array  $urls
-	 * @param  string $url
-	 * @return mixed
+	 * @param array  $urls
+	 * @param string $url
+	 *
+	 * @return void
 	 *
 	 * @phpstan-ignore-next-line
 	 */

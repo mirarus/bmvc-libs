@@ -133,9 +133,8 @@ class Csrf
 	/**
 	 * @param string $page
 	 * @param int    $expiry
-	 * @phpstan-ignore-next-line
 	 */
-	private static function setNewToken(string $page, int $expiry)
+	private static function setNewToken(string $page, int $expiry): stdClass
 	{
 		$token = new stdClass();
 		$token->page   		 	 = $page;

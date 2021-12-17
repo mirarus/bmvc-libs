@@ -58,11 +58,14 @@ class Util
 	}
 
 	/**
-	 * @param  string|null  $url
-	 * @param  bool|boolean $atRoot
-	 * @param  bool|boolean $atCore
-	 * @param  bool|boolean $parse
-	 * @return string|null
+	 * @param string|null  $url
+	 * @param bool|boolean $atRoot
+	 * @param bool|boolean $atCore
+	 * @param bool|boolean $parse
+	 *
+	 * @return (int|string)[]|false|string
+	 *
+	 * @psalm-return array{scheme?: string, user?: string, pass?: string, host?: string, port?: int, path?: string, query?: string, fragment?: string}|false|string
 	 */
 	public static function base_url(string $url = null, bool $atRoot = false, bool $atCore = false, bool $parse = false)
 	{
@@ -95,17 +98,18 @@ class Util
 	}
 
 	/**
-	 * @param string|null  $url
-	 * @param bool|boolean $print
-	 * @param bool|boolean $cache
-	 *
-	 * @phpstan-ignore-next-line
+	 * @param  string|null  $url
+	 * @param  bool|boolean $print
+	 * @param  bool|boolean $cache
+	 * @return null|string
 	 */
 	public static function url(string $url = null, bool $print = false, bool $cache = false)
 	{
-		$_url = (($url ? (self::base_url() . $url) : self::base_url()) . ($cache ? ('?ct=' . time()) : null));
+		$burl = self::base_url();
+		$cach = ($cache ? ('?ct=' . time()) : null);
+		$_url = (($url ? ($burl . $url) : $burl) . $cach); // @phpstan-ignore-line
 
-		if ($print == true) {
+		if ($print == true) { // @phpstan-ignore-line
 			echo $_url;
 		} else {
 			return $_url;
@@ -173,11 +177,14 @@ public static function get_host(string $addr): string
 	}
 
 	/**
-	 * @param  string 		$uri
-	 * @param  array|null $expressions
-	 * @return array
+	 * @param string 		$uri
+	 * @param array|null $expressions
+	 *
+	 * @return (mixed|null|string)[]
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @psalm-return non-empty-list<mixed|null|string>
 	 */
 	public static function parse_uri(string $uri, array $expressions = null): array
 	{
@@ -297,13 +304,11 @@ public static function get_host(string $addr): string
 	}
 
 	/**
-	 * @param string       $par
+	 * @param string|null  $par
 	 * @param int|integer  $time
 	 * @param bool|boolean $stop
-	 *
-	 * @phpstan-ignore-next-line
 	 */
-	public static function redirect(string $par, int $time = 0, bool $stop = true)
+	public static function redirect(string $par = null, int $time = 0, bool $stop = true)
 	{
 		if ($time == 0) {
 			header('Location: ' . $par);
@@ -314,13 +319,11 @@ public static function get_host(string $addr): string
 	}
 
 	/**
-	 * @param string       $par
+	 * @param string|null  $par
 	 * @param int|integer  $time
 	 * @param bool|boolean $stop
-	 *
-	 * @phpstan-ignore-next-line
 	 */
-	public static function refresh(string $par, int $time = 0, bool $stop = true)
+	public static function refresh(string $par = null, int $time = 0, bool $stop = true)
 	{
 		if ($time == 0) {
 			echo '<meta http-equiv="refresh" content="URL=' . $par . '">';
@@ -333,8 +336,6 @@ public static function get_host(string $addr): string
 	/**
 	 * @param mixed        $data
 	 * @param bool|boolean $stop
-	 *
-	 * @phpstan-ignore-next-line
 	 */
 	public static function pr($data, bool $stop = false)
 	{
@@ -347,8 +348,6 @@ public static function get_host(string $addr): string
 	/**
 	 * @param mixed        $data
 	 * @param bool|boolean $stop
-	 *
-	 * @phpstan-ignore-next-line
 	 */
 	public static function dump($data, bool $stop = false)
 	{

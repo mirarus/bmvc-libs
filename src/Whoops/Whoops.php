@@ -83,12 +83,14 @@ class Whoops
 	}
 
 	/**
-	 * @param string      $key
-	 * @param string|null $val
+	 * @param  string       $key
+	 * @param  string|null  $val
+	 * @param  bool|boolean $new
+	 * @return null|self
 	 */
-	public static function set(string $key, string $val = null, bool $new = false) // @phpstan-ignore-line
+	public static function set(string $key, string $val = null, bool $new = false)
 	{
 		self::${$key} = $val;
-		if ($new == true) return new self;	
+		if ($new == true) return new self;  // @phpstan-ignore-line
 	}
 }

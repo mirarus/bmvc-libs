@@ -20,6 +20,8 @@ class _MError extends MError
 	 * @param array $array
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return static
 	 */
 	public function setData(array $array): self
 	{
@@ -40,6 +42,8 @@ class _MError extends MError
 
 	/**
 	 * @param string $color
+	 *
+	 * @return static
 	 */
 	public function setColor(string $color): self
 	{
@@ -49,6 +53,8 @@ class _MError extends MError
 
 	/**
 	 * @param bool|boolean $bool
+	 *
+	 * @return static
 	 */
 	public function setHtml(bool $bool=false): self
 	{
@@ -58,6 +64,8 @@ class _MError extends MError
 
 	/**
 	 * @param string $title
+	 *
+	 * @return static
 	 */
 	public function setTitle(string $title): self
 	{
@@ -67,6 +75,8 @@ class _MError extends MError
 
 	/**
 	 * @param bool|boolean $stop
+	 *
+	 * @return static
 	 */
 	public function setStop(bool $stop=true): self
 	{

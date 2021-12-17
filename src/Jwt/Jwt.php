@@ -112,11 +112,10 @@ class Jwt
 	}
 
 	/**
-	 * @param string $message
-	 * @param string $secret
-	 * @param string $alg
-	 *
-	 * @phpstan-ignore-next-line
+	 * @param  string $message
+	 * @param  string $secret
+	 * @param  string $alg
+	 * @return never|string
 	 */
 	private static function signature(string $message, string	$secret, string	$alg)
 	{
@@ -176,7 +175,7 @@ class Jwt
 
 	/**
 	 * @param mixed $data
-	 *
+	 * 
 	 * @phpstan-ignore-next-line
 	 */
 	private static function jsonEncode($data)
@@ -208,9 +207,8 @@ class Jwt
 	}
 
 	/**
-	 * @param int $errno
-	 *
-	 * @phpstan-ignore-next-line
+	 * @param  int $errno
+	 * @return never
 	 */
 	private static function handleJsonError(int $errno)
 	{
@@ -228,11 +226,13 @@ class Jwt
 	/**
 	 * @param  string $str
 	 * @return integer
+	 *
+	 *  @psalm-return 0|positive-int
 	 */
 	private static function safeStrLen(string $str): int
 	{
 		if (function_exists('mb_strlen')) {
-			return mb_strlen($str, '8bit');
+			return mb_strlen($str, '8bit');	// @phpstan-ignore-line
 		}
 		return strlen($str);
 	}

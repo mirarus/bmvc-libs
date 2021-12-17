@@ -40,7 +40,7 @@ class IP
 	{
 		$ip = self::getFromProxy();
 		if ($ip) {
-			return $ip; // @phpstan-ignore-line
+			return $ip;
 		}
 
 		if (getenv("HTTP_CLIENT_IP")) {
@@ -68,7 +68,7 @@ class IP
 	}
 
 	/**
-	 * @return string|bool
+	 * @return false|string
 	 */
 	private static function getFromProxy()
 	{

@@ -39,6 +39,8 @@ class Shmop
 	 * @param int    $timeout
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return false|int
 	 */
 	public static function save_cache($data, string $name, int $timeout)
 	{
@@ -100,7 +102,7 @@ class Shmop
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	private static function set_timeout(string $name, int $int)
+	private static function set_timeout(string $name, int $int): void
 	{
 		$timeout = new DateTime(date('Y-m-d H:i:s'));
 		date_add($timeout, date_interval_create_from_date_string("$int seconds"));
@@ -125,7 +127,7 @@ class Shmop
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	private static function check_timeout(string $name)
+	private static function check_timeout(string $name): bool
 	{
 		$now = new DateTime(date('Y-m-d H:i:s'));
 		$now = date_format($now, 'YmdHis');

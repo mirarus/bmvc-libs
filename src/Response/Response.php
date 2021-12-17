@@ -76,7 +76,7 @@ class Response
 	
 	/**
 	 * @param int $code
-	 * 
+	 *
 	 * @phpstan-ignore-next-line
 	 */
 	public static function setStatusCode(int $code)
@@ -109,8 +109,7 @@ class Response
 	 * @param bool|boolean $status
 	 * @param int|integer  $code
 	 * @param bool|boolean $cache
-	 *
-	 * @phpstan-ignore-next-line
+	 * @return false|string
 	 */
 	public static function json($data = null, bool $status = true, int $code = 200, bool $cache = true)
 	{
@@ -127,6 +126,8 @@ class Response
 	 * @param bool|boolean $cache
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return false|string
 	 */
 	public static function _json(array $data = null, int $code = 200, bool $cache = true)
 	{

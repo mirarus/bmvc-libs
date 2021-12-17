@@ -48,7 +48,7 @@ class Filter
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	private static function prepareDataObject(string $string, array $array)
+	private static function prepareDataObject(string $string, array $array): stdClass
 	{
 		$object = new stdClass();
 		$object->string = $string;
@@ -69,6 +69,8 @@ class Filter
 	 * @param array|null $skip
 	 *
 	 * @phpstan-ignore-next-line
+	 *
+	 * @return array|false
 	 */
 	public static function filterXSS(array $filter = null, array $skip = null)
 	{

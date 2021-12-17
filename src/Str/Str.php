@@ -68,12 +68,11 @@ class Str
 	}
 
 	/**
-	 * @param int    $var
-	 * @param string $pattern
-	 *
-	 * @phpstan-ignore-next-line
+	 * @param  int    $var
+	 * @param  string $pattern
+	 * @return string
 	 */
-	public static function code_gen(int $var, string $pattern = 'alpnum')
+	public static function code_gen(int $var, string $pattern = 'alpnum'): string
 	{
 		$chars = []; 
 		if ($pattern == 'alpnum') {

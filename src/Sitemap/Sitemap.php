@@ -36,7 +36,7 @@ class Sitemap
 	private static $xml;
 
 	/**
-	 * @phpstan-ignore-next-line
+	 * @return void
 	 */
 	private static function xml()
 	{

@@ -38,7 +38,12 @@ class Request implements IRequest
 	 */
 	private static $formDataMediaTypes = ['application/x-www-form-urlencoded'];
 
-	public $body; // @phpstan-ignore-line
+	/**
+	 * @var array|stdClass
+	 *
+	 * @psalm-var array{server: mixed, request: mixed, env: mixed, session: mixed, cookie: mixed, files: mixed, post: mixed, get: mixed}|stdClass
+	 */
+	public $body;
 	public $server; // @phpstan-ignore-line
 	public $request; // @phpstan-ignore-line
 	public $env; // @phpstan-ignore-line
@@ -72,14 +77,14 @@ class Request implements IRequest
 		if ($type == 'object') {
 			$this->body    = Convert::arr_obj($_body);
 
-			$this->server  = $this->body->server; // @phpstan-ignore-line
-			$this->request = $this->body->request; // @phpstan-ignore-line
-			$this->env     = $this->body->env; // @phpstan-ignore-line
-			$this->session = $this->body->session; // @phpstan-ignore-line
-			$this->cookie  = $this->body->cookie; // @phpstan-ignore-line
-			$this->files   = $this->body->files; // @phpstan-ignore-line
-			$this->post    = $this->body->post; // @phpstan-ignore-line
-			$this->get     = $this->body->get; // @phpstan-ignore-line
+			$this->server  = $this->body->server;
+			$this->request = $this->body->request;
+			$this->env     = $this->body->env;
+			$this->session = $this->body->session;
+			$this->cookie  = $this->body->cookie;
+			$this->files   = $this->body->files;
+			$this->post    = $this->body->post;
+			$this->get     = $this->body->get;
 		} elseif ($type == 'array') {
 			$this->body    = $_body;
 
@@ -255,7 +260,7 @@ class Request implements IRequest
 	}
 
 	/**
-	 * @return string|null
+	 * @return null|string
 	 */
 	public static function getMediaType()
 	{
@@ -268,9 +273,9 @@ class Request implements IRequest
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 *
-	 * @phpstan-ignore-next-line
+	 * @psalm-return array<string, string>
 	 */
 	public static function getMediaTypeParams(): array
 	{
@@ -340,6 +345,8 @@ class Request implements IRequest
 
 	/**
 	 * @return string
+	 *
+	 * @psalm-return 'http'|'https'
 	 */
 	public static function getScheme(): string
 	{
@@ -455,7 +462,7 @@ class Request implements IRequest
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
+	 * @return void
 	 */
 	public static function inputToPost()
 	{
@@ -586,12 +593,12 @@ class Request implements IRequest
 			if ($body_type == 'object') {
 				return $class->body->$method;
 			} elseif ($body_type == 'array') {
-				return $class->body[$method];
+				return $class->body[$method]; // @phpstan-ignore-line
 			} else {
-				return $class->body[$method];
+				return $class->body[$method]; // @phpstan-ignore-line
 			}
 		} else {
-			return $class->body;
+			return $class->body; // @phpstan-ignore-line
 		}
 	}
 
