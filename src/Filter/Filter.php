@@ -74,7 +74,7 @@ class Filter
 	{
 		if (is_array($filter) && count($filter) > 0) {
 			foreach ($filter as $key => $value) {
-				if (!in_array($key, $skip)) {
+				if (!in_array($key, $skip)) { // @phpstan-ignore-line
 					if ($value != '' && !is_array($value) && !is_object($value)) {
 
 						$objectStr = self::prepareDataObject($value, [

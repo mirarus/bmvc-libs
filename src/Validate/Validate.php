@@ -314,7 +314,7 @@ class Validate
 	{
 		$var = str_replace("\n", " ", $var);
 		$var = str_replace(" ", "", $var);
-		return (isset($var) && !empty($var) && $var != '');
+		return (isset($var) && !empty($var) && $var != ''); // @phpstan-ignore-line
 	}
 
 	/**
