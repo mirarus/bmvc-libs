@@ -65,12 +65,12 @@ class Filter
 	}
 
 	/**
-	 * @param array $filter
-	 * @param array $skip
+	 * @param array|null $filter
+	 * @param array|null $skip
 	 *
 	 * @phpstan-ignore-next-line
 	 */
-	public static function filterXSS(array $filter, array $skip)
+	public static function filterXSS(array $filter = null, array $skip = null)
 	{
 		if (is_array($filter) && count($filter) > 0) {
 			foreach ($filter as $key => $value) {
