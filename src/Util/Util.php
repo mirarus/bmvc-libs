@@ -307,6 +307,8 @@ public static function get_host(string $addr): string
 	 * @param string|null  $par
 	 * @param int|integer  $time
 	 * @param bool|boolean $stop
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function redirect(string $par = null, int $time = 0, bool $stop = true)
 	{
@@ -322,6 +324,8 @@ public static function get_host(string $addr): string
 	 * @param string|null  $par
 	 * @param int|integer  $time
 	 * @param bool|boolean $stop
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function refresh(string $par = null, int $time = 0, bool $stop = true)
 	{
@@ -336,6 +340,8 @@ public static function get_host(string $addr): string
 	/**
 	 * @param mixed        $data
 	 * @param bool|boolean $stop
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function pr($data, bool $stop = false)
 	{
@@ -348,6 +354,8 @@ public static function get_host(string $addr): string
 	/**
 	 * @param mixed        $data
 	 * @param bool|boolean $stop
+	 *
+	 * @phpstan-ignore-next-line
 	 */
 	public static function dump($data, bool $stop = false)
 	{
