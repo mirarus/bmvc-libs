@@ -164,9 +164,6 @@ class Browser
 
 	const OPERATING_SYSTEM_UNKNOWN = 'unknown';
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function __construct($userAgent = "")
 	{
 		$this->reset();
@@ -177,9 +174,6 @@ class Browser
 		}
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function reset(): void
 	{
 		$this->_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "";
@@ -196,40 +190,30 @@ class Browser
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
+	 * @param  string|null $browserName
+	 * @return boolean
 	 */
-	function isBrowser($browserName): bool
+	function isBrowser(string $browserName = null): bool
 	{
 		return (0 == strcasecmp($this->_browser_name, trim($browserName)));
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function getBrowser(): string
 	{
 		return $this->_browser_name;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function setBrowser(string $browser): void
 	{
 		$this->_browser_name = $browser;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function getPlatform(): string
 	{
 		return $this->_platform;
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
-	 *
 	 * @psalm-param 'Windows CE' $platform
 	 */
 	public function setPlatform(string $platform): void
@@ -237,17 +221,12 @@ class Browser
 		$this->_platform = $platform;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function getVersion(): string
 	{
 		return $this->_version;
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
-	 *
 	 * @param null|string $version
 	 */
 	public function setVersion(?string $version): void
@@ -255,27 +234,19 @@ class Browser
 		$this->_version = preg_replace('/[^0-9,.,a-z,A-Z-]/', '', $version);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function getAolVersion(): string
 	{
 		return $this->_aol_version;
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
-	 *
-	 * @param null|string $version
+	 * @param string $version
 	 */
-	public function setAolVersion(?string $version): void
+	public function setAolVersion(string $version): void
 	{
 		$this->_aol_version = preg_replace('/[^0-9,.,a-z,A-Z]/', '', $version);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function getOs(): string
 	{
 		$os = [
@@ -314,65 +285,42 @@ class Browser
 		return $platform ? $platform : $this->_os;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function isAol(): bool
 	{
 		return $this->_is_aol;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function isMobile(): bool
 	{
 		return $this->_is_mobile;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function isTablet(): bool
 	{
 		return $this->_is_tablet;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function isRobot(): bool
 	{
 		return $this->_is_robot;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function isFacebook(): bool
 	{
 		return $this->_is_facebook;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function setAol(bool $isAol): void
 	{
 		$this->_is_aol = $isAol;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function setMobile(bool $value = true): void
 	{
 		$this->_is_mobile = $value;
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
-	 *
 	 * @param true $value
 	 */
 	protected function setTablet(bool $value = true): void
@@ -381,8 +329,6 @@ class Browser
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
-	 *
 	 * @param true $value
 	 */
 	protected function setRobot(bool $value = true): void
@@ -391,8 +337,6 @@ class Browser
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
-	 *
 	 * @param true $value
 	 */
 	protected function setFacebook(bool $value = true): void
@@ -400,27 +344,21 @@ class Browser
 		$this->_is_facebook = $value;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function getUserAgent(): string
 	{
 		return $this->_agent;
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
+	 * @param string $agent_string
 	 */
-	public function setUserAgent($agent_string): void
+	public function setUserAgent(string $agent_string): void
 	{
 		$this->reset();
 		$this->_agent = $agent_string;
 		$this->determine();
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	public function isChromeFrame(): bool
 	{
 		return (strpos($this->_agent, "chromeframe") !== false);
@@ -434,9 +372,6 @@ class Browser
 		"<strong>Platform:</strong> {$this->getPlatform()}<br/>";
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function determine(): void
 	{
 		$this->checkPlatform();
@@ -444,9 +379,6 @@ class Browser
 		$this->checkForAol();
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowsers(): bool
 	{
 		return (
@@ -531,9 +463,6 @@ class Browser
 		);
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserBlackBerry(): bool
 	{
 		if (stripos($this->_agent, 'blackberry') !== false) {
@@ -549,9 +478,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkForAol(): bool
 	{
 		$this->setAol(false);
@@ -568,9 +494,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserGoogleBot(): bool
 	{
 		if (stripos($this->_agent, 'googlebot') !== false) {
@@ -586,9 +509,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexBot') !== false) {
@@ -604,9 +524,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexImageResizerBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexImageResizer') !== false) {
@@ -622,9 +539,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexCatalogBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexCatalog') !== false) {
@@ -640,9 +554,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexNewsBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexNews') !== false) {
@@ -658,9 +569,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexMetrikaBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexMetrika') !== false) {
@@ -676,9 +584,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexDirectBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexDirect') !== false) {
@@ -694,9 +599,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexWebmasterBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexWebmaster') !== false) {
@@ -712,9 +614,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexFaviconsBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexFavicons') !== false) {
@@ -730,9 +629,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexBlogsBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexBlogs') !== false) {
@@ -748,9 +644,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexMediaBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexMedia') !== false) {
@@ -766,9 +659,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexVideoBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexVideo') !== false) {
@@ -784,9 +674,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandexImagesBot(): bool
 	{
 		if (stripos($this->_agent, 'YandexImages') !== false) {
@@ -802,9 +689,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserMSNBot(): bool
 	{
 		if (stripos($this->_agent, "msnbot") !== false) {
@@ -820,9 +704,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserBingBot(): bool
 	{
 		if (stripos($this->_agent, "bingbot") !== false) {
@@ -838,9 +719,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserW3CValidator(): bool
 	{
 		if (stripos($this->_agent, 'W3C-checklink') !== false) {
@@ -869,9 +747,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserSlurp(): bool
 	{
 		if (stripos($this->_agent, 'slurp') !== false) {
@@ -888,9 +763,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserEdge(): bool
 	{
 		if (stripos($this->_agent, 'Edge/') !== false) {
@@ -908,9 +780,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserInternetExplorer(): bool
 	{
 		//  Test for IE11
@@ -993,9 +862,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserOpera(): bool
 	{
 		if (stripos($this->_agent, 'opera mini') !== false) {
@@ -1052,9 +918,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserChrome(): bool
 	{
 		if (stripos($this->_agent, 'Chrome') !== false) {
@@ -1077,9 +940,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserWebTv(): bool
 	{
 		if (stripos($this->_agent, 'webtv') !== false) {
@@ -1094,9 +954,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserNetPositive(): bool
 	{
 		if (stripos($this->_agent, 'NetPositive') !== false) {
@@ -1111,9 +968,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserGaleon(): bool
 	{
 		if (stripos($this->_agent, 'galeon') !== false) {
@@ -1128,9 +982,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserKonqueror(): bool
 	{
 		if (stripos($this->_agent, 'Konqueror') !== false) {
@@ -1145,9 +996,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserIcab(): bool
 	{
 		if (stripos($this->_agent, 'icab') !== false) {
@@ -1161,9 +1009,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserOmniWeb(): bool
 	{
 		if (stripos($this->_agent, 'omniweb') !== false) {
@@ -1176,9 +1021,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserPhoenix(): bool
 	{
 		if (stripos($this->_agent, 'Phoenix') !== false) {
@@ -1192,9 +1034,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserFirebird(): bool
 	{
 		if (stripos($this->_agent, 'Firebird') !== false) {
@@ -1208,9 +1047,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserNetscapeNavigator9Plus(): bool
 	{
 		if (stripos($this->_agent, 'Firefox') !== false && preg_match('/Navigator\/([^ ]*)/i', $this->_agent, $matches)) {
@@ -1225,9 +1061,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserShiretoko(): bool
 	{
 		if (stripos($this->_agent, 'Mozilla') !== false && preg_match('/Shiretoko\/([^ ]*)/i', $this->_agent, $matches)) {
@@ -1238,9 +1071,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserIceCat(): bool
 	{
 		if (stripos($this->_agent, 'Mozilla') !== false && preg_match('/IceCat\/([^ ]*)/i', $this->_agent, $matches)) {
@@ -1251,9 +1081,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserNokia(): bool
 	{
 		if (preg_match("/Nokia([^\/]+)\/([^ SP]+)/i", $this->_agent, $matches)) {
@@ -1269,9 +1096,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserFirefox(): bool
 	{
 		if (stripos($this->_agent, 'safari') === false) {
@@ -1296,9 +1120,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserIceweasel(): bool
 	{
 		if (stripos($this->_agent, 'Iceweasel') !== false) {
@@ -1313,9 +1134,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserMozilla(): bool
 	{
 		if (stripos($this->_agent, 'mozilla') !== false && preg_match('/rv:[0-9].[0-9][a-b]?/i', $this->_agent) && stripos($this->_agent, 'netscape') === false) {
@@ -1339,9 +1157,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserLynx(): bool
 	{
 		if (stripos($this->_agent, 'lynx') !== false) {
@@ -1354,9 +1169,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserAmaya(): bool
 	{
 		if (stripos($this->_agent, 'amaya') !== false) {
@@ -1371,9 +1183,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserSafari(): bool
 	{
 		if (
@@ -1394,9 +1203,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserSamsung(): bool
 	{
 		if (stripos($this->_agent, 'SamsungBrowser') !== false) {
@@ -1414,9 +1220,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserSilk(): bool
 	{
 		if (stripos($this->_agent, 'Silk') !== false) {
@@ -1433,9 +1236,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserIframely(): bool
 	{
 		if (stripos($this->_agent, 'Iframely') !== false) {
@@ -1452,9 +1252,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserCocoa(): bool
 	{
 		if (stripos($this->_agent, 'CocoaRestClient') !== false) {
@@ -1471,9 +1268,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkFacebookExternalHit(): bool
 	{
 		if (stristr($this->_agent, 'FacebookExternalHit')) {
@@ -1483,10 +1277,7 @@ class Browser
 		}
 		return false;
 	}
-
-	/**
-	 * @phpstan-ignore-next-line
-	 */
+	
 	protected function checkForFacebookIos(): bool
 	{
 		if (stristr($this->_agent, 'FBIOS')) {
@@ -1496,9 +1287,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function getSafariVersionOnIos(): bool
 	{
 		$aresult = explode('/', (string) stristr($this->_agent, 'Version'));
@@ -1510,9 +1298,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function getChromeVersionOnIos(): bool
 	{
 		$aresult = explode('/', (string) stristr($this->_agent, 'CriOS'));
@@ -1525,9 +1310,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowseriPhone(): bool
 	{
 		if (stripos($this->_agent, 'iPhone') !== false) {
@@ -1543,9 +1325,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowseriPad(): bool
 	{
 		if (stripos($this->_agent, 'iPad') !== false) {
@@ -1560,9 +1339,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowseriPod(): bool
 	{
 		if (stripos($this->_agent, 'iPod') !== false) {
@@ -1577,9 +1353,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserAndroid(): bool
 	{
 		if (stripos($this->_agent, 'Android') !== false) {
@@ -1601,9 +1374,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserVivaldi(): bool
 	{
 		if (stripos($this->_agent, 'Vivaldi') !== false) {
@@ -1618,9 +1388,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserYandex(): bool
 	{
 		if (stripos($this->_agent, 'YaBrowser') !== false) {
@@ -1645,9 +1412,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkBrowserPlayStation(): bool
 	{
 		if (stripos($this->_agent, 'PlayStation ') !== false) {
@@ -1665,9 +1429,6 @@ class Browser
 		return false;
 	}
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
 	protected function checkPlatform(): void
 	{
 		if (stripos($this->_agent, 'windows') !== false) {

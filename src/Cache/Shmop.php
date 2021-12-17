@@ -37,9 +37,6 @@ class Shmop
 	 * @param mixed $data
 	 * @param string $name
 	 * @param int    $timeout
-	 *
-	 * @phpstan-ignore-next-line
-	 *
 	 * @return false|int
 	 */
 	public static function save_cache($data, string $name, int $timeout)
@@ -99,8 +96,6 @@ class Shmop
 	/**
 	 * @param string $name
 	 * @param int    $int
-	 *
-	 * @phpstan-ignore-next-line
 	 */
 	private static function set_timeout(string $name, int $int): void
 	{
@@ -124,8 +119,6 @@ class Shmop
 
 	/**
 	 * @param string $name
-	 *
-	 * @phpstan-ignore-next-line
 	 */
 	private static function check_timeout(string $name): bool
 	{

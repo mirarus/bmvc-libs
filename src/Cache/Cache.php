@@ -90,8 +90,6 @@ class Cache
 
 	/**
 	 * @param string $key
-	 *
-	 * @phpstan-ignore-next-line
 	 */
 	public static function delete(string $key): void
 	{
@@ -207,8 +205,6 @@ class Cache
 	}
 
 	/**
-	 * @phpstan-ignore-next-line
-	 *
 	 * @return null|true
 	 */
 	private static function checkCacheDir()
@@ -226,9 +222,6 @@ class Cache
 
 	/**
 	 * @param string|null $filename
-	 *
-	 * @phpstan-ignore-next-line
-	 *
 	 * @return false|string
 	 */
 	private static function getCacheDir(string $filename = null)

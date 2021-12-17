@@ -29,8 +29,6 @@ class CL
 
 	/**
 	 * @param mixed $arg
-	 *
-	 * @phpstan-ignore-next-line
 	 */
 	public static function replace($arg=null): string
 	{
@@ -50,11 +48,8 @@ class CL
 
 	/**
 	 * @param string $arg
-	 *
 	 * @return string[]
-	 *
-	 * @phpstan-ignore-next-line
-	 *
+
 	 * @psalm-return non-empty-list<string>
 	 */
 	public static function explode(string $arg): array
