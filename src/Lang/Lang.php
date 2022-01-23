@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Lang;
@@ -218,10 +218,9 @@ class Lang
 
 		if ($_config == false) {
 			if (file_exists($file = FS::implode([self::$dir, self::$current_lang . '.php']))) {
-
 				$_lang = [];
 				include $file;
-				if (in_array($text, $_lang)) {
+				if (array_key_exists($text, $_lang)) {
 					return $_lang[$text]; // @phpstan-ignore-line
 				} else {
 					return ucfirst(str_replace(['-', '_'], ' ', $text));
