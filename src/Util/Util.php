@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.3
+ * @version 0.4
  */
 
 namespace BMVC\Libs\Util;
@@ -101,13 +101,14 @@ class Util
 	 * @param  string|null  $url
 	 * @param  bool|boolean $print
 	 * @param  bool|boolean $cache
+	 * @param  bool|boolean $external
 	 * @return null|string
 	 */
-	public static function url(string $url = null, bool $print = false, bool $cache = false)
+	public static function url(string $url = null, bool $print = false, bool $cache = false, bool $external = false)
 	{
 		$burl = self::base_url();
 		$cach = ($cache ? ('?ct=' . time()) : null);
-		$_url = (($url ? ($burl . $url) : $burl) . $cach); // @phpstan-ignore-line
+		$_url = (($url ? ($external ? $url : ($burl . $url)) : $burl) . $cach); // @phpstan-ignore-line
 
 		if ($print == true) { // @phpstan-ignore-line
 			echo $_url;
