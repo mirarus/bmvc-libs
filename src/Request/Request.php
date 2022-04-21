@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.3
+ * @version 0.4
  */
 
 namespace BMVC\Libs\Request;
@@ -252,9 +252,9 @@ class Request implements IRequest
 	}
 
 	/**
-	 * @return string
+	 * @return null|string
 	 */
-	public static function getContentType(): string
+	public static function getContentType()
 	{
 		return self::header('CONTENT_TYPE');
 	}

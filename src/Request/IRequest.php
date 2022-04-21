@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Request;
@@ -30,7 +30,7 @@ interface IRequest
 	public static function isOptions(): bool;
 	public static function isAjax(): bool;
 	public static function isFormData(): bool;
-	public static function getContentType(): string;
+	public static function getContentType(); // @phpstan-ignore-line
 	public static function getMediaType(); // @phpstan-ignore-line
 	public static function getMediaTypeParams(): array; // @phpstan-ignore-line
 	public static function getContentCharset(); // @phpstan-ignore-line
