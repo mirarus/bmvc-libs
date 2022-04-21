@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Request;
@@ -237,7 +237,7 @@ class Request implements IRequest
 	 */
 	public static function isAjax(): bool
 	{
-		if (self::header('X_REQUESTED_WITH') !== null && self::header('X_REQUESTED_WITH') === 'XMLHttpRequest') {
+		if (self::header('HTTP_X_REQUESTED_WITH') !== null && self::header('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
 			return true;
 		}
 		return false;
