@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Whoops;
@@ -60,9 +60,8 @@ class Whoops
 
 		if (self::$environment == 'development') {
 			$whoops->pushHandler($PPH);
-		}
-
-		$whoops->register();
+      $whoops->register();
+    }
 
 		self::$whoops = $whoops;
 	}
