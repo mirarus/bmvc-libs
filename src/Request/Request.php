@@ -406,9 +406,9 @@ class Request implements IRequest
   }
 
   /**
-   * @return string
+   * @return bool|mixed|mixed[]|string|null
    */
-  public static function getReferrer(): string
+  public static function getReferrer()
   {
     return self::header('HTTP_REFERER');
   }

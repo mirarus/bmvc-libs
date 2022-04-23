@@ -45,7 +45,7 @@ interface IRequest
   public static function getResourceUri(): string;
   public static function getUrl(): string;
   public static function getIp(): string;
-  public static function getReferrer(): string;
+  public static function getReferrer();
   public static function getReferer(): string;
   public static function getUserAgent(): string;
   public static function checkDomain(string $domain): bool;
