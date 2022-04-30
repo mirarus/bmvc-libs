@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Route;
@@ -17,10 +17,10 @@ interface IMethod
 {
 
   /**
-   * @param array $middlewares
+   * @paray $middlewares
    * @return Route
    */
-  public static function middleware(array $middlewares): Route;
+  public static function middleware($middlewares): Route;
 
   /**
    * @param string|null $prefix
