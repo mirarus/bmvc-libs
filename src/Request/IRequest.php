@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Request;
@@ -16,49 +16,251 @@ namespace BMVC\Libs\Request;
 interface IRequest
 {
 
-  public function __construct();
-  public static function _server(string $key = null); // @phpstan-ignore-line
-  public static function header(string $key = null, $default = null); // @phpstan-ignore-line
+  /**
+   * @param string|null $key
+   * @return mixed
+   */
+  public static function _server(string $key = null);
+
+  /**
+   * @param string|null $key
+   * @param $default
+   * @return mixed
+   */
+  public static function header(string $key = null, $default = null);
+
+  /**
+   * @return string
+   */
   public static function getMethod(): string;
+
+  /**
+   * @return string
+   */
   public static function getRequestMethod(): string;
+
+  /**
+   * @return bool
+   */
   public static function isGet(): bool;
+
+  /**
+   * @return bool
+   */
   public static function isPost(): bool;
+
+  /**
+   * @return bool
+   */
   public static function isPut(): bool;
+
+  /**
+   * @return bool
+   */
   public static function isPatch(): bool;
+
+  /**
+   * @return bool
+   */
   public static function isDelete(): bool;
+
+  /**
+   * @return bool
+   */
   public static function isHead(): bool;
+
+  /**
+   * @return bool
+   */
   public static function isOptions(): bool;
+
+  /**
+   * @return bool
+   */
   public static function isAjax(): bool;
+
+  /**
+   * @return bool
+   */
   public static function isFormData(): bool;
-  public static function getContentType(); // @phpstan-ignore-line
-  public static function getMediaType(); // @phpstan-ignore-line
-  public static function getMediaTypeParams(): array; // @phpstan-ignore-line
-  public static function getContentCharset(); // @phpstan-ignore-line
+
+  /**
+   * @return mixed
+   */
+  public static function getContentType();
+
+  /**
+   * @return mixed
+   */
+  public static function getMediaType();
+
+  /**
+   * @return array
+   */
+  public static function getMediaTypeParams(): array;
+
+  /**
+   * @return mixed
+   */
+  public static function getContentCharset();
+
+  /**
+   * @return int
+   */
   public static function getContentLength(): int;
+
+  /**
+   * @return string
+   */
   public static function getHost(): string;
+
+  /**
+   * @return int
+   */
   public static function getPort(): int;
+
+  /**
+   * @return string
+   */
   public static function getHostWithPort(): string;
+
+  /**
+   * @return string
+   */
   public static function getScheme(): string;
+
+  /**
+   * @return string
+   */
   public static function getScriptName(): string;
+
+  /**
+   * @return string
+   */
   public static function getPathInfo(): string;
+
+  /**
+   * @return string
+   */
   public static function getPath(): string;
+
+  /**
+   * @return string
+   */
   public static function getResourceUri(): string;
+
+  /**
+   * @return string
+   */
   public static function getUrl(): string;
+
+  /**
+   * @return string
+   */
   public static function getIp(): string;
+
+  /**
+   * @return mixed
+   */
   public static function getReferrer();
+
+  /**
+   * @return string
+   */
   public static function getReferer(): string;
+
+  /**
+   * @return string
+   */
   public static function getUserAgent(): string;
+
+  /**
+   * @param string $domain
+   * @return bool
+   */
   public static function checkDomain(string $domain): bool;
-  public static function checkIp($ip): bool; // @phpstan-ignore-line
-  public static function inputToPost(); // @phpstan-ignore-line
-  public static function server(string $data = null, bool $db_filter = true, bool $xss_filter = true); // @phpstan-ignore-line
-  public static function request(string $data = null, bool $db_filter = true, bool $xss_filter = true); // @phpstan-ignore-line
-  public static function env(string $data = null); // @phpstan-ignore-line
-  public static function session(string $data = null); // @phpstan-ignore-line
-  public static function cookie(string $data = null); // @phpstan-ignore-line
-  public static function files(string $data = null, bool $xss_filter = true); // @phpstan-ignore-line
-  public static function post(string $data = null, bool $db_filter = true, bool $xss_filter = true); // @phpstan-ignore-line
-  public static function get(string $data = null, bool $db_filter = true, bool $xss_filter = true); // @phpstan-ignore-line
-  public static function filter(string $data = null, string $type='post', bool $db_filter = true, bool $xss_filter = true); // @phpstan-ignore-line
-  public static function body(string $method = null, string $body_type='object'): object;
+
+  /**
+   * @param $ip
+   * @return bool
+   */
+  public static function checkIp($ip): bool;
+
+  /**
+   * @return mixed
+   */
+  public static function inputToPost();
+
+  /**
+   * @param string|null $data
+   * @param bool $db_filter
+   * @param bool $xss_filter
+   * @return mixed
+   */
+  public static function server(string $data = null, bool $db_filter = true, bool $xss_filter = true);
+
+  /**
+   * @param string|null $data
+   * @param bool $db_filter
+   * @param bool $xss_filter
+   * @return mixed
+   */
+  public static function request(string $data = null, bool $db_filter = true, bool $xss_filter = true);
+
+  /**
+   * @param string|null $data
+   * @return mixed
+   */
+  public static function env(string $data = null);
+
+  /**
+   * @param string|null $data
+   * @return mixed
+   */
+  public static function session(string $data = null);
+
+  /**
+   * @param string|null $data
+   * @return mixed
+   */
+  public static function cookie(string $data = null);
+
+  /**
+   * @param string|null $data
+   * @param bool $xss_filter
+   * @return mixed
+   */
+  public static function files(string $data = null, bool $xss_filter = true);
+
+  /**
+   * @param string|null $data
+   * @param bool $db_filter
+   * @param bool $xss_filter
+   * @return mixed
+   */
+  public static function post(string $data = null, bool $db_filter = true, bool $xss_filter = true);
+
+  /**
+   * @param string|null $data
+   * @param bool $db_filter
+   * @param bool $xss_filter
+   * @return mixed
+   */
+  public static function get(string $data = null, bool $db_filter = true, bool $xss_filter = true);
+
+  /**
+   * @param string|null $data
+   * @param string $type
+   * @param bool $db_filter
+   * @param bool $xss_filter
+   * @return mixed
+   */
+  public static function filter(string $data = null, string $type = 'post', bool $db_filter = true, bool $xss_filter = true);
+
+  /**
+   * @param string|null $method
+   * @param string $body_type
+   * @return object
+   */
+  public static function body(string $method = null, string $body_type = 'object'): object;
 }

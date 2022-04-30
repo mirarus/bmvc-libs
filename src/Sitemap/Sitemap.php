@@ -8,16 +8,17 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
+
 /**
  * Example
- * 
+ *
  * echo (new BMVC\Libs\Sitemap)
  * ->set([
  *  "loc" => "https://site.com/",
- *	"changefreq" => "daily",
- *	"priority" => "0.50",
+ *  "changefreq" => "daily",
+ *  "priority" => "0.50",
  * ])
  * ->run();
  */
@@ -30,61 +31,60 @@ use BMVC\Libs\Header;
 class Sitemap
 {
 
-	/**
-	 * @var object
-	 */
-	private static $xml;
+  /**
+   * @var
+   */
+  private static $xml;
 
-	/**
-	 * @return void
-	 */
-	private static function xml()
-	{
-		if (self::$xml == null) {
-			self::$xml = new SimpleXMLElement('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"/>');
-		}
+  /**
+   * @return void
+   */
+  private static function xml()
+  {
+    if (self::$xml == null) {
+      self::$xml = new SimpleXMLElement('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"/>');
+    }
 
-		if (!is_object(self::$xml)) return;
-	}
+    if (!is_object(self::$xml)) return;
+  }
 
-	/**
-	 * @param array $data
-	 *
-	 * @phpstan-ignore-next-line
-	 */
-	public static function set(array $data): self
-	{
-		self::xml();
+  /**
+   * @param array $data
+   * @return static
+   */
+  public static function set(array $data): self
+  {
+    self::xml();
 
-		$data_ = [];
+    $data_ = [];
 
-		foreach ($data as $key => $val) {
-			if (is_array($val)) {
-				self::set($val);
-			} else {
-				$data_[$key] = $val;
-			}
-		}
+    foreach ($data as $key => $val) {
+      if (is_array($val)) {
+        self::set($val);
+      } else {
+        $data_[$key] = $val;
+      }
+    }
 
-		if (is_array($data_) && $data_ != null) {
-			$xml = self::$xml->addChild('url'); // @phpstan-ignore-line
-			foreach ($data_ as $key => $val) {
-				$xml->addChild($key, $val);
-			}
-		}
+    if (is_array($data_) && $data_ != null) {
+      $xml = self::$xml->addChild('url');
+      foreach ($data_ as $key => $val) {
+        $xml->addChild($key, $val);
+      }
+    }
 
-		return new self;
-	}
+    return new self;
+  }
 
-	/**
-	 * @phpstan-ignore-next-line
-	 */
-	public static function run()
-	{
-		self::xml();
+  /**
+   * @return mixed
+   */
+  public static function run()
+  {
+    self::xml();
 
-		Header::set('content-type', 'text/xml');
+    Header::set('content-type', 'text/xml');
 
-		return self::$xml->asXML(); // @phpstan-ignore-line
-	}
+    return self::$xml->asXML();
+  }
 }

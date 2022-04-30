@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Csrf;
@@ -24,8 +24,8 @@ class Csrf
   private static $page = "b4e27faacd7a7d7ed04aecb30bd29451";
 
   /**
-   * @param int|integer $expiry
-   * @return mixed
+   * @param int $expiry
+   * @return false
    */
   public static function token(int $expiry = 3600)
   {
@@ -33,8 +33,8 @@ class Csrf
   }
 
   /**
-   * @param int|integer $expiry
-   * @return mixed
+   * @param int $expiry
+   * @return string|void
    */
   public static function input(int $expiry = 3600)
   {
@@ -46,7 +46,7 @@ class Csrf
 
   /**
    * @param string|null $token
-   * @return mixed
+   * @return bool
    */
   public static function verify(string $token = null)
   {
@@ -54,8 +54,8 @@ class Csrf
   }
 
   /**
-   * @param string|null $token
-   * @return mixed
+   * @param string|null $page
+   * @return bool
    */
   public static function remove(string $page = null)
   {
@@ -65,8 +65,8 @@ class Csrf
 
   /**
    * @param string|null $page
-   * @param int|integer $expiry
-   * @return mixed
+   * @param int $expiry
+   * @return false
    */
   private static function getToken(string $page = null, int $expiry = 3600)
   {
@@ -85,7 +85,7 @@ class Csrf
 
   /**
    * @param string|null $page
-   * @param bool|boolean $removeToken
+   * @param bool $removeToken
    * @param string|null $requestToken
    * @return bool
    */
@@ -143,6 +143,8 @@ class Csrf
   /**
    * @param string $page
    * @param int $expiry
+   * @return stdClass
+   * @throws \Exception
    */
   private static function setNewToken(string $page, int $expiry): stdClass
   {
@@ -159,8 +161,7 @@ class Csrf
 
   /**
    * @param string|null $page
-   *
-   * @phpstan-ignore-next-line
+   * @return mixed|null
    */
   private static function getSessionToken(string $page = null)
   {
