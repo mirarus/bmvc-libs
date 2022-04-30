@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.6
+ * @version 0.7
  */
 
 namespace BMVC\Libs\Route;
@@ -26,12 +26,7 @@ class Route implements IRoute, IMethod
   /**
    * @var
    */
-  public static $error_page;
-
-  /**
-   * @var
-   */
-  public static $error_server;
+  public static $errors;
 
   /**
    * @var array
@@ -54,7 +49,7 @@ class Route implements IRoute, IMethod
   private static $prefix = '/';
 
   /**
-   * @var string
+   * @var
    */
   private static $ip;
 
@@ -69,7 +64,7 @@ class Route implements IRoute, IMethod
   private static $namespaces = [];
 
   /**
-   * @var integer
+   * @var int
    */
   private static $groupped = 0;
 
@@ -79,9 +74,7 @@ class Route implements IRoute, IMethod
   private static $mainRoute = '/';
 
   /**
-   * @var array
-   *
-   * @phpstan-ignore-next-line
+   * @var string[]
    */
   private static $patterns = [
     ':all' => '(.*)',
@@ -103,18 +96,14 @@ class Route implements IRoute, IMethod
 
   /**
    * @param array|null $return
-   *
-   * @return array|null (mixed|null|string|string[])[]|null
-   *
-   * @phpstan-ignore-next-line
-   *
+   * @return array|null
    */
-  public static function Run(array &$return = null): ?array
+  public static function Run(array &$return = null)
   {
     $routes = (array)self::$routes;
     $match = false;
 
-    if ($routes && $routes != null) {
+    if ($routes) {
 
       foreach ($routes as $route) {
 
@@ -148,8 +137,8 @@ class Route implements IRoute, IMethod
         }
       }
     }
-    // @phpstan-ignore-next-line
-    if (!$match) self::get_404();
+
+    if (!$match) self::getErrors(404);
   }
 
   /**
@@ -296,23 +285,22 @@ class Route implements IRoute, IMethod
   }
 
   /**
-   * @param $callback
-   * @return static
+   * @param int $code
+   * @param Closure $callback
+   * @return mixed|void
    */
-  public static function set_404($callback): self
+  public static function setErrors(int $code, Closure $callback)
   {
-    self::$error_page = $callback;
-    return new self;
+    self::$errors[$code] = $callback;
   }
 
   /**
-   * @return void
+   * @param int|null $code
+   * @return array|mixed
    */
-  public static function get_404()
+  public static function getErrors(int $code = null)
   {
-    if (@self::$error_page) {
-      return self::$error_page;
-    } else {
+    $error_404 = function () {
       Response::setStatusCode(404);
       $res_txt = (Response::getStatusCode() . ' ' . Response::getStatusMessage());
       if (Request::isGet()) {
@@ -325,27 +313,8 @@ class Route implements IRoute, IMethod
           'message' => $res_txt
         ]), 404);
       }
-    }
-  }
-
-  /**
-   * @param $callback
-   * @return static
-   */
-  public static function set_500($callback): self
-  {
-    self::$error_server = $callback;
-    return new self;
-  }
-
-  /**
-   * @return void
-   */
-  public static function get_500()
-  {
-    if (@self::$error_server) {
-      return self::$error_server;
-    } else {
+    };
+    $error_500 = function () {
       Response::setStatusCode(500);
       $res_txt = (Response::getStatusCode() . ' ' . Response::getStatusMessage());
       if (Request::isGet()) {
@@ -358,46 +327,13 @@ class Route implements IRoute, IMethod
           'message' => $res_txt
         ]), 500);
       }
-    }
-  }
+    };
 
-  /**
-   * @param string $type
-   * @param int $code
-   * @param $callback
-   * @return Route|mixed|void
-   */
-  public static function error(string $type = 'get', int $code = 404, $callback = null)
-  {
-    if ($type == 'get') {
-      if ($code == 404) {
-        self::get_404();
-      } elseif ($code == 500) {
-        self::get_500();
-      }
-    } elseif ($type == 'set') {
-      if ($code == 404) {
-        self::set_404($callback);
-      } elseif ($code == 500) {
-        self::set_500($callback);
-      }
-    }
-  }
+    self::$errors = [
+      '404' => self::$errors[404] ?: $error_404,
+      '500' => self::$errors[500] ?: $error_500,
+    ];
 
-  /**
-   * @param array $urls
-   * @param string $url
-   * @param string $type
-   * @return void
-   */
-  public static function url_check(array $urls, string $url, string $type = '404')
-  {
-    if (!in_array($url, $urls)) {
-      if ($type == '404') {
-        self::get_404();
-      } elseif ($type == '500') {
-        self::get_500();
-      }
-    }
+    return $code ? self::$errors[$code]() : self::$errors;
   }
 }

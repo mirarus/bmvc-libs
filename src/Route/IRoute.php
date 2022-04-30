@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.3
+ * @version 0.4
  */
 
 namespace BMVC\Libs\Route;
@@ -56,39 +56,15 @@ interface IRoute
   public static function routes(): array;
 
   /**
-   * @param $callback
-   * @return Route
-   */
-  public static function set_404($callback): Route;
-
-  /**
-   * @return mixed
-   */
-  public static function get_404();
-
-  /**
-   * @param $callback
-   * @return Route
-   */
-  public static function set_500($callback): Route;
-
-  /**
-   * @return mixed
-   */
-  public static function get_500();
-
-  /**
-   * @param string $type
    * @param int $code
-   * @param $callback
+   * @param Closure $callback
    * @return mixed
    */
-  public static function error(string $type = 'get', int $code = 404, $callback = null);
+  public static function setErrors(int $code, Closure $callback);
 
   /**
-   * @param array $urls
-   * @param string $url
+   * @param int|null $code
    * @return mixed
    */
-  public static function url_check(array $urls, string $url);
+  public static function getErrors(int $code = null);
 }

@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\classCall;
@@ -38,7 +38,6 @@ trait classCall
    * @var
    */
   private static $called_class;
-
 
   /**
    * @param string $called_class
@@ -152,7 +151,7 @@ trait classCall
    * @param object|null $return
    * @return array
    */
-  public static function get(string $type, string $action, object &$return = null): array
+  public static function get(string $action, object &$return = null): array
   {
     $action = CL::explode(CL::replace($action));
     $class = @ucfirst(@array_pop($action));
@@ -165,7 +164,6 @@ trait classCall
     $class = ($ns != null) ? CL::implode([$ns, $class]) : $class;
     $class = ($_ns != null) ? CL::implode([$_ns, $class]) : $class;
     $class = CL::replace($class);
-
     $cls = (new $class((is_array(self::$params) && !empty(self::$params))));
 
     return $return = [
