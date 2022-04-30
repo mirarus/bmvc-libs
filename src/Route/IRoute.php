@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Route;
@@ -76,6 +76,14 @@ interface IRoute
    * @return mixed
    */
   public static function get_500();
+
+  /**
+   * @param string $type
+   * @param int $code
+   * @param $callback
+   * @return mixed
+   */
+  public static function error(string $type = 'get', int $code = 404, $callback = null);
 
   /**
    * @param array $urls

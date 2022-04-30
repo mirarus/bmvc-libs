@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.5
+ * @version 0.6
  */
 
 namespace BMVC\Libs\Route;
@@ -357,6 +357,29 @@ class Route implements IRoute, IMethod
         ] : [
           'message' => $res_txt
         ]), 500);
+      }
+    }
+  }
+
+  /**
+   * @param string $type
+   * @param int $code
+   * @param $callback
+   * @return Route|mixed|void
+   */
+  public static function error(string $type = 'get', int $code = 404, $callback = null)
+  {
+    if ($type == 'get') {
+      if ($code == 404) {
+        self::get_404();
+      } elseif ($code == 500) {
+        self::get_500();
+      }
+    } elseif ($type == 'set') {
+      if ($code == 404) {
+        self::set_404($callback);
+      } elseif ($code == 500) {
+        self::set_500($callback);
       }
     }
   }
