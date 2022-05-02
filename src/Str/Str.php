@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Str;
@@ -107,11 +107,11 @@ class Str
 
   /**
    * @param string $str
-   * @param array|null $options
+   * @param array $options
    * @param string|null $encoding
    * @return string
    */
-  public static function slug(string $str, array $options = null, string $encoding = null): string
+  public static function slug(string $str, array $options = [], string $encoding = null): string
   {
     $encoding = $encoding == null ? "UTF-8" : null;
 
