@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.5
+ * @version 0.6
  */
 
 namespace BMVC\Libs\Util;
@@ -214,38 +214,26 @@ class Util
   }
 
   /**
-   * @param int $money
+   * @param $money
    * @param string $type
    * @param string $locale
-   * @return false|string|void
+   * @return false|string
    */
-  public static function money(int $money, string $type = 'currency', string $locale = 'tr_TR')
+  public static function money($money, string $type = 'decimal', string $locale = 'en-US')
   {
     if (extension_loaded('intl') && class_exists('NumberFormatter')) {
-      $fmt = new stdClass;
-      if ($type == 'decimal') {
-        $fmt = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
-      } elseif ($type == 'currency') {
-        $fmt = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
-      }
-      if ($type == 'currency') {
-        return trim($fmt->format($money), '₺') . '₺';
-      } else {
-        return $fmt->format($money);
-      }
+      $fmt = new \NumberFormatter($locale, (($type == 'decimal') ? \NumberFormatter::DECIMAL : \NumberFormatter::CURRENCY));
+      return $fmt->format($money);
     } else {
+      if (!$money) $money = 0.0;
 
-      if (!$money) {
-        $money = 0;
-      }
-
-      // if ($locale == 'tr_TR') {
-      if ($type == 'decimal') {
+      if ($locale == 'tr_TR') {
         return number_format($money, 2, ',', '.');
-      } elseif ($type == 'currency') {
-        return number_format($money, 2, ',', '.') . '₺';
+      } elseif ($locale == 'en-US') {
+        return number_format($money, 2, '.', '');
+      } else {
+        return number_format($money, 2, ',', '.');
       }
-      // }
     }
   }
 
