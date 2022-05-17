@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.7
+ * @version 0.8
  */
 
 namespace BMVC\Libs\Route;
@@ -335,5 +335,21 @@ class Route implements IRoute, IMethod
     ];
 
     return $code ? self::$errors[$code]() : self::$errors;
+  }
+
+  /**
+   * @param string $origin
+   * @param string $destination
+   * @param bool $permanent
+   * @return void
+   */
+  public static function redirect($origin, $destination, $permanent = true)
+  {
+    if (Util::get_url() == $origin) {
+      if (headers_sent() == false) {
+        header('Location: ' . $destination, true, ($permanent == true) ? 301 : 302);
+      }
+      exit();
+    }
   }
 }

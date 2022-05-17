@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.4
+ * @version 0.5
  */
 
 namespace BMVC\Libs\Route;
@@ -67,4 +67,12 @@ interface IRoute
    * @return mixed
    */
   public static function getErrors(int $code = null);
+
+  /**
+   * @param string $origin
+   * @param string $destination
+   * @param bool $permanent
+   * @return void
+   */
+  public static function redirect($origin, $destination, $permanent = true);
 }
