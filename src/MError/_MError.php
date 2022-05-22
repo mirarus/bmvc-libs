@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\MError;
@@ -22,41 +22,34 @@ class _MError extends MError
    */
   public function setData(array $array): self
   {
-    array_map(function ($key, $value) {
-      if ($key == 'color') {
-        return $this->setColor($value);
-      }
-      if ($key == 'html') {
-        return $this->setHtml($value);
-      }
-      if ($key == 'title') {
-        return $this->setTitle($value);
-      }
-      if ($key == 'stop') {
-        return $this->setStop($value);
-      }
+    array_map(function ($key, $val) {
+      if ($key == 'html') return $this->setHtml($val);
+      if ($key == 'stop') return $this->setStop($val);
+      if ($key == 'title') return $this->setTitle($val);
+      if ($key == 'color') return $this->setColor($val);
+      if ($key == 'code') return $this->setCode($val);
     }, array_keys($array), array_values($array));
 
     return $this;
   }
 
   /**
-   * @param string $color
+   * @param bool $html
    * @return $this
    */
-  public function setColor(string $color): self
+  public function setHtml(bool $html = true): self
   {
-    self::$color = self::$colors[$color] ? self::$colors[$color] : self::$colors['info'];
+    self::$html = $html;
     return $this;
   }
 
   /**
-   * @param bool $bool
+   * @param bool $stop
    * @return $this
    */
-  public function setHtml(bool $bool = false): self
+  public function setStop(bool $stop = true): self
   {
-    self::$html = $bool;
+    self::$stop = $stop;
     return $this;
   }
 
@@ -71,12 +64,22 @@ class _MError extends MError
   }
 
   /**
-   * @param bool $stop
+   * @param string $color
    * @return $this
    */
-  public function setStop(bool $stop = true): self
+  public function setColor(string $color): self
   {
-    self::$stop = $stop;
+    self::$color = self::$colors[$color] ? self::$colors[$color] : self::$colors['info'];
+    return $this;
+  }
+
+  /**
+   * @param int $code
+   * @return $this
+   */
+  public function setCode(int $code = 200): self
+  {
+    self::$code = $code;
     return $this;
   }
 }

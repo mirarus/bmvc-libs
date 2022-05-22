@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.8
+ * @version 0.9
  */
 
 namespace BMVC\Libs\Route;
@@ -110,10 +110,10 @@ class Route implements IRoute, IMethod
         $method = $route['method'];
         $action = $route['callback'];
         $url = $route['pattern'];
-        $ip = ($route['ip'] ?? null);
-        $_return = ($route['return'] ?? null);
-        $namespaces = ($route['namespaces'] ?? null);
-        $middlewares = ($route['middlewares'] ?? null);
+        $ip = ($route['ip'] ? $route['ip'] : null);
+        $_return = ($route['return'] ? $route['return'] : null);
+        $namespaces = ($route['namespaces'] ? $route['namespaces'] : null);
+        $middlewares = ($route['middlewares'] ? $route['middlewares'] : null);
 
         if (preg_match("#^{$url}$#", ('/' . Util::get_url()), $params)) {
 
@@ -300,41 +300,40 @@ class Route implements IRoute, IMethod
    */
   public static function getErrors(int $code = null)
   {
-    $error_404 = function () {
+    $url = Util::get_url();
+
+    $error_404 = function ($stop = true) use ($url) {
       Response::setStatusCode(404);
-      $res_txt = (Response::getStatusCode() . ' ' . Response::getStatusMessage());
+      $msg = Response::getStatusMessage();
+      $res = (Response::getStatusCode() . ' ' . $msg);
       if (Request::isGet()) {
-        MError::print($res_txt, (Util::get_url() ? 'Page: ' . Util::get_url() : null), true, Response::getStatusMessage(), null, true, 404);
+        MError::p($msg, $res, null, true, $stop, 'danger', 404);
       } else {
-        echo Response::_json((Util::get_url() ? [
-          'message' => $res_txt,
-          'page' => Util::get_url()
-        ] : [
-          'message' => $res_txt
-        ]), 404);
+        echo Response::_json(($url ? ['message' => $res, 'page' => $url] : ['message' => $res]), 404);
       }
+      if ($stop) die();
     };
-    $error_500 = function () {
+
+    $error_500 = function ($stop = true) use ($url) {
       Response::setStatusCode(500);
-      $res_txt = (Response::getStatusCode() . ' ' . Response::getStatusMessage());
+      $msg = Response::getStatusMessage();
+      $res = (Response::getStatusCode() . ' ' . $msg);
       if (Request::isGet()) {
-        MError::print($res_txt, null, true, Response::getStatusMessage(), null, true, 500);
+        MError::p($msg, $res, null, true, $stop, 'danger', 500);
       } else {
-        echo Response::_json((Util::get_url() ? [
-          'message' => $res_txt,
-          'page' => Util::get_url()
-        ] : [
-          'message' => $res_txt
-        ]), 500);
+        echo Response::_json(($url ? ['message' => $res, 'page' => $url] : ['message' => $res]), 500);
       }
+      if ($stop) die();
     };
 
     self::$errors = [
       '404' => self::$errors[404] ?: $error_404,
       '500' => self::$errors[500] ?: $error_500,
-    ];
+    ];;
 
-    return $code ? self::$errors[$code]() : self::$errors;
+    return $code ? self::$errors[$code]() : array_map(function ($error) {
+      $error(false);
+    }, self::$errors);
   }
 
   /**
