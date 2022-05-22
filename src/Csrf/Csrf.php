@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Csrf;
@@ -199,5 +199,22 @@ class Csrf
       return false;
     }
     return true;
+  }
+
+  /**
+   * @return string
+   */
+  public static function getPage(): string
+  {
+    return self::$page;
+  }
+
+  /**
+   * @param string $page
+   */
+  public static function setPage(string $page): self
+  {
+    self::$page = $page;
+    return new self;
   }
 }
