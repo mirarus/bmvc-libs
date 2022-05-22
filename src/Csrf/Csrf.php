@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.3
+ * @version 0.4
  */
 
 namespace BMVC\Libs\Csrf;
@@ -24,33 +24,36 @@ class Csrf
   private static $page = "b4e27faacd7a7d7ed04aecb30bd29451";
 
   /**
+   * @param string|null $page
    * @param int $expiry
    * @return false
    */
-  public static function token(int $expiry = 3600)
+  public static function token(string $page = null, int $expiry = 3600)
   {
-    return self::getToken(null, $expiry);
+    return self::getToken($page, $expiry);
   }
 
   /**
+   * @param string|null $page
    * @param int $expiry
    * @return string|void
    */
-  public static function input(int $expiry = 3600)
+  public static function input(string $page = null, int $expiry = 3600)
   {
-    $token = self::getToken(null, $expiry);
+    $token = self::getToken($page, $expiry);
     if ($token) {
       return '<input type="hidden" name="csrf_token" value="' . $token . '">' . "\r\n";
     }
   }
 
   /**
+   * @param string|null $page
    * @param string|null $token
    * @return bool
    */
-  public static function verify(string $token = null)
+  public static function verify(string $page = null, string $token = null)
   {
-    return self::verifyToken(null, false, $token);
+    return self::verifyToken($page, false, $token);
   }
 
   /**
