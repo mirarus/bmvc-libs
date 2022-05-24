@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Validate;
@@ -149,6 +149,15 @@ class Validate
   public static function email($arg): bool
   {
     return filter_var($arg, FILTER_VALIDATE_EMAIL);
+  }
+
+  /**
+   * @param mixed $arg
+   * @return boolean
+   */
+  public static function phone($arg): bool
+  {
+    return filter_var($arg, FILTER_SANITIZE_NUMBER_INT);
   }
 
   /**
