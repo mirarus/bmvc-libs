@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.9
+ * @version 0.10
  */
 
 namespace BMVC\Libs\Route;
@@ -346,7 +346,7 @@ class Route implements IRoute, IMethod
   {
     if (Util::get_url() == $origin) {
       if (headers_sent() == false) {
-        header('Location: ' . $destination, true, ($permanent == true) ? 301 : 302);
+        header('Location: ' . Util::url($destination), true, ($permanent == true) ? 301 : 302);
       }
       exit();
     }
