@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.10
+ * @version 0.11
  */
 
 namespace BMVC\Libs\Route;
@@ -328,8 +328,8 @@ class Route implements IRoute, IMethod
 
     self::$errors = [
       '404' => self::$errors[404] ?: $error_404,
-      '500' => self::$errors[500] ?: $error_500,
-    ];;
+      '500' => self::$errors[500] ?: $error_500
+    ];
 
     return $code ? self::$errors[$code]() : array_map(function ($error) {
       $error(false);
