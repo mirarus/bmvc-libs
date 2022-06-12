@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 3.1
+ * @version 3.2
  */
 
 namespace BMVC\Libs\FS;
@@ -117,7 +117,7 @@ trait Dir
     $array = [];
     if ($adir) {
       foreach ($adir as $d) {
-        if (self::is_dir((string)$d)) $array[] = $d;
+        if (self::is_dir(self::implode([$dir, (string)$d]))) $array[] = $d;
       }
     }
     return $array;
