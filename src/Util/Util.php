@@ -8,12 +8,13 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.6
+ * @version 0.7
  */
 
 namespace BMVC\Libs\Util;
 
 use stdClass;
+use BMVC\Libs\Validate;
 
 class Util
 {
@@ -103,6 +104,7 @@ class Util
    */
   public static function url(string $url = null, bool $print = false, bool $cache = false, bool $external = false)
   {
+    $external = $url ? Validate::url($url) : false;
     $burl = self::base_url();
     $_cache = ($cache ? ('?ct=' . time()) : null);
     $_url = (($url ? ($external ? $url : ($burl . $url)) : $burl) . $_cache);
