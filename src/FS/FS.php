@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.3
+ * @version 0.4
  */
 
 namespace BMVC\Libs\FS;
@@ -91,7 +91,7 @@ class FS implements IFS
    */
   public static function implode(array $arg): string
   {
-    return @implode(DIRECTORY_SEPARATOR, $arg);
+    return self::replace(@implode(DIRECTORY_SEPARATOR, $arg));
   }
 
   /**
