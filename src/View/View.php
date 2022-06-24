@@ -8,26 +8,10 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
-/**
- * -- Example --
- *
- * BMVC\Libs\View::config([
- * 'path' => 'App\Http\View',
- * 'cache' => false,
- * 'theme' => 'default',
- * 'themes' => [
- * 'default' => [
- * 'path' => null,
- * 'layout' => 'Layout/Main.php'
- * ]
- * ]
- * ]);
- */
-
-namespace BMVC\Libs\Route;
+namespace BMVC\Libs\View;
 
 use Exception;
 use Closure;
