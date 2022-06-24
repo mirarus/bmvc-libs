@@ -23,7 +23,10 @@
 	"autoload": {
 		"psr-4": {
 			"BMVC\\Libs\\": "src"
-		}
+		},
+		"files": [
+			"src/helper.php"
+		]
 	},
 	"config": {
 		"preferred-install": "dist",
