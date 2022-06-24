@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\View;
@@ -20,6 +20,11 @@ use Jenssegers\Blade\Blade;
 
 class View
 {
+
+  /**
+   * @var array
+   */
+  private static $config = [];
 
   /**
    * @var null
@@ -82,6 +87,7 @@ class View
    */
   public static function config(array $arr): void
   {
+    self::$config = $arr;
     self::$path = $arr['path'];
     self::$cache = $arr['cache'];
     self::$theme = $arr['theme'];
@@ -130,10 +136,12 @@ class View
    */
   public static function layout(Closure $callback, $data = null)
   {
+    if (!self::$config) throw new Exception('Viewer Config Not Found');
+
     self::_data($data);
 
-    $_theme = @array_key_exists('theme', self::$data) ? self::$data['theme'] : self::$theme;
-    $_theme = @array_key_exists($_theme, self::$themes) ? $_theme : self::$theme;
+    $_theme = array_key_exists('theme', self::$data) ? self::$data['theme'] : self::$theme;
+    $_theme = array_key_exists($_theme, self::$themes) ? $_theme : self::$theme;
     $_ns = FS::trim(FS::implode([self::$path, self::$themes[$_theme]['path']]));
     $_layout = FS::trim(FS::implode([$_ns, self::$themes[$_theme]['layout']]));
     $_lf = FS::app($_layout);
@@ -155,10 +163,12 @@ class View
    */
   public static function load($view, $data = null, bool $layout = false)
   {
+    if (!self::$config) throw new Exception('Viewer Config Not Found');
+
     self::_data($data);
 
-    $_theme = @array_key_exists('theme', self::$data) ? self::$data['theme'] : self::$theme;
-    $_theme = @array_key_exists($_theme, self::$themes) ? $_theme : self::$theme;
+    $_theme = array_key_exists('theme', self::$data) ? self::$data['theme'] : self::$theme;
+    $_theme = array_key_exists($_theme, self::$themes) ? $_theme : self::$theme;
     $_ns = FS::trim(FS::implode([self::$path, self::$themes[$_theme]['path']]));
     $_layout = FS::trim(FS::implode([$_ns, self::$themes[$_theme]['layout']]));
     $_lf = FS::app($_layout);
@@ -242,12 +252,12 @@ class View
    */
   private static function _cache($view, string $file, string $cachePath)
   {
-    if (file_exists($file)) {
+    if (FS::is_file($file)) {
 
       $_file = FS::implode([$cachePath, (md5($view) . '.' . self::$extension)]);
       $expir = 120;
 
-      if (!file_exists($_file) || (filemtime($_file) < (time() - $expir))) {
+      if (!FS::is_file($_file) || (filemtime($_file) < (time() - $expir))) {
 
         $signature = "<?php\n/**\n * @file " . $file . "\n * @date " . date(DATE_RFC822) . "\n * @expire " . date(DATE_RFC822, time() + $expir) . "\n */\n?>\n";
         $content = $signature . file_get_contents($file);
@@ -269,7 +279,7 @@ class View
   {
     self::_data($data);
 
-    if (file_exists($file)) {
+    if (FS::is_file($file)) {
 
       ob_start();
       require_once $file;
