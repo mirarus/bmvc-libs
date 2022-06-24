@@ -1,0 +1,25 @@
+{
+  "description": "Mirarus BMVC View Lib (Basic MVC View Lib)",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ali Güçlü",
+      "email": "aliguclutr@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.3 || ^8.0",
+    "jenssegers/blade": "^1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "BMVC\\Libs\\View\\": "./"
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
+}
