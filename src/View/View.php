@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\View;
@@ -88,10 +88,10 @@ class View
   public static function config(array $arr): void
   {
     self::$config = $arr;
-    self::$path = $arr['path'];
-    self::$cache = $arr['cache'];
-    self::$theme = $arr['theme'];
-    self::$themes = $arr['themes'];
+    self::$path = array_key_exists('path', $arr) ? $arr['path'] : self::$path;
+    self::$cache = array_key_exists('cache', $arr) ? $arr['cache'] : self::$cache;
+    self::$theme = array_key_exists('theme', $arr) ? $arr['theme'] : self::$theme;
+    self::$themes = array_key_exists('themes', $arr) ? $arr['themes'] : self::themes;
   }
 
   /**
@@ -136,22 +136,16 @@ class View
    */
   public static function layout(Closure $callback, $data = null)
   {
-    if (!self::$config) throw new Exception('Viewer Config Not Found');
-
     self::_data($data);
 
-    $_theme = array_key_exists('theme', self::$data) ? self::$data['theme'] : self::$theme;
-    $_theme = array_key_exists($_theme, self::$themes) ? $_theme : self::$theme;
-    $_ns = FS::trim(FS::implode([self::$path, self::$themes[$_theme]['path']]));
-    $_layout = FS::trim(FS::implode([$_ns, self::$themes[$_theme]['layout']]));
-    $_lf = FS::app($_layout);
+    list($_theme, $_themePath, $_themeLayout, $_themeLayoutFile) = self::_themeSelector();
 
     ob_start();
     call_user_func($callback);
     self::$content = $content = ob_get_contents();
     ob_end_clean();
 
-    self::_ob($_lf, $_layout, $data);
+    self::_ob($_themeLayoutFile, $_themeLayout, $data);
   }
 
   /**
@@ -163,26 +157,38 @@ class View
    */
   public static function load($view, $data = null, bool $layout = false)
   {
-    if (!self::$config) throw new Exception('Viewer Config Not Found');
-
     self::_data($data);
 
-    $_theme = array_key_exists('theme', self::$data) ? self::$data['theme'] : self::$theme;
-    $_theme = array_key_exists($_theme, self::$themes) ? $_theme : self::$theme;
-    $_ns = FS::trim(FS::implode([self::$path, self::$themes[$_theme]['path']]));
-    $_layout = FS::trim(FS::implode([$_ns, self::$themes[$_theme]['layout']]));
-    $_lf = FS::app($_layout);
+    list($_theme, $_themePath, $_themeLayout, $_themeLayoutFile) = self::_themeSelector();
 
     ob_start();
-    self::_import($_ns, $view, $data);
+    self::_import($_themePath, $view, $data);
     self::$content = $content = ob_get_contents();
     ob_end_clean();
 
     if ($layout) {
-      self::_ob($_lf, $_layout, $data);
+      self::_ob($_themeLayoutFile, $_themeLayout, $data);
     } else {
       echo $content;
     }
+  }
+
+  /**
+   * @throws Exception
+   */
+  private static function _themeSelector(): array
+  {
+    $_theme = array_key_exists('theme', self::$data) ? self::$data['theme'] : self::$theme;
+    $_theme = array_key_exists($_theme, self::$themes) ? $_theme : self::$theme;
+    $_themePath = FS::trim(FS::implode([self::$path, self::$themes[$_theme]['path']]));
+    $_themeLayout = FS::trim(FS::implode([$_themePath, self::$themes[$_theme]['layout']]));
+    $_themeLayoutFile = FS::app($_themeLayout);
+
+    if (!self::$config) throw new Exception('Viewer Config Not Found');
+    if (!self::$themes[$_theme]) throw new Exception('Viewer Theme Not Found');
+    if (!FS::is_file($_themeLayoutFile)) throw new Exception('Viewer Layout Not Found');
+
+    return [$_theme, $_themePath, $_themeLayout, $_themeLayoutFile];
   }
 
   /**
@@ -191,6 +197,7 @@ class View
    * @param $data
    * @param $return
    * @return void
+   * @throws Exception
    */
   private static function _import($path, $view, $data = null, &$return = null): void
   {
@@ -250,16 +257,16 @@ class View
    * @param string $cachePath
    * @return string
    */
-  private static function _cache($view, string $file, string $cachePath)
+  private static function _cache($view, string $file, string $cachePath): string
   {
     if (FS::is_file($file)) {
 
       $_file = FS::implode([$cachePath, (md5($view) . '.' . self::$extension)]);
-      $expir = 120;
+      $expiry = 120;
 
-      if (!FS::is_file($_file) || (filemtime($_file) < (time() - $expir))) {
+      if (!FS::is_file($_file) || (filemtime($_file) < (time() - $expiry))) {
 
-        $signature = "<?php\n/**\n * @file " . $file . "\n * @date " . date(DATE_RFC822) . "\n * @expire " . date(DATE_RFC822, time() + $expir) . "\n */\n?>\n";
+        $signature = "<?php\n/**\n * @file " . $file . "\n * @date " . date(DATE_RFC822) . "\n * @expire " . date(DATE_RFC822, time() + $expiry) . "\n */\n?>\n";
         $content = $signature . file_get_contents($file);
         file_put_contents($_file, $content, LOCK_EX);
       }
