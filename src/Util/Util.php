@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.8
+ * @version 0.9
  */
 
 namespace BMVC\Libs\Util;
@@ -108,7 +108,7 @@ class Util
     $burl = self::base_url();
     $_cache = ($cache ? ('?ct=' . time()) : null);
     $_url = (($url ? ($external ? $url : ($burl . $url)) : $burl) . $_cache);
-    $_url = @str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $_url);
+    $_url = @str_replace('\\', '/', $_url);
 
     if ($print) {
       echo $_url;
