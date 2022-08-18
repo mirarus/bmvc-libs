@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.11
+ * @version 0.12
  */
 
 namespace BMVC\Libs\Route;
@@ -42,6 +42,11 @@ class Route implements IRoute, IMethod
    * @var array
    */
   private static $middlewares = [];
+
+  /**
+   * @var bool
+   */
+  private static $trashMiddlewares = false;
 
   /**
    * @var string
@@ -244,6 +249,13 @@ class Route implements IRoute, IMethod
     return new self;
   }
 
+  /**
+   * @return void
+   */
+  public static function trashMiddlewares()
+  {
+    self::$trashMiddlewares = true;
+  }
 
   /**
    * @param string $name

@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.3
+ * @version 0.4
  */
 
 namespace BMVC\Libs\Route;
@@ -24,6 +24,7 @@ trait Method
    */
   public static function middleware($middlewares): self
   {
+    if (self::$trashMiddlewares) self::$middlewares = [];
     if (is_array($middlewares)) {
       foreach ($middlewares as $middleware) {
         self::$middlewares[$middleware] = [
@@ -42,8 +43,7 @@ trait Method
    * @param string|null $prefix
    * @return static
    */
-  public
-  static function prefix(string $prefix = null): self
+  public static function prefix(string $prefix = null): self
   {
     self::$prefix = self::$mainRoute . $prefix;
     return new self;
@@ -53,8 +53,7 @@ trait Method
    * @param string $ip
    * @return static
    */
-  public
-  static function ip(string $ip): self
+  public static function ip(string $ip): self
   {
     self::$ip = $ip;
     return new self;
@@ -64,8 +63,7 @@ trait Method
    * @param string $return
    * @return static
    */
-  public
-  static function return(string $return): self
+  public static function return(string $return): self
   {
     self::$return = $return;
     return new self;
