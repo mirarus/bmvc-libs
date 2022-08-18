@@ -250,11 +250,12 @@ class Route implements IRoute, IMethod
   }
 
   /**
-   * @return void
+   * @return static
    */
-  public static function trashMiddlewares()
+  public static function trashMiddlewares(): self
   {
     self::$trashMiddlewares = true;
+    return new self;
   }
 
   /**
