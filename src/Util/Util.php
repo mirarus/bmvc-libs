@@ -396,7 +396,24 @@ class Util
       }
     }
 
-    $src = imagecreatefromjpeg($file);
+    if (exif_imagetype($file) == 1) {
+      $src = imagecreatefromgif($file);
+    } elseif (exif_imagetype($file) == 2) {
+      $src = imagecreatefromjpeg($file);
+    } elseif (exif_imagetype($file) == 3) {
+      $src = imagecreatefrompng($file);
+    } elseif (exif_imagetype($file) == 6) {
+      $src = imagecreatefrombmp($file);
+    } elseif (exif_imagetype($file) == 15) {
+      $src = imagecreatefromwbmp($file);
+    } elseif (exif_imagetype($file) == 16) {
+      $src = imagecreatefromxbm($file);
+    } elseif (exif_imagetype($file) == 18) {
+      $src = imagecreatefromwebp($file);
+    } else {
+      $src = imagecreatefromjpeg($file);
+    }
+
     $dst = imagecreatetruecolor($newWidth, $newHeight);
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 
