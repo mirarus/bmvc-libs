@@ -335,7 +335,6 @@ class Util
     if ($stop === true) die();
   }
 
-
   /**
    * @param string $date
    * @param string $format
@@ -362,15 +361,15 @@ class Util
     return mktime(0, 0, 0, $month, $day, $year);
   }
 
-
   /**
-   * @param $file
-   * @param $w
-   * @param $h
+   * @param string $file
+   * @param int $w
+   * @param int $h
    * @param bool $crop
+   * @param string|null $savePath
    * @return null|resource
    */
-  public static function image_resize($file, $w, $h, bool $crop = false)
+  public static function image_resize(string $file, int $w, int $h, bool $crop = false, string $savePath = null)
   {
     list($width, $height) = getimagesize($file);
 
@@ -417,7 +416,27 @@ class Util
     $dst = imagecreatetruecolor($newWidth, $newHeight);
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 
-    return $dst;
+    if ($savePath) {
+      if (exif_imagetype($file) == 1) {
+        imagegif($dst, $savePath);
+      } elseif (exif_imagetype($file) == 2) {
+        imagejpeg($dst, $savePath, 100);
+      } elseif (exif_imagetype($file) == 3) {
+        imagepng($dst, $savePath, 100);
+      } elseif (exif_imagetype($file) == 6) {
+        imagebmp($dst, $savePath);
+      } elseif (exif_imagetype($file) == 15) {
+        imagewbmp($dst, $savePath);
+      } elseif (exif_imagetype($file) == 16) {
+        imagexbm($dst, $savePath);
+      } elseif (exif_imagetype($file) == 18) {
+        imagewebp($dst, $savePath, 100);
+      } else {
+        imagejpeg($dst, $savePath, 100);
+      }
+    } else {
+      return $dst;
+    }
   }
 
   /**
