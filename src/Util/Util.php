@@ -8,12 +8,11 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.9
+ * @version 1.0
  */
 
 namespace BMVC\Libs\Util;
 
-use stdClass;
 use BMVC\Libs\Validate;
 
 class Util
@@ -63,7 +62,7 @@ class Util
    * @param bool $atRoot
    * @param bool $atCore
    * @param bool $parse
-   * @return array|false|int|string|null
+   * @return array|int|string
    */
   public static function base_url(string $url = null, bool $atRoot = false, bool $atCore = false, bool $parse = false)
   {
@@ -72,12 +71,12 @@ class Util
       $hostname = $_SERVER['HTTP_HOST'];
 
       $dir = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-      $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', (string)realpath(dirname(dirname(__FILE__)))), null, PREG_SPLIT_NO_EMPTY);
+      $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', (string)realpath(dirname(__FILE__, 2))), null, PREG_SPLIT_NO_EMPTY);
 
       $core = $core[0];
-      $tmplt = $atRoot ? ($atCore ? '%s://%s/%s/' : '%s://%s/') : ($atCore ? '%s://%s/%s/' : '%s://%s%s');
+      $template = $atRoot ? ($atCore ? '%s://%s/%s/' : '%s://%s/') : ($atCore ? '%s://%s/%s/' : '%s://%s%s');
       $end = $atRoot ? ($atCore ? $core : $hostname) : ($atCore ? $core : $dir);
-      $base_url = sprintf($tmplt, $http, $hostname, $end);
+      $base_url = sprintf($template, $http, $hostname, $end);
     } else {
       $base_url = 'http://localhost/';
     }
@@ -104,7 +103,7 @@ class Util
    */
   public static function url(string $url = null, bool $print = false, bool $cache = false, bool $external = false)
   {
-    $external = $url ? Validate::url($url) : false;
+    $external = $url && Validate::url($url);
     $burl = self::base_url();
     $_cache = ($cache ? ('?ct=' . time()) : null);
     $_url = (($url ? ($external ? $url : ($burl . $url)) : $burl) . $_cache);
@@ -125,20 +124,16 @@ class Util
   public static function unparse_url(array $parsed_url = [], bool $domain = false): string
   {
     $scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
-    $host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+    $host = $parsed_url['host'] ?: '';
     $port = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
-    $user = isset($parsed_url['user']) ? $parsed_url['user'] : '';
+    $user = $parsed_url['user'] ?: '';
     $pass = isset($parsed_url['pass']) ? ':' . $parsed_url['pass'] : '';
     $pass = ($user || $pass) ? '$pass@' : '';
-    $path = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+    $path = $parsed_url['path'] ?: '';
     $query = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '';
     $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
 
-    if ($domain == true) {
-      return "$scheme$user$pass$host$port";
-    } else {
-      return "$scheme$user$pass$host$port$path$query$fragment";
-    }
+    return $domain ? "$scheme$user$pass$host$port" : "$scheme$user$pass$host$port$path$query$fragment";
   }
 
   /**
@@ -338,6 +333,74 @@ class Util
     var_dump($data);
     echo '</pre>';
     if ($stop === true) die();
+  }
+
+
+  /**
+   * @param string $date
+   * @param string $format
+   * @return false|int
+   */
+  public static function date_to_time(string $date, string $format = 'YYYY-MM-DD')
+  {
+    $year = 0;
+    $month = 0;
+    $day = 0;
+
+    if ($format == 'YYYY-MM-DD') list($year, $month, $day) = explode('-', $date);
+    if ($format == 'YYYY/MM/DD') list($year, $month, $day) = explode('/', $date);
+    if ($format == 'YYYY.MM.DD') list($year, $month, $day) = explode('.', $date);
+
+    if ($format == 'DD-MM-YYYY') list($day, $month, $year) = explode('-', $date);
+    if ($format == 'DD/MM/YYYY') list($day, $month, $year) = explode('/', $date);
+    if ($format == 'DD.MM.YYYY') list($day, $month, $year) = explode('.', $date);
+
+    if ($format == 'MM-DD-YYYY') list($month, $day, $year) = explode('-', $date);
+    if ($format == 'MM/DD/YYYY') list($month, $day, $year) = explode('/', $date);
+    if ($format == 'MM.DD.YYYY') list($month, $day, $year) = explode('.', $date);
+
+    return mktime(0, 0, 0, $month, $day, $year);
+  }
+
+
+  /**
+   * @param $file
+   * @param $w
+   * @param $h
+   * @param bool $crop
+   * @return null|resource
+   */
+  public static function image_resize($file, $w, $h, bool $crop = false)
+  {
+    list($width, $height) = getimagesize($file);
+
+    $r = $width / $height;
+
+    if ($crop) {
+
+      if ($width > $height) {
+        $width = ceil($width - ($width * abs($r - $w / $h)));
+      } else {
+        $height = ceil($height - ($height * abs($r - $w / $h)));
+      }
+      $newWidth = $w;
+      $newHeight = $h;
+
+    } else {
+      if ($w / $h > $r) {
+        $newWidth = $h * $r;
+        $newHeight = $h;
+      } else {
+        $newWidth = $w;
+        $newHeight = $w / $r;
+      }
+    }
+
+    $src = imagecreatefromjpeg($file);
+    $dst = imagecreatetruecolor($newWidth, $newHeight);
+    imagecopyresampled($dst, $src, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+    return $dst;
   }
 
   /**
