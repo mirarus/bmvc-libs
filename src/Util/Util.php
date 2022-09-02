@@ -418,25 +418,25 @@ class Util
 
     if ($savePath) {
       if (exif_imagetype($file) == 1) {
-        imagegif($dst, $savePath);
+        $dst = imagegif($dst, $savePath);
       } elseif (exif_imagetype($file) == 2) {
-        imagejpeg($dst, $savePath, 100);
+        $dst = imagejpeg($dst, $savePath, 100);
       } elseif (exif_imagetype($file) == 3) {
-        imagepng($dst, $savePath, 100);
+        $dst = imagepng($dst, $savePath, 100);
       } elseif (exif_imagetype($file) == 6) {
-        imagebmp($dst, $savePath);
+        $dst = imagebmp($dst, $savePath);
       } elseif (exif_imagetype($file) == 15) {
-        imagewbmp($dst, $savePath);
+        $dst = imagewbmp($dst, $savePath);
       } elseif (exif_imagetype($file) == 16) {
-        imagexbm($dst, $savePath);
+        $dst = imagexbm($dst, $savePath);
       } elseif (exif_imagetype($file) == 18) {
-        imagewebp($dst, $savePath, 100);
+        $dst = imagewebp($dst, $savePath, 100);
       } else {
-        imagejpeg($dst, $savePath, 100);
+        $dst = imagejpeg($dst, $savePath, 100);
       }
-    } else {
-      return $dst;
     }
+
+    return $dst;
   }
 
   /**
