@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.4
+ * @version 0.5
  */
 
 namespace BMVC\Libs\classCall;
@@ -79,8 +79,7 @@ trait classCall
    */
   public static function call($action, array $params = null, object &$return = null)
   {
-    $action = CL::replace($action);
-
+    
     if (is_callable($action)) {
 
       if ($params == null) {
@@ -92,6 +91,7 @@ trait classCall
 
       $method = null;
       $class = null;
+      $action = CL::replace($action);
 
       if ($action == null) return;
 
@@ -168,10 +168,23 @@ trait classCall
     $class = ($_ns != null) ? CL::implode([$_ns, $class]) : $class;
     $class = CL::replace($class);
     $cls = (new $class((is_array(self::$params) && !empty(self::$params))));
+    @header("Last-Modified: " . date("D, d M Y H:i:s") . " GMT");
 
     return $return = [
       'class' => $class,
       'cls' => $cls
     ];
+  }
+  
+  /**
+   * @param string $class
+   * @param object|null $return
+   * @return mixed
+   */
+  public static function import(string $class, object &$return = null)
+  {
+    self::get($class, $get);
+
+    return $return = @$get['cls'];
   }
 }

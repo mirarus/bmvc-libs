@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.12
+ * @version 0.13
  */
 
 namespace BMVC\Libs\Route;
@@ -18,15 +18,11 @@ use BMVC\Libs\Util;
 use BMVC\Libs\Request;
 use BMVC\Libs\Response;
 use BMVC\Libs\MError;
+use BMVC\Libs\_classCall;
 
 class Route implements IRoute, IMethod
 {
   use Method;
-
-  /**
-   * @var
-   */
-  public static $errors;
 
   /**
    * @var array
@@ -42,6 +38,16 @@ class Route implements IRoute, IMethod
    * @var array
    */
   private static $middlewares = [];
+
+  /**
+   * @var array
+   */
+  private static $errors = [];
+
+  /**
+   * @var array
+   */
+  private static $args = [];
 
   /**
    * @var bool
@@ -98,6 +104,14 @@ class Route implements IRoute, IMethod
     '{lowercase}' => '([a-z]+)',
     '{uppercase}' => '([A-Z]+)',
   ];
+
+  /**
+   * @param array|null $args
+   */
+  public static function args(array $args = null)
+  {
+    self::$args = $args;
+  }
 
   /**
    * @param array|null $return
@@ -298,13 +312,35 @@ class Route implements IRoute, IMethod
   }
 
   /**
-   * @param int $code
-   * @param Closure $callback
-   * @return mixed|void
+   * @param int|null $code
+   * @param $callback
+   * @return void
    */
-  public static function setErrors(int $code, Closure $callback)
+  private static function setError(int $code = null, $callback): void
   {
-    self::$errors[$code] = $callback;
+    $closure = null;
+
+    if (is_callable($callback)) {
+      $closure = $callback;
+    } elseif (is_string($callback)) {
+      if (stripos($callback, '@') !== false) {
+        $closure = $callback;
+      } elseif (stripos($callback, '/') !== false) {
+        $closure = $callback;
+      } elseif (stripos($callback, '.') !== false) {
+        $closure = $callback;
+      } elseif (stripos($callback, '::') !== false) {
+        $closure = $callback;
+      } elseif (stripos($callback, ':') !== false) {
+        $closure = $callback;
+      }
+    } elseif (is_array($callback)) {
+      $closure = $callback[0] . ':' . $callback[1];
+    }
+  
+    if ($closure) {
+      self::$errors[$code] = @_classCall::namespace(self::$args['namespace'], true)->call($closure);
+    }
   }
 
   /**
@@ -313,40 +349,26 @@ class Route implements IRoute, IMethod
    */
   public static function getErrors(int $code = null)
   {
-    $url = Util::get_url();
-
-    $error_404 = function ($stop = true) use ($url) {
-      Response::setStatusCode(404);
-      $msg = Response::getStatusMessage();
-      $res = (Response::getStatusCode() . ' ' . $msg);
-      if (Request::isGet()) {
-        MError::p($msg, $res, null, true, $stop, 'danger', 404);
+    self::$errors[404] = self::$errors[404] ?: function () {
+      if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        MError::p('Not Found', '404 Not Found', null, true, true, 'danger', 404);
       } else {
-        echo Response::_json(($url ? ['message' => $res, 'page' => $url] : ['message' => $res]), 404);
+        http_response_code(404);
+        @header("Content-Type: application/json; charset=utf-8");
+        return json_encode(['message' => '404 Not Found', 'page' => Util::get_url()]);
       }
-      if ($stop) die();
+    };
+    self::$errors[500] = self::$errors[500] ?: function () {
+      if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        MError::p('Internal Server Error', '404 Internal Server Error', null, true, true, 'danger', 500);
+      } else {
+        http_response_code(500);
+        @header("Content-Type: application/json; charset=utf-8");
+        return json_encode(['message' => '404 Internal Server Error', 'page' => Util::get_url()]);
+      }
     };
 
-    $error_500 = function ($stop = true) use ($url) {
-      Response::setStatusCode(500);
-      $msg = Response::getStatusMessage();
-      $res = (Response::getStatusCode() . ' ' . $msg);
-      if (Request::isGet()) {
-        MError::p($msg, $res, null, true, $stop, 'danger', 500);
-      } else {
-        echo Response::_json(($url ? ['message' => $res, 'page' => $url] : ['message' => $res]), 500);
-      }
-      if ($stop) die();
-    };
-
-    self::$errors = [
-      '404' => self::$errors[404] ?: $error_404,
-      '500' => self::$errors[500] ?: $error_500
-    ];
-
-    return $code ? self::$errors[$code]() : array_map(function ($error) {
-      $error(false);
-    }, self::$errors);
+    return $code ? self::$errors[$code]() : self::$errors;
   }
 
   /**
@@ -359,7 +381,7 @@ class Route implements IRoute, IMethod
   {
     if (Util::get_url() == $origin) {
       if (headers_sent() == false) {
-        header('Location: ' . Util::url($destination), true, ($permanent == true) ? 301 : 302);
+        header('Location: ' . Util::url($destination), true, ($permanent ? 301 : 302));
       }
       exit();
     }

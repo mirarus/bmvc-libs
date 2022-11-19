@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Response;
@@ -19,7 +19,7 @@ class Response
   /**
    * @var string[]
    */
-  private static $statusCodes = [
+  public static $statusCodes = [
     100 => 'Continue',
     101 => 'Switching Protocols',
     200 => 'OK',
@@ -69,6 +69,7 @@ class Response
    */
   public static function setHeader(int $code)
   {
+    @http_response_code($code);
     @header("HTTP/1.1 " . $code . " " . self::setStatusCode($code));
     @header("Content-Type: application/json; charset=utf-8");
   }
@@ -111,9 +112,8 @@ class Response
    */
   public static function json($data = null, bool $status = true, int $code = 200, bool $cache = true)
   {
-    self::setStatusCode($code);
+    self::setHeader($code);
     if ($cache == true) @header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
-    @header('Content-type: application/json');
     //@header('Status: ' . self::$statusCodes[$code]);
     return json_encode(['status' => $status, 'message' => $data]);
   }
@@ -127,9 +127,8 @@ class Response
   public static function _json(array $data = null, int $code = 200, bool $cache = true)
   {
     if ($data == null) $data = [];
-    self::setStatusCode($code);
+    self::setHeader($code);
     if ($cache == true) @header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
-    @header('Content-type: application/json');
     return json_encode($data);
   }
 }

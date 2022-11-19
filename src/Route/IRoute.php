@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.5
+ * @version 0.6
  */
 
 namespace BMVC\Libs\Route;
@@ -17,6 +17,11 @@ use Closure;
 
 interface IRoute
 {
+
+  /**
+   * @param array|null $args
+   */
+  public static function args(array $args = null);
 
   /**
    * @param array|null $return
@@ -54,13 +59,6 @@ interface IRoute
    * @return array
    */
   public static function routes(): array;
-
-  /**
-   * @param int $code
-   * @param Closure $callback
-   * @return mixed
-   */
-  public static function setErrors(int $code, Closure $callback);
 
   /**
    * @param int|null $code
