@@ -8,17 +8,17 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.13
+ * @version 0.14
  */
 
 namespace BMVC\Libs\Route;
 
 use Closure;
+use BMVC\Libs\CL;
 use BMVC\Libs\Util;
 use BMVC\Libs\Request;
 use BMVC\Libs\Response;
 use BMVC\Libs\MError;
-use BMVC\Libs\_classCall;
 
 class Route implements IRoute, IMethod
 {
@@ -104,6 +104,11 @@ class Route implements IRoute, IMethod
     '{lowercase}' => '([a-z]+)',
     '{uppercase}' => '([A-Z]+)',
   ];
+
+  /**
+   * @var string[]
+   */
+  private static $separators = ['@', '/', '.', '::', ':'];
 
   /**
    * @param array|null $args
@@ -323,6 +328,7 @@ class Route implements IRoute, IMethod
     if (is_callable($callback)) {
       $closure = $callback;
     } elseif (is_string($callback)) {
+      $callback = CL::replace($callback);
       if (stripos($callback, '@') !== false) {
         $closure = $callback;
       } elseif (stripos($callback, '/') !== false) {
@@ -334,12 +340,26 @@ class Route implements IRoute, IMethod
       } elseif (stripos($callback, ':') !== false) {
         $closure = $callback;
       }
-    } elseif (is_array($callback)) {
-      $closure = $callback[0] . ':' . $callback[1];
+      if (self::$separators != null) {
+        foreach (self::$separators as $separator) {
+          if (@strstr($closure, $separator)) {
+            $closure = @explode($separator, $closure);
+          }
+        }
+      }
+      if (is_array($closure)) {
+        $class = $closure[0];
+        $method = $closure[1];
+        $closure = (new $class)->{$method}();
+      }
+    } elseif (is_array($closure)) {
+      $class = $closure[0];
+      $method = $closure[1];
+      $closure = (new $class)->{$method}();
     }
-  
+
     if ($closure) {
-      self::$errors[$code] = @_classCall::namespace(self::$args['namespace'], true)->call($closure);
+      self::$errors[$code] = $closure;
     }
   }
 

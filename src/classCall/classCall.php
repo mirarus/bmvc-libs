@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.5
+ * @version 0.6
  */
 
 namespace BMVC\Libs\classCall;
@@ -79,7 +79,6 @@ trait classCall
    */
   public static function call($action, array $params = null, object &$return = null)
   {
-    
     if (is_callable($action)) {
 
       if ($params == null) {
