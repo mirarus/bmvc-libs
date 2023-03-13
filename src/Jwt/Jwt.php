@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Jwt;
@@ -64,7 +64,6 @@ class Jwt
     $signature = self::urlSafeBase64Encode(self::signature($message, $secret, $alg));
     return $header . '.' . $payload . '.' . $signature;
   }
-
 
   /**
    * @param string $token
@@ -223,7 +222,6 @@ class Jwt
 
     throw new Exception('JWT Error! | ' . ($messages[$errno] ?? 'Unknown JSON error: ' . $errno));
   }
-
 
   /**
    * @param string $str
