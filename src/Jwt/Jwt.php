@@ -22,12 +22,12 @@ class Jwt
   /**
    * @var int
    */
-  private static $exp = 300;
+  public static $exp = 300;
 
   /**
    * @var int
    */
-  private static $leeway = 0;
+  public static $leeway = 0;
 
   /**
    * @var string[]
