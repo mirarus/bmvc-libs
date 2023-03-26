@@ -73,6 +73,16 @@ function getErrors()
   return Route::getErrors(...func_get_args());
 }
 
+function getRouteUrl()
+{
+  return Route::url(...func_get_args());
+}
+
+function getRU()
+{
+  return Route::url(...func_get_args());
+}
+
 function getViewData()
 {
   return View::getData(...func_get_args());
