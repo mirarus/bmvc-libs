@@ -78,7 +78,17 @@ function getViewData()
   return View::getData(...func_get_args());
 }
 
+function getVD()
+{
+  return View::getData(...func_get_args());
+}
+
 function getViewContent()
+{
+  return View::getContent();
+}
+
+function getVC()
 {
   return View::getContent();
 }
