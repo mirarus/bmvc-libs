@@ -166,7 +166,7 @@ trait classCall
     $class = ($ns != null) ? CL::implode([$ns, $class]) : $class;
     $class = ($_ns != null) ? CL::implode([$_ns, $class]) : $class;
     $class = CL::replace($class);
-    $cls = (new $class((is_array(self::$params) && !empty(self::$params))));
+		$cls = (new $class((is_array(self::$params) && !empty(self::$params))));
     @header("Last-Modified: " . date("D, d M Y H:i:s") . " GMT");
 
     return $return = [

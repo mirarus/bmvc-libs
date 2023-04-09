@@ -1,0 +1,24 @@
+{
+  "description": "Mirarus BMVC Env Lib (Basic MVC Env Lib)",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ali Güçlü",
+      "email": "aliguclutr@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.3 || ^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "BMVC\\Libs\\Env\\": "./"
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
+}

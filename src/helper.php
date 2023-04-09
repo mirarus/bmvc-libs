@@ -4,6 +4,7 @@ use BMVC\Libs\Util;
 use BMVC\Libs\Route;
 use BMVC\Libs\View;
 use BMVC\Libs\Locale;
+use BMVC\Libs\Model;
 
 /**
  * @return null|string
@@ -114,4 +115,9 @@ if (!function_exists('_')) {
   {
     return func_get_arg(0);
   }
+}
+
+function iModel()
+{
+	return Model::import(...func_get_args());
 }

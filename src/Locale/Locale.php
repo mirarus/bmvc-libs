@@ -14,6 +14,7 @@
 namespace BMVC\Libs\Locale;
 
 use BMVC\Libs\FS;
+use BMVC\Libs\Util;
 
 class Locale
 {
@@ -24,9 +25,9 @@ class Locale
 	public static $dir = 'Locales';
 
 	/**
-	 * @var string
+	 * @var null
 	 */
-	public static $locale = 'en_US';
+	public static $locale;
 
 	/**
 	 * @var string
@@ -55,7 +56,7 @@ class Locale
 		if (isset($_GET['locale']) && in_array($_GET['locale'], self::list('locales'))) {
 			$locale = $_GET['locale'];
 			setcookie('locale', $locale, 0, '/');
-			redirect(url(self::$page));
+			redirect(url(Util::page_url()));
 		} elseif (isset($_COOKIE['locale']) && in_array($_COOKIE['locale'], self::list('locales'))) {
 			$locale = $_COOKIE['locale'];
 		} elseif (isset(self::$locale) && in_array(self::$locale, self::list('locales'))) {
@@ -94,7 +95,9 @@ class Locale
 	{
 		$dirLocales = FS::directories(FS::app(self::$dir));
 		$codeset = mb_strtolower(self::$codeset);
-		$shell = trim(shell_exec("locale -a|grep ." . $codeset));
+		if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+			$shell = trim(shell_exec("locale -a|grep ." . $codeset));
+		}
 		$unixLocales = array_reduce(($shell ? explode('.' . $codeset . "\n", $shell) : []), function ($res, $el) {
 			$res[] = trim(str_replace('.' . $codeset, null, $el));
 			return $res;
