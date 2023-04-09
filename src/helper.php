@@ -3,6 +3,7 @@
 use BMVC\Libs\Util;
 use BMVC\Libs\Route;
 use BMVC\Libs\View;
+use BMVC\Libs\Locale;
 
 /**
  * @return null|string
@@ -101,6 +102,11 @@ function getViewContent()
 function getVC()
 {
   return View::getContent();
+}
+
+function locales()
+{
+  return Locale::list(...func_get_args());
 }
 
 if (!function_exists('_')) {
