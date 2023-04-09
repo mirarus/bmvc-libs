@@ -13,6 +13,8 @@
 
 namespace BMVC\Libs\Locale;
 
+use BMVC\Libs\FS;
+
 class Locale
 {
 
@@ -101,7 +103,7 @@ class Locale
 		$locales = ($unixLocales ? array_intersect($dirLocales, $unixLocales) : $dirLocales);
 
 		$arr = ($locales ? [
-			'locale' => self::$activeLocale,
+			'locale' => self::$locale,
 			'locales' => $locales,
 			'dir_locales' => $dirLocales
 		] : []);
