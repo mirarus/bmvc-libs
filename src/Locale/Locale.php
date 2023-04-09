@@ -39,7 +39,7 @@ class Locale
 	/**
 	 * @return void
 	 */
-	private static function init(): void
+	public static function init(): void
 	{
 		if (class_exists('\Locale') && \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 			$_locale = \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
