@@ -105,6 +105,11 @@ function getVC()
   return View::getContent();
 }
 
+function getVA()
+{
+  return View::asset(...func_get_args());
+}
+
 function locales()
 {
   return Locale::list(...func_get_args());
@@ -119,5 +124,5 @@ if (!function_exists('_')) {
 
 function iModel()
 {
-	return Model::import(...func_get_args());
+  return Model::import(...func_get_args());
 }
