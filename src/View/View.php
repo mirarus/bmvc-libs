@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.4
+ * @version 0.5
  */
 
 namespace BMVC\Libs\View;
@@ -160,7 +160,7 @@ class View
     self::_data($data);
 
     list($_theme, $_themePath, $_themeLayout, $_themeLayoutFile) = self::_themeSelector();
-
+		self::setData(['theme' => $_theme]);
     ob_start();
     self::_import($_themePath, $view, $data);
     self::$content = $content = ob_get_contents();
@@ -314,4 +314,44 @@ class View
     @$GLOBALS['view'] = $data;
     @$_REQUEST['view'] = $data;
   }
+
+	/**
+	 * @param string $theme
+	 */
+	public static function setTheme(string $theme)
+	{
+		if (self::getThemes($theme)) {
+			self::$theme = $theme;
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getTheme(): string
+	{
+		return self::$theme;
+	}
+
+	/**
+	 * @param mixed|null $index
+	 * @return array
+	 */
+	public static function getThemes($index = null): array
+	{
+		return $index ? self::$themes[$index] : self::$themes;
+	}
+
+	/**
+	 * @param string $file
+	 * @param string|null $theme
+	 * @return string
+	 */
+	public static function asset(string $file, string $theme = null): string
+	{
+		$_theme = $theme ?: self::$theme;
+		$_theme = array_key_exists($_theme, self::$themes) ? $_theme : self::$theme;
+		$_themePath = FS::trim(self::$themes[$_theme]['path']);
+		return url("assets/" . $_themePath . '/' . $file);
+	}
 }
