@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 1.0
+ * @version 1.1
  */
 
 namespace BMVC\Libs\Util;
@@ -146,6 +146,22 @@ class Util
     $array = explode('/', $parse['path'], 2);
     return trim($parse['host'] ? $parse['host'] : array_shift($array));
   }
+
+	/**
+	 * @param string $addr
+	 * @return string
+	 */
+	public static function getHost(string $addr): string
+	{
+		$parsed_url = parse_url(trim($addr));
+		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
+		$host = $parsed_url['host'] ?: '';
+		$port = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+		$user = $parsed_url['user'] ?: '';
+		$pass = isset($parsed_url['pass']) ? ':' . $parsed_url['pass'] : '';
+		$pass = ($user || $pass) ? '$pass@' : '';
+		return "$scheme$user$pass$host$port";
+	}
 
   /**
    * @param string $needle

@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-core
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.14
+ * @version 0.16
  */
 
 namespace BMVC\Libs\Route;
@@ -50,9 +50,9 @@ class Route implements IRoute, IMethod
   private static $args = [];
 
   /**
-   * @var bool
+   * @var array
    */
-  private static $trashMiddlewares = false;
+  private static $trashMiddlewares = [];
 
   /**
    * @var string
@@ -269,15 +269,6 @@ class Route implements IRoute, IMethod
   }
 
   /**
-   * @return static
-   */
-  public static function trashMiddlewares(): self
-  {
-    self::$trashMiddlewares = true;
-    return new self;
-  }
-
-  /**
    * @param string $name
    * @param array|null $params
    * @return static
@@ -380,7 +371,7 @@ class Route implements IRoute, IMethod
     };
     self::$errors[500] = self::$errors[500] ?: function () {
       if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        MError::p('Internal Server Error', '404 Internal Server Error', null, true, true, 'danger', 500);
+        MError::p('Internal Server Error', '500 Internal Server Error', null, true, true, 'danger', 500);
       } else {
         http_response_code(500);
         @header("Content-Type: application/json; charset=utf-8");

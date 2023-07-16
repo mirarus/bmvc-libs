@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Composer
+ * Database
  *
  * Mirarus BMVC
  * @package BMVC\Libs
@@ -13,4 +13,4 @@
 
 namespace BMVC\Libs;
 
-final class Composer extends Composer\Composer {}
+final class Database extends Database\Database {}
