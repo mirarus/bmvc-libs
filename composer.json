@@ -23,12 +23,6 @@
     "jenssegers/blade": "^1.4",
     "vlucas/phpdotenv": "^5.3"
   },
-  "repositories": [
-    {
-      "type": "path",
-      "url": "mirarus/bmvc-lib-benchmark"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "BMVC\\Libs\\": "src"
