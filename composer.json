@@ -22,7 +22,7 @@
     "filp/whoops": "^2.14",
     "jenssegers/blade": "^1.4",
     "vlucas/phpdotenv": "^5.3",
-    "mirarus/bmvc-lib-benchmark": "*"
+    "mirarus/bmvc-lib-benchmark": "@dev"
   },
   "repositories": [
     {
