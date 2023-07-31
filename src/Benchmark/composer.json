@@ -1,5 +1,5 @@
 {
-  "name": "bmvc/libs/benchmark",
+  "name": "mirarus/bmvc-lib-benchmark",
   "description": "Mirarus BMVC Benchmark Lib (Basic MVC Benchmark Lib)",
   "type": "library",
   "license": "MIT",

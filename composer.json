@@ -22,12 +22,12 @@
     "filp/whoops": "^2.14",
     "jenssegers/blade": "^1.4",
     "vlucas/phpdotenv": "^5.3",
-    "bmvc/libs/benchmark": "*"
+    "mirarus/bmvc-lib-benchmark": "*"
   },
   "repositories": [
     {
       "type": "path",
-      "url": "bmvc/libs/benchmark"
+      "url": "mirarus/bmvc-lib-benchmark"
     }
   ],
   "autoload": {
