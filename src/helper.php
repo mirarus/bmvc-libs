@@ -74,6 +74,10 @@ function getErrors()
 {
   return Route::getErrors(...func_get_args());
 }
+function getE()
+{
+  return Route::getErrors(...func_get_args());
+}
 
 function getRouteUrl()
 {

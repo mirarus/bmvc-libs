@@ -21,7 +21,8 @@
 		"monolog/monolog": "^2.3",
 		"filp/whoops": "^2.14",
 		"jenssegers/blade": "^1.4",
-		"vlucas/phpdotenv": "^5.3"
+		"vlucas/phpdotenv": "^5.3",
+		"BMVC/Libs/Benchmark":  "*",
     },
 	"autoload": {
 		"psr-4": {

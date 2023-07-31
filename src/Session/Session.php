@@ -16,7 +16,23 @@ namespace BMVC\Libs\Session;
 class Session
 {
 
-  /**
+	public function __construct()
+	{
+		if (session_status() != PHP_SESSION_ACTIVE || session_id() == null) {
+			@ini_set('session.use_only_cookies', '1');
+			@session_set_cookie_params([
+				'lifetime' => 3600 * 24,
+				'httponly' => true,
+				// 'path' => self::$url
+			]);
+			if ($_ENV['ENVIRONMENT'] == 'development') {
+				@session_name('BMVC');
+			}
+			@session_start();
+		}
+	}
+
+	/**
    * @param $storage
    * @param $content
    * @return void

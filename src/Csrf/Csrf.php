@@ -71,7 +71,7 @@ class Csrf
 	{
 		$token = self::getToken($page, $expiry);
 		if ($token) {
-			return 'var csrf_token = ' . json_encode($token) . ';';
+			return "var csrf_token = " . json_encode($token) . ";";
 		}
 	}
 
