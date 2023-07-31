@@ -1,49 +1,55 @@
 {
-	"name": "mirarus/bmvc-libs",
-	"description": "Mirarus BMVC Libs (Basic MVC Libs)",
-	"type": "library",
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Ali Güçlü",
-			"email": "aliguclutr@gmail.com"
-		}
-	],
-	"require": {
-		"php": "^7.3 || ^8.0",
-		"ext-json": "*",
-		"ext-mbstring": "*",
-		"ext-intl" : "*",
-		"ext-gd": "*",
-		"ext-curl": "*",
-		"mirarus/bmvc-exception": "0.*",
-		"mirarus/db": "0.*",
-		"monolog/monolog": "^2.3",
-		"filp/whoops": "^2.14",
-		"jenssegers/blade": "^1.4",
-		"vlucas/phpdotenv": "^5.3",
-		"BMVC/Libs/Benchmark":  "*"
+  "name": "mirarus/bmvc-libs",
+  "description": "Mirarus BMVC Libs (Basic MVC Libs)",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ali Güçlü",
+      "email": "aliguclutr@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.3 || ^8.0",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-intl": "*",
+    "ext-gd": "*",
+    "ext-curl": "*",
+    "mirarus/bmvc-exception": "0.*",
+    "mirarus/db": "0.*",
+    "monolog/monolog": "^2.3",
+    "filp/whoops": "^2.14",
+    "jenssegers/blade": "^1.4",
+    "vlucas/phpdotenv": "^5.3",
+    "bmvc/libs/benchmark": "*"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "bmvc/libs/benchmark"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "BMVC\\Libs\\": "src"
     },
-	"autoload": {
-		"psr-4": {
-			"BMVC\\Libs\\": "src"
-		},
-		"files": [
-			"src/helper.php"
-		]
-	},
-	"config": {
-		"preferred-install": "dist",
-		"sort-packages": true,
-		"optimize-autoloader": true
-	},
-	"scripts": {
-		"post-install-cmd": "BMVC\\Libs\\Composer::folderDelete",
-		"post-update-cmd": "BMVC\\Libs\\Composer::folderDelete",
-		"post-autoload-dump": "BMVC\\Libs\\Composer::folderDelete",
-		"post-root-package-install": "BMVC\\Libs\\Composer::folderDelete",
-		"post-create-project-cmd": "BMVC\\Libs\\Composer::folderDelete",
-		"post-package-install": "BMVC\\Libs\\Composer::folderDelete",
-		"post-package-update": "BMVC\\Libs\\Composer::folderDelete"
-	}
+    "files": [
+      "src/helper.php"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  },
+  "scripts": {
+    "post-install-cmd": "BMVC\\Libs\\Composer::folderDelete",
+    "post-update-cmd": "BMVC\\Libs\\Composer::folderDelete",
+    "post-autoload-dump": "BMVC\\Libs\\Composer::folderDelete",
+    "post-root-package-install": "BMVC\\Libs\\Composer::folderDelete",
+    "post-create-project-cmd": "BMVC\\Libs\\Composer::folderDelete",
+    "post-package-install": "BMVC\\Libs\\Composer::folderDelete",
+    "post-package-update": "BMVC\\Libs\\Composer::folderDelete"
+  }
 }
