@@ -137,7 +137,7 @@ interface IRequest
   /**
    * @return string
    */
-  public static function getPathInfo(): string;
+  public static function getPathInfo();
 
   /**
    * @return string
@@ -147,7 +147,7 @@ interface IRequest
   /**
    * @return string
    */
-  public static function getResourceUri(): string;
+  public static function getResourceUri();
 
   /**
    * @return string
@@ -162,12 +162,7 @@ interface IRequest
   /**
    * @return mixed
    */
-  public static function getReferrer();
-
-  /**
-   * @return string
-   */
-  public static function getReferer(): string;
+  public static function getReferer();
 
   /**
    * @return string

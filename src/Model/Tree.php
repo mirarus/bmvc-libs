@@ -123,7 +123,7 @@ abstract class Tree
 	 */
 	public function wEdit($where, array $data, bool $time = true): int
 	{
-		if ($this->wGet($where)) {
+		//if ($this->wGet($where)) {
 
 			$sql = $this->DB()->update($this->tableName);
 			$this->_where($sql, $where);
@@ -131,7 +131,7 @@ abstract class Tree
 			return $sql->set(array_merge($data, $time ? [
 				'edit_time' => time()
 			] : []));
-		}
+	//	}
 		return false;
 	}
 

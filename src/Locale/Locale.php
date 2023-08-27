@@ -14,6 +14,9 @@
 namespace BMVC\Libs\Locale;
 
 use BMVC\Libs\FS;
+use BMVC\Libs\Request;
+use BMVC\Libs\Response;
+use BMVC\Libs\Route;
 use BMVC\Libs\Util;
 
 class Locale
@@ -37,6 +40,7 @@ class Locale
 	public function __construct()
 	{
 		self::init();
+		self::_route();
 	}
 
 	/**
@@ -48,7 +52,7 @@ class Locale
 			$_locale = \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 			if ($_locale == 'tr') {
 				$_locale = 'tr_TR';
-			} elseif ($_locale == 'en') {
+			} else if ($_locale == 'en') {
 				$_locale = 'en_US';
 			}
 		}
@@ -57,13 +61,13 @@ class Locale
 			$locale = $_GET['locale'];
 			setcookie('locale', $locale, 0, '/');
 			redirect(url(Util::page_url()));
-		} elseif (isset($_COOKIE['locale']) && in_array($_COOKIE['locale'], self::list('locales'))) {
+		} else if (isset($_COOKIE['locale']) && in_array($_COOKIE['locale'], self::list('locales'))) {
 			$locale = $_COOKIE['locale'];
-		} elseif (isset(self::$locale) && in_array(self::$locale, self::list('locales'))) {
+		} else if (isset(self::$locale) && in_array(self::$locale, self::list('locales'))) {
 			$locale = self::$locale;
-		} elseif (isset($_locale) && in_array($_locale, self::list('locales'))) {
+		} else if (isset($_locale) && in_array($_locale, self::list('locales'))) {
 			$locale = $_locale;
-		} elseif (isset($_ENV['LOCALE']) && in_array($_ENV['LOCALE'], self::list('locales'))) {
+		} else if (isset($_ENV['LOCALE']) && in_array($_ENV['LOCALE'], self::list('locales'))) {
 			$locale = $_ENV['LOCALE'];
 		} else {
 			$locale = 'en_US';
@@ -89,6 +93,7 @@ class Locale
 
 	/**
 	 * @param null $index
+	 *
 	 * @return mixed
 	 */
 	public static function list($index = null)
@@ -112,5 +117,18 @@ class Locale
 		] : []);
 
 		return $index ? $arr[$index] : $arr;
+	}
+
+	private static function _route()
+	{
+		Route::any('locale', function () {
+			$word = Request::request('word');
+			$word = ($word ? _($word) : $word);
+			echo Response::json($word, (!$word == null));
+		});
+		Route::any('locale/:all', function ($word) {
+			$word = ($word ? _($word) : $word);
+			echo Response::json($word, (!$word == null));
+		});
 	}
 }

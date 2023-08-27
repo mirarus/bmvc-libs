@@ -161,6 +161,7 @@ class View
 
 		list($_theme, $_themePath, $_themeLayout, $_themeLayoutFile) = self::_themeSelector();
 		self::setData(['theme' => $_theme]);
+
 		ob_start();
 		self::_import($_themePath, $view, $data);
 		self::$content = $content = ob_get_contents();
@@ -180,13 +181,17 @@ class View
 	{
 		$_theme = array_key_exists('theme', self::$data) ? self::$data['theme'] : self::$theme;
 		$_theme = array_key_exists($_theme, self::$themes) ? $_theme : self::$theme;
+
 		$_themePath = FS::trim(FS::implode([self::$path, self::$themes[$_theme]['path']]));
+
 		$_themeLayout = FS::trim(FS::implode([$_themePath, self::$themes[$_theme]['layout']]));
 		$_themeLayoutFile = FS::app($_themeLayout);
 
 		if (!self::$config) throw new Exception('Viewer Config Not Found');
 		if (!self::$themes[$_theme]) throw new Exception('Viewer Theme Not Found');
 		if (!FS::is_file($_themeLayoutFile)) throw new Exception('Viewer Layout Not Found');
+
+		$_themePath = array_key_exists('themePath', self::$data) ?  self::$data['themePath']  : $_themePath;
 
 		return [$_theme, $_themePath, $_themeLayout, $_themeLayoutFile];
 	}

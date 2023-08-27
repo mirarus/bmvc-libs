@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Header;
@@ -160,4 +160,12 @@ class Header
   {
     return (bool)(self::get('Content-type') == self::$mime_types[$key]);
   }
+	/**
+	 * @param string $key
+	 * @return void
+	 */
+	public static function setContentMime(string $key): void
+	{
+		header('Content-type' . ': ' . self::$mime_types[$key]);
+	}
 }

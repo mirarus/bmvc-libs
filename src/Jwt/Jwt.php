@@ -67,15 +67,12 @@ class Jwt
 
   /**
    * @param string $token
-   * @param string|null $secret
+   * @param string $secret
    * @return mixed
    * @throws Exception
    */
-  public static function decode(string $token, string $secret = null)
+  public static function decode(string $token, string $secret)
   {
-    if (empty($secret)) {
-      throw new Exception('JWT Error! | Secret may not be empty.');
-    }
     $jwt = explode('.', $token);
     if (count($jwt) != 3) {
       throw new Exception('JWT Error! | Wrong number of segments.');

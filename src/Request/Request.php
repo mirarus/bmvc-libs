@@ -386,7 +386,7 @@ class Request implements IRequest
   /**
    * @return string
    */
-  public static function getPathInfo(): string
+  public static function getPathInfo()
   {
     return self::_server('PATH_INFO');
   }
@@ -402,7 +402,7 @@ class Request implements IRequest
   /**
    * @return string
    */
-  public static function getResourceUri(): string
+  public static function getResourceUri()
   {
     return self::getPathInfo();
   }
@@ -430,17 +430,9 @@ class Request implements IRequest
   /**
    * @return bool|mixed|mixed[]|string|null
    */
-  public static function getReferrer()
+  public static function getReferer()
   {
     return self::header('HTTP_REFERER');
-  }
-
-  /**
-   * @return string
-   */
-  public static function getReferer(): string
-  {
-    return self::getReferrer();
   }
 
   /**
@@ -574,6 +566,38 @@ class Request implements IRequest
 
   /**
    * @param string|null $data
+   * @param bool $db_filter
+   * @param bool $xss_filter
+   * @return array|mixed
+   */
+  public static function put(string $data = null, bool $db_filter = true, bool $xss_filter = true)
+  {
+    return self::rea($_PUT, $data, $db_filter, $xss_filter);
+  }
+  /**
+   * @param string|null $data
+   * @param bool $db_filter
+   * @param bool $xss_filter
+   * @return array|mixed
+   */
+  public static function patch(string $data = null, bool $db_filter = true, bool $xss_filter = true)
+  {
+    return self::rea($_PATCH, $data, $db_filter, $xss_filter);
+  }
+
+	/**
+   * @param string|null $data
+   * @param bool $db_filter
+   * @param bool $xss_filter
+   * @return array|mixed
+   */
+  public static function delete(string $data = null, bool $db_filter = true, bool $xss_filter = true)
+  {
+    return self::rea($_DELETE, $data, $db_filter, $xss_filter);
+  }
+
+  /**
+   * @param string|null $data
    * @param string $type
    * @param bool $db_filter
    * @param bool $xss_filter
@@ -597,6 +621,12 @@ class Request implements IRequest
       return self::post($data, $db_filter, $xss_filter);
     } elseif ($type == 'get') {
       return self::get($data, $db_filter, $xss_filter);
+    } elseif ($type == 'put') {
+      return self::put($data, $db_filter, $xss_filter);
+    } elseif ($type == 'patch') {
+      return self::patch($data, $db_filter, $xss_filter);
+    } elseif ($type == 'delete') {
+      return self::delete($data, $db_filter, $xss_filter);
     }
   }
 
@@ -631,7 +661,7 @@ class Request implements IRequest
    * @param bool $xss_filter
    * @return array|false|mixed|string|string[]|void
    */
-  private static function rea($method, string $data = null, bool $db_filter = true, bool $xss_filter = true)
+  public static function rea($method, string $data = null, bool $db_filter = true, bool $xss_filter = true)
   {
     if ($xss_filter) {
       $method = Filter::filterXSS($method);

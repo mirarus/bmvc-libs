@@ -24,9 +24,10 @@ interface IMethod
 
   /**
    * @param string|null $prefix
+   * @param bool $mainRoute
    * @return Route
    */
-  public static function prefix(string $prefix = null): Route;
+  public static function prefix(string $prefix = null, bool $mainRoute = true): Route;
 
   /**
    * @param string $ip

@@ -25,7 +25,8 @@ trait Method
 	 */
 	public static function middleware($middlewares): self
 	{
-		if (self::$trashMiddlewares) self::$middlewares = [];
+		if (self::$trashMiddlewares)
+			self::$middlewares = [];
 		if (is_array($middlewares)) {
 			foreach ($middlewares as $middleware) {
 				self::$middlewares[$middleware] = [
@@ -59,12 +60,13 @@ trait Method
 
 	/**
 	 * @param string|null $prefix
+	 * @param bool $mainRoute
 	 *
 	 * @return static
 	 */
-	public static function prefix(string $prefix = null): self
+	public static function prefix(string $prefix = null, bool $mainRoute = true): self
 	{
-		self::$prefix = self::$mainRoute . $prefix;
+		self::$prefix = $mainRoute ? (self::$mainRoute . $prefix) : $prefix;
 		return new self;
 	}
 

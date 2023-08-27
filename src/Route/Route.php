@@ -214,6 +214,7 @@ class Route implements IRoute, IMethod
 				'callback' => @$closure
 			];
 
+
 			if (self::$ip)
 				$route_['ip'] = self::$ip;
 			if (self::$middlewares)
