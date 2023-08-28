@@ -84,6 +84,13 @@ interface IRequest
    */
   public static function isFormData(): bool;
 
+	/**
+	 * @param $content
+	 *
+	 * @return FormData
+	 */
+	public static function getFormData($content = null): FormData;
+
   /**
    * @return mixed
    */
@@ -185,6 +192,11 @@ interface IRequest
    * @return mixed
    */
   public static function inputToPost();
+
+	/**
+   * @return mixed
+   */
+  public static function input();
 
   /**
    * @param string|null $data

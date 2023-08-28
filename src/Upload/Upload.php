@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Upload;
@@ -19,7 +19,7 @@ class Upload
 	/**
 	 * @var array
 	 */
-	private $error = [
+	private array $error = [
 		'upload' => [
 			0 => 'There is no error, the file uploaded with success',
 			1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
@@ -46,20 +46,26 @@ class Upload
 	/**
 	 * @var string
 	 */
-	private $type = 'any';
+	private string $type = 'any';
 
 	/**
 	 * @var int
 	 */
-	private $size = 1024;
+	private int $size = 1024;
 
 	/**
 	 * @var int
 	 */
-	private $rand = 0;
+	private int $rand = 0;
+
+	/**
+	 * @var int
+	 */
+	private int $quality = 100;
 
 	/**
 	 * @return array|false
+	 * @throws \ImagickException
 	 */
 	public function upload()
 	{
@@ -80,8 +86,10 @@ class Upload
 				}
 
 				if (($_type == $this->type) || $this->type == 'any') {
-					if ($this->file['size'] <= $this->size * 1024) {
-						if (move_uploaded_file($this->file['tmp_name'], $_path)) {
+					if ($this->file['size'] <= $this->size) {
+
+						//if ($this->compressImage($this->file['tmp_name'], $_path, $this->quality)) {
+						if (copy($this->file['tmp_name'], $_path)) {
 
 							return [
 								'file' => $_path,
@@ -98,7 +106,7 @@ class Upload
 					} else {
 						$this->error['system'] = [
 							'code' => 1004,
-							'error' => 'File size large, sent file size ' . $this->file['size'] . ' Byte, acceptable file size ' . $this->size * 1024 . ' Byte'
+							'error' => 'File size large, sent file size ' . $this->file['size'] . ' Byte, acceptable file size ' . $this->size . ' Byte'
 						];
 					}
 				} else {
@@ -121,6 +129,27 @@ class Upload
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param $source
+	 * @param $targetPath
+	 * @param $quality
+	 *
+	 * @return bool
+	 */
+	private function compressImage($source, $targetPath, $quality): bool
+	{
+		ini_set('memory_limit', '-1');
+		$info = getimagesize($source);
+		if ($info['mime'] == 'image/jpeg') {
+			$image = imagecreatefromjpeg($source);
+		} else if ($info['mime'] == 'image/png') {
+			$image = imagecreatefrompng($source);
+		}
+		imagejpeg($image, $targetPath, $quality);
+		imagedestroy($image);
+		return true;
 	}
 
 	/**
@@ -168,7 +197,7 @@ class Upload
 	 */
 	public function setSize(int $size): void
 	{
-		$this->size = $size;
+		$this->size = $size * 1024;
 	}
 
 	/**
@@ -177,5 +206,23 @@ class Upload
 	public function setRand(int $rand): void
 	{
 		$this->rand = $rand;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getQuality(): int
+	{
+		return $this->quality;
+	}
+
+	/**
+	 * @param int $quality
+	 *
+	 * @return void
+	 */
+	public function setQuality(int $quality): void
+	{
+		$this->quality = $quality;
 	}
 }

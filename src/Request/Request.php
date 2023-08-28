@@ -276,6 +276,15 @@ class Request implements IRequest
   {
     return (self::getRequestMethod() == self::METHOD_POST && self::getContentType() == null) || in_array(self::getMediaType(), self::$formDataMediaTypes);
   }
+	/**
+	 * @param $content
+	 *
+	 * @return FormData
+	 */
+  public static function getFormData($content = null): FormData
+  {
+    return new FormData($content);
+  }
 
   /**
    * @return bool|mixed|mixed[]|string|null
@@ -473,6 +482,14 @@ class Request implements IRequest
       }
     }
     return true;
+  }
+
+  /**
+   * @return mixed
+   */
+  public static function input()
+  {
+   return json_decode(file_get_contents('php://input', true));
   }
 
   /**
