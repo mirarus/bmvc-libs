@@ -87,8 +87,8 @@ class Locale
 		}
 
 		bindtextdomain($locale, FS::app(self::$dir));
-		bind_textdomain_codeset($locale, self::$codeset);
 		textdomain($locale);
+		bind_textdomain_codeset($locale, self::$codeset);
 	}
 
 	/**

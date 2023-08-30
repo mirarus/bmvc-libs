@@ -42,6 +42,15 @@ trait Method
 	}
 
 	/**
+	 * @return static
+	 */
+	public static function trashMiddlewares(): self
+	{
+		self::$middlewares = [];
+		return new self;
+	}
+
+	/**
 	 * @param $middlewares
 	 *
 	 * @return static
