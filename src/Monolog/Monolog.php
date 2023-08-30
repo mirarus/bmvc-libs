@@ -77,4 +77,9 @@ class Monolog
     self::${$key} = $val;
     if ($new) return new self;
   }
+
+  public static function log()
+  {
+   return self::$log;
+  }
 }
