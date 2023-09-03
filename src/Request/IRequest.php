@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.3
+ * @version 0.4
  */
 
 namespace BMVC\Libs\Request;
@@ -197,6 +197,11 @@ interface IRequest
    * @return mixed
    */
   public static function input();
+
+	/**
+   * @return mixed
+   */
+  public static function _input();
 
   /**
    * @param string|null $data

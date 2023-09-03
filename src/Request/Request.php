@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.5
+ * @version 0.6
  */
 
 namespace BMVC\Libs\Request;
@@ -490,6 +490,14 @@ class Request implements IRequest
   public static function input()
   {
    return json_decode(file_get_contents('php://input', true));
+  }
+
+  /**
+   * @return mixed
+   */
+  public static function _input()
+  {
+   return json_decode(file_get_contents('php://input'));
   }
 
   /**
