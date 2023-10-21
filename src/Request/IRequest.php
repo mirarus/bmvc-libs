@@ -172,9 +172,9 @@ interface IRequest
   public static function getReferer();
 
   /**
-   * @return string
+   * @return string|null
    */
-  public static function getUserAgent(): string;
+  public static function getUserAgent();
 
   /**
    * @param string $domain

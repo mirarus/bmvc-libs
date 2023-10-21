@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Session;
@@ -49,11 +49,11 @@ class Session
   }
 
   /**
-   * @param string|null $storage
-   * @param string|null $child
+   * @param null $storage
+   * @param null $child
    * @return array|mixed|void
    */
-  public static function get(string $storage = null, string $child = null)
+  public static function get($storage = null, $child = null)
   {
     if (is_null($storage)) {
       return $_SESSION;
@@ -62,11 +62,11 @@ class Session
   }
 
   /**
-   * @param string $storage
-   * @param string|null $child
+   * @param $storage
+   * @param null $child
    * @return mixed|void
    */
-  public static function has(string $storage, string $child = null)
+  public static function has($storage, $child = null)
   {
     if ($child === null) {
       if (isset($_SESSION[$storage])) {
@@ -80,11 +80,11 @@ class Session
   }
 
   /**
-   * @param string|null $storage
-   * @param string|null $child
+   * @param null $storage
+   * @param null $child
    * @return void
    */
-  public static function delete(string $storage = null, string $child = null): void
+  public static function delete($storage = null, $child = null): void
   {
     if (is_null($storage)) {
       session_unset();

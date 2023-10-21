@@ -445,11 +445,11 @@ class Request implements IRequest
   }
 
   /**
-   * @return string
+   * @return string|null
    */
-  public static function getUserAgent(): string
+  public static function getUserAgent()
   {
-    return self::header('HTTP_USER_AGENT');
+    return self::header('HTTP_USER_AGENT') ?: null;
   }
 
   /**
