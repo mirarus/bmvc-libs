@@ -26,7 +26,7 @@
     "bmvc/browser": "self.version",
     "bmvc/cache": "self.version",
     "bmvc/cl": "self.version",
-    "bmvc/classCall": "self.version",
+    "bmvc/classcall": "self.version",
     "bmvc/composer": "self.version",
     "bmvc/convert": "self.version",
     "bmvc/cookie": "self.version",
