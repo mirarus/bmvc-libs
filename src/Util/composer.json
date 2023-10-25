@@ -1,7 +1,11 @@
 {
   "description": "Mirarus BMVC Util Lib (Basic MVC Util Lib)",
+  "name": "bmvc/util",
   "type": "library",
   "license": "MIT",
+  "support": {
+    "source": "https://github.com/mirarus/bmvc-libs"
+  },
   "authors": [
     {
       "name": "Ali Güçlü",
@@ -22,5 +26,6 @@
     "preferred-install": "dist",
     "sort-packages": true,
     "optimize-autoloader": true
-  }
+  },
+  "minimum-stability": "dev"
 }

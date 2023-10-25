@@ -1,7 +1,11 @@
 {
   "description": "Mirarus BMVC View Lib (Basic MVC View Lib)",
+  "name": "bmvc/view",
   "type": "library",
   "license": "MIT",
+  "support": {
+    "source": "https://github.com/mirarus/bmvc-libs"
+  },
   "authors": [
     {
       "name": "Ali Güçlü",
@@ -21,5 +25,6 @@
     "preferred-install": "dist",
     "sort-packages": true,
     "optimize-autoloader": true
-  }
+  },
+  "minimum-stability": "dev"
 }

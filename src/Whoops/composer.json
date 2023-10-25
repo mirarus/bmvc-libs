@@ -1,7 +1,11 @@
 {
   "description": "Mirarus BMVC Whoops Lib (Basic MVC Whoops Lib)",
+  "name": "bmvc/whoops",
   "type": "library",
   "license": "MIT",
+  "support": {
+    "source": "https://github.com/mirarus/bmvc-libs"
+  },
   "authors": [
     {
       "name": "Ali Güçlü",
@@ -9,7 +13,8 @@
     }
   ],
   "require": {
-    "php": "^7.3 || ^8.0"
+    "php": "^7.3 || ^8.0",
+    "filp/whoops": "^2.14"
   },
   "autoload": {
     "psr-4": {
@@ -20,5 +25,6 @@
     "preferred-install": "dist",
     "sort-packages": true,
     "optimize-autoloader": true
-  }
+  },
+  "minimum-stability": "dev"
 }

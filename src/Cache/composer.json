@@ -1,7 +1,11 @@
 {
+  "name": "bmvc/cache",
   "description": "Mirarus BMVC Cache Lib (Basic MVC Cache Lib)",
   "type": "library",
   "license": "MIT",
+  "support": {
+    "source": "https://github.com/mirarus/bmvc-libs"
+  },
   "authors": [
     {
       "name": "Ali Güçlü",
@@ -21,5 +25,6 @@
     "preferred-install": "dist",
     "sort-packages": true,
     "optimize-autoloader": true
-  }
+  },
+  "minimum-stability": "dev"
 }
