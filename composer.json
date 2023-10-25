@@ -19,7 +19,12 @@
     "ext-intl": "*",
     "ext-gd": "*",
     "ext-curl": "*",
-    "mirarus/bmvc-exception": "0.*"
+    "mirarus/bmvc-exception": "0.*",
+    "mirarus/db": "0.*",
+    "monolog/monolog": "^2.3",
+    "filp/whoops": "^2.14",
+    "jenssegers/blade": "^1.4",
+    "vlucas/phpdotenv": "^5.3"
   },
   "replace": {
     "bmvc/benchmark": "self.version",
