@@ -1,5 +1,5 @@
 {
-  "name": "libs/log",
+  "name": "bmvc/log",
   "description": "Mirarus BMVC Log Lib (Basic MVC Log Lib)",
   "type": "library",
   "license": "MIT",
