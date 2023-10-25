@@ -6,9 +6,9 @@
  * Mirarus BMVC
  * @package BMVC\Libs\Model
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
- * @link https://github.com/mirarus/bmvc-core
+ * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Model;
@@ -128,9 +128,7 @@ abstract class Tree
 			$sql = $this->DB()->update($this->tableName);
 			$this->_where($sql, $where);
 
-			return $sql->set(array_merge($data, $time ? [
-				'edit_time' => time()
-			] : []));
+			return $sql->set(array_merge($data, $time ? ['edit_time' => time()] : []));
 	//	}
 		return false;
 	}
@@ -151,13 +149,13 @@ abstract class Tree
 	 */
 	public function wDelete($where): bool
 	{
-		if ($this->wGet($where)) {
+		//if ($this->wGet($where)) {
 
 			$sql = $this->DB()->delete($this->tableName);
 			$this->_where($sql, $where);
 
 			return $sql->done();
-		}
+		//}
 		return false;
 	}
 
@@ -177,13 +175,13 @@ abstract class Tree
 	 */
 	public function wCount($where): int
 	{
-		if ($this->wGet($where)) {
+		//if ($this->wGet($where)) {
 
 			$sql = $this->DB()->from($this->tableName);
 			$this->_where($sql, $where);
 
 			return $sql->rowCount();
-		}
+		//}
 		return false;
 	}
 

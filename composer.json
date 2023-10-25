@@ -3,6 +3,9 @@
   "description": "Mirarus BMVC Libs (Basic MVC Libs)",
   "type": "library",
   "license": "MIT",
+  "support": {
+    "source": "https://github.com/mirarus/bmvc-libs"
+  },
   "authors": [
     {
       "name": "Ali Güçlü",
@@ -23,6 +26,9 @@
     "jenssegers/blade": "^1.4",
     "vlucas/phpdotenv": "^5.3"
   },
+  "replace": {
+    "mirarus/bmvc-libs/log": "self.version"
+  },
   "autoload": {
     "psr-4": {
       "BMVC\\Libs\\": "src"
@@ -35,7 +41,12 @@
     "preferred-install": "dist",
     "sort-packages": true,
     "optimize-autoloader": true
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
   },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
   "scripts": {
     "post-install-cmd": "BMVC\\Libs\\Composer::folderDelete",
     "post-update-cmd": "BMVC\\Libs\\Composer::folderDelete",

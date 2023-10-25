@@ -1,9 +1,14 @@
 <?php
 
 /**
- * FormData.php
- * @author: Ali Güçlü <aliguclutr@gmail.com>
- * @date 29.08.2023 00:09
+ * FormData
+ *
+ * Mirarus BMVC
+ * @package BMVC\Libs\Request
+ * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
+ * @link https://github.com/mirarus/bmvc-libs
+ * @license http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version 0.0
  */
 
 namespace BMVC\Libs\Request;
