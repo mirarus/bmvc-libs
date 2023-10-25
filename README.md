@@ -6,7 +6,7 @@ Mirarus BMVC Libs (Basic MVC Libs)
 [![Packagist Version](https://img.shields.io/packagist/v/mirarus/bmvc-libs?style=flat-square&logo=packagist)](https://packagist.org/packages/mirarus/bmvc-libs)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/mirarus/bmvc-libs?style=flat-square&logo=packagist)](https://packagist.org/packages/mirarus/bmvc-libs)
 [![Packagist License](https://img.shields.io/packagist/l/mirarus/bmvc-libs?style=flat-square&logo=packagist)](https://packagist.org/packages/mirarus/bmvc-libs)
-[![PHP Composer](https://img.shields.io/github/workflow/status/mirarus/bmvc-libs/php.yml?style=flat-square&logo=php)](https://github.com/mirarus/bmvc-libs/actions/workflows/php.yml)
+[![PHP Composer](https://img.shields.io/github/actions/workflow/status/mirarus/bmvc-libs/php.yml?style=flat-square&logo=php)](https://github.com/mirarus/bmvc-libs/actions/workflows/php.yml)
 
 
 ## Installation
