@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.3
+ * @version 0.4
  */
 
 namespace BMVC\Libs\Filter;
@@ -71,7 +71,7 @@ class Filter
   {
     if (is_array($filter) && count($filter) > 0) {
       foreach ($filter as $key => $value) {
-        if (!in_array($key, $skip)) {
+        if (!in_array($key, ($skip ?: []))) {
           if ($value != '' && !is_array($value) && !is_object($value)) {
 
             $objectStr = self::prepareDataObject($value, [
