@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 1.1
+ * @version 1.2
  */
 
 namespace BMVC\Libs\Util;
@@ -71,7 +71,7 @@ class Util
       $hostname = $_SERVER['HTTP_HOST'];
 
       $dir = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-      $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', (string)realpath(dirname(__FILE__, 2))), null, PREG_SPLIT_NO_EMPTY);
+      $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', (string)realpath(__DIR__)), -1, PREG_SPLIT_NO_EMPTY);
 
       $core = $core[0];
       $template = $atRoot ? ($atCore ? '%s://%s/%s/' : '%s://%s/') : ($atCore ? '%s://%s/%s/' : '%s://%s%s');

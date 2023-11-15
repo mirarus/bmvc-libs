@@ -132,7 +132,8 @@ class Route implements IRoute, IMethod
 			foreach ($routes as $route) {
 
 				$method = $route['method'];
-				$action = $route['callback'];
+				$action = $route['closure'];
+				$callback = $route['callback'];
 				$url = $route['pattern'];
 				$ip = ($route['ip'] ? $route['ip'] : null);
 				$_return = ($route['return'] ? $route['return'] : null);
@@ -150,6 +151,7 @@ class Route implements IRoute, IMethod
 							'route' => $route,
 							'method' => $method,
 							'action' => $action,
+							'callback' => $callback,
 							'params' => $params,
 							'namespaces' => $namespaces,
 							'middlewares' => $middlewares,
@@ -211,9 +213,9 @@ class Route implements IRoute, IMethod
 			$route_ = [
 				'method' => $method,
 				'pattern' => $pattern,
-				'callback' => @$closure
+				'callback' => @$callback,
+				'closure' => @$closure
 			];
-
 
 			if (self::$ip)
 				$route_['ip'] = self::$ip;
