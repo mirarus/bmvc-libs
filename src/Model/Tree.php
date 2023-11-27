@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.1
+ * @version 0.2
  */
 
 namespace BMVC\Libs\Model;
@@ -92,15 +92,18 @@ abstract class Tree
 	/**
 	 * @param array $data
 	 * @param bool $time
+	 * @param bool $uuid
 	 * @return int
 	 */
-	public function add(array $data, bool $time = true): int
+	public function add(array $data, bool $time = true, bool $uuid = true): int
 	{
-		return $this->DB()
+		$_time = ($time ? ['time' => time()] : []);
+		$_uuid = ($uuid && class_exists(\Ramsey\Uuid\Uuid::class) ? ['uuid' => \Ramsey\Uuid\Uuid::uuid6()->toString()] : []);
+
+		return $this
+			->DB()
 			->insert($this->tableName)
-			->set(array_merge($data, $time ? [
-				'time' => time()
-			] : []));
+			->set(array_merge($data, $_time, $_uuid));
 	}
 
 	/**
@@ -108,29 +111,30 @@ abstract class Tree
 	 * @param $val
 	 * @param array $data
 	 * @param bool $time
+	 * @param bool $uuid
 	 * @return bool
 	 */
-	public function edit(string $key, $val, array $data, bool $time = true): int
+	public function edit(string $key, $val, array $data, bool $time = true, bool $uuid = true): int
 	{
-		return $this->wEdit([$key => $val], $data, $time);
+		return $this->wEdit([$key => $val], $data, $time, $uuid);
 	}
 
 	/**
 	 * @param $where
 	 * @param array $data
 	 * @param bool $time
+	 * @param bool $uuid
 	 * @return bool
 	 */
-	public function wEdit($where, array $data, bool $time = true): int
+	public function wEdit($where, array $data, bool $time = true, bool $uuid = true): int
 	{
-		//if ($this->wGet($where)) {
+		$_time = ($time ? ['time' => time()] : []);
+		$_uuid = ($uuid && class_exists(\Ramsey\Uuid\Uuid::class) ? ['uuid' => \Ramsey\Uuid\Uuid::uuid6()->toString()] : []);
 
-			$sql = $this->DB()->update($this->tableName);
-			$this->_where($sql, $where);
+		$sql = $this->DB()->update($this->tableName);
+		$this->_where($sql, $where);
 
-			return $sql->set(array_merge($data, $time ? ['edit_time' => time()] : []));
-	//	}
-		return false;
+		return $sql->set(array_merge($data, $_time, $_uuid));
 	}
 
 	/**
@@ -149,14 +153,10 @@ abstract class Tree
 	 */
 	public function wDelete($where): bool
 	{
-		//if ($this->wGet($where)) {
+		$sql = $this->DB()->delete($this->tableName);
+		$this->_where($sql, $where);
 
-			$sql = $this->DB()->delete($this->tableName);
-			$this->_where($sql, $where);
-
-			return $sql->done();
-		//}
-		return false;
+		return $sql->done();
 	}
 
 	/**
@@ -175,14 +175,10 @@ abstract class Tree
 	 */
 	public function wCount($where): int
 	{
-		//if ($this->wGet($where)) {
+		$sql = $this->DB()->from($this->tableName);
+		$this->_where($sql, $where);
 
-			$sql = $this->DB()->from($this->tableName);
-			$this->_where($sql, $where);
-
-			return $sql->rowCount();
-		//}
-		return false;
+		return $sql->rowCount();
 	}
 
 	/**
