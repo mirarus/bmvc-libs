@@ -8,19 +8,24 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.0
+ * @version 0.1
  */
 
 namespace BMVC\Libs\Request;
 
+use BMVC\Libs\Filter;
+
 class FormData
 {
+	public $filter = [];
 	public $inputs = [];
 	public $files = [];
 	private $content;
 
-	public function __construct($content = null)
+	public function __construct($content = null, bool $db_filter = true, bool $xss_filter = true)
 	{
+		$this->filter['db'] = $db_filter;
+		$this->filter['xss'] = $xss_filter;
 		$this->content = $content ?: file_get_contents("php://input");
 		$this->parseContent($this->content);
 	}
@@ -96,7 +101,14 @@ class FormData
 		if (is_null($fileName)) {
 			$input = $this->transformContent($fieldName, $content);
 
-			$this->inputs = array_merge_recursive($this->inputs, $input);
+			$inputs = array_merge_recursive($this->inputs, $input);
+
+			if ($inputs && $inputs != null) {
+				$inputs = $inputs['db'] ? Filter::FilterDBM($inputs) : $inputs;
+				$inputs = $inputs['xss'] ? Filter::filterXSS($inputs) : $inputs;
+			}
+
+			$this->inputs = $inputs;
 		} else {
 			$file = $this->storeFile($fileName, $headers['content-type'], $content);
 
