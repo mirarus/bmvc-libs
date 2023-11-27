@@ -714,20 +714,33 @@ class Request implements IRequest
 	 */
 	public static function rea($method, string $data = null, bool $db_filter = true, bool $xss_filter = true)
 	{
-		if ($db_filter) {
-			$method = Filter::filterDBM($method);
-		}
-		if ($xss_filter) {
-			$method = Filter::filterXSS($method);
-		}
+		$method = $xss_filter ? Filter::filterXSS($method) : $method;
 
 		if (isset($data) && !empty($data)) {
 			if (isset($method[$data])) {
-				return $method[$data];
+				return ($db_filter ? self::methodDB($method[$data]) : $method[$data]);
 			}
 		} else {
-			return $method;
+			return $db_filter ? self::methodDB($method) : $method;
 		}
-		return false;
+	}
+
+	/**
+	 * @param $method
+	 * @return array|mixed|string|string[]
+	 */
+	private static function methodDB($method)
+	{
+		if (is_array($method)) {
+			$md = [];
+			foreach ($method as $k => $v) {
+				if (count($method) > 0) {
+					$md[$k] = self::methodDB($v);
+				}
+			}
+			return $md;
+		} else {
+			return Filter::filterDB($method);
+		}
 	}
 }
