@@ -434,7 +434,7 @@ class Validate
 	public static function check(...$vars): bool
 	{
 		if (count($vars) >= 2) {
-			return !in_array(false, array_map([self::class, 'checkMultiple'], $vars), true);
+			return !in_array(false, array_map([self::class, 'check'], $vars), true);
 		}
 		$arg = is_array($vars[0]) || is_string($vars[0]) ? str_replace(["\n", " "], "", $vars[0]) : $vars[0];
 
