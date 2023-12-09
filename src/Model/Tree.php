@@ -126,7 +126,7 @@ abstract class Tree
 	 * @param bool $uuid
 	 * @return bool
 	 */
-	public function wEdit($where, array $data, bool $time = true, bool $uuid = true): int
+	public function wEdit($where, array $data, bool $time = true, bool $uuid = false): int
 	{
 		$_time = ($time ? ['time' => time()] : []);
 		$_uuid = ($uuid && class_exists(\Ramsey\Uuid\Uuid::class) ? ['uuid' => \Ramsey\Uuid\Uuid::uuid6()->toString()] : []);
