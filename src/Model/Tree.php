@@ -111,30 +111,27 @@ abstract class Tree
 	 * @param $val
 	 * @param array $data
 	 * @param bool $time
-	 * @param bool $uuid
 	 * @return bool
 	 */
-	public function edit(string $key, $val, array $data, bool $time = true, bool $uuid = true): int
+	public function edit(string $key, $val, array $data, bool $time = true): int
 	{
-		return $this->wEdit([$key => $val], $data, $time, $uuid);
+		return $this->wEdit([$key => $val], $data, $time);
 	}
 
 	/**
 	 * @param $where
 	 * @param array $data
 	 * @param bool $time
-	 * @param bool $uuid
 	 * @return bool
 	 */
-	public function wEdit($where, array $data, bool $time = true, bool $uuid = false): int
+	public function wEdit($where, array $data, bool $time = true): int
 	{
 		$_time = ($time ? ['time' => time()] : []);
-		$_uuid = ($uuid && class_exists(\Ramsey\Uuid\Uuid::class) ? ['uuid' => \Ramsey\Uuid\Uuid::uuid6()->toString()] : []);
 
 		$sql = $this->DB()->update($this->tableName);
 		$this->_where($sql, $where);
 
-		return $sql->set(array_merge($data, $_time, $_uuid));
+		return $sql->set(array_merge($data, $_time));
 	}
 
 	/**
