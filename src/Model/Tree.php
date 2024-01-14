@@ -126,7 +126,7 @@ abstract class Tree
 	 */
 	public function wEdit($where, array $data, bool $time = true): int
 	{
-		$_time = ($time ? ['time' => time()] : []);
+		$_time = ($time ? ['edit_time' => time()] : []);
 
 		$sql = $this->DB()->update($this->tableName);
 		$this->_where($sql, $where);
