@@ -1,5 +1,6 @@
 <?php
 
+use BMVC\Libs\Str;
 use BMVC\Libs\Util;
 use BMVC\Libs\Route;
 use BMVC\Libs\View;
@@ -129,4 +130,14 @@ if (!function_exists('_')) {
 function iModel()
 {
 	return Model::import(...func_get_args());
+}
+
+function in_array_insensitive(): bool
+{
+	return Str::in_array_insensitive(...func_get_args());
+}
+
+function mb_in_array_insensitive(): bool
+{
+	return Str::mb_in_array_insensitive(...func_get_args());
 }

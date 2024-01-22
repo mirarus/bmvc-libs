@@ -17,6 +17,7 @@ namespace BMVC\Libs\Validate;
 
 class Validate
 {
+	const FILTER_VALIDATE_REQUIRE = "+require+";
 
 	private static $filters = [];
 
@@ -45,45 +46,6 @@ class Validate
 	public static function filterSet(array $filters)
 	{
 		self::$filters = $filters;
-	}
-
-	/**
-	 * @param string $index
-	 *
-	 * @return bool
-	 */
-	public static function filter(string $index): bool
-	{
-		$arr = [];
-		foreach (self::$filters as $arg) {
-			if ($arg['name'] === $index) {
-				$name = $arg['name'];
-				$data = $arg['data'];
-				$filters = $arg['filters'];
-				foreach ($filters as $filter) {
-					$arr[$name][$filter] = self::applyFilter($filter, $data);
-				}
-			}
-		}
-		return self::arrayEqual($arr[$index]);
-	}
-
-	/**
-	 * @param string $filter
-	 * @param $data
-	 *
-	 * @return bool|null
-	 */
-	private static function applyFilter(string $filter, $data): ?bool
-	{
-		switch ($filter) {
-			case 'required':
-				return self::check($data);
-			case 'integer':
-				return self::integer($data);
-			default:
-				return null;
-		}
 	}
 
 	/**
@@ -427,21 +389,6 @@ class Validate
 	}
 
 	/**
-	 * @param mixed $var
-	 *
-	 * @return boolean
-	 */
-	public static function check(...$vars): bool
-	{
-		if (count($vars) >= 2) {
-			return !in_array(false, array_map([self::class, 'check'], $vars), true);
-		}
-		$arg = is_array($vars[0]) || is_string($vars[0]) ? str_replace(["\n", " "], "", $vars[0]) : $vars[0];
-
-		return (bool)(isset($arg) && !empty($arg) && $arg !== '');
-	}
-
-	/**
 	 * @param string $arg
 	 *
 	 * @return boolean
@@ -467,5 +414,59 @@ class Validate
 			$total += $digit;
 		}
 		return (bool)$total % 10 == 0;
+	}
+
+	/**
+	 * @param mixed $var
+	 *
+	 * @return boolean
+	 */
+	public static function check(...$vars): bool
+	{
+		if (count($vars) >= 2) {
+			return !in_array(false, array_map([self::class, 'check'], $vars), true);
+		}
+		$arg = is_array($vars[0]) || is_string($vars[0]) ? str_replace(["\n", " "], "", $vars[0]) : $vars[0];
+
+		return (bool)(isset($arg) && !empty($arg) && $arg !== '');
+	}
+
+	/**
+	 * @param mixed $vars
+	 * @param bool $reverse
+	 * @return bool
+	 */
+	public static function filter($vars, bool $reverse = false): bool
+	{
+		return (bool)array_reduce(array_map(function ($key, $values) use ($reverse) {
+			return array_map(function ($value) use ($key, $reverse) {
+				$_filter = $reverse ? $key : $value;
+				$_value = $reverse ? $value : $key;
+				return self::applyFilter((is_int($_filter) ? $_filter : (filter_id($_filter) ?: $_filter)), $_value);
+			}, (array)$values);
+		}, array_keys($vars), array_values($vars)), function ($carry, $item) {
+			return $carry && (is_array($item) ? array_reduce($item, function ($c, $i) {
+					return $c && $i;
+				}, true) : $item);
+		}, true);
+	}
+
+	/**
+	 * @param mixed $filter
+	 * @param mixed $value
+	 * @return bool
+	 */
+	private static function applyFilter($filter, $value): bool
+	{
+		if (!is_string($filter)) {
+			return (bool)filter_var($value, $filter);
+		} else {
+			preg_match('/\+(.*?)\+/', $filter, $matches);
+
+			if ($matches[1] == "require") {
+				return !empty($value) && $value !== '';
+			}
+			return false;
+		}
 	}
 }
