@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.2
+ * @version 0.3
  */
 
 namespace BMVC\Libs\Model;
@@ -43,24 +43,6 @@ abstract class Tree
 	}
 
 	/**
-	 * @param string|null $key
-	 * @param $val
-	 * @param bool $all
-	 * @param array $where
-	 * @param string|null $query
-	 * @return mixed
-	 */
-	public function get(string $key = null, $val = null, bool $all = false, array $where = [], string $query = null)
-	{
-		$arr = [];
-
-		if ($val) $arr = [($key ?: 'id') => $val];
-		$arr = array_merge($arr, $where);
-
-		return $this->wGet($arr, $all, [], $query);
-	}
-
-	/**
 	 * @param $where
 	 * @param bool $all
 	 * @param array $sort
@@ -77,6 +59,25 @@ abstract class Tree
 		if ($query) $sql = $sql->sql(' ' . $query);
 
 		return $all ? $sql->all() : $sql->first();
+	}
+
+	/**
+	 * @param string|null $key
+	 * @param $val
+	 * @param bool $all
+	 * @param array $where
+	 * @param array $sort
+	 * @param string|null $query
+	 * @return mixed
+	 */
+	public function get(string $key = null, $val = null, bool $all = false, array $where = [], array $sort = [null, "ASC"], string $query = null)
+	{
+		$arr = [];
+
+		if ($val) $arr = [($key ?: 'id') => $val];
+		$arr = array_merge($arr, $where);
+
+		return $this->wGet($arr, $all, $sort, $query);
 	}
 
 	/**
