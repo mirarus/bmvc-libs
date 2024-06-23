@@ -281,8 +281,7 @@ class Route implements IRoute, IMethod
 	{
 		$routeKey = array_search(end(self::$routes), self::$routes);
 		$pattern = Util::parse_uri(self::$routes[$routeKey]['pattern'], $expressions);
-		$pattern = '/' . implode('/', $pattern);
-		$pattern = '/^' . str_replace('/', '\/', $pattern) . '$/';
+		$pattern = implode('/', $pattern);
 		self::$routes[$routeKey]['pattern'] = $pattern;
 		return new self;
 	}
@@ -315,7 +314,11 @@ class Route implements IRoute, IMethod
 				$pattern = $route['pattern'];
 				$pattern = Util::parse_uri($pattern, $patternParams);
 				foreach ($patternParams as $parK => $parV) {
-					$pattern = str_replace(self::$patterns[$parK], $parV, $pattern);
+					if (self::$patterns[$parK]) {
+						$pattern = str_replace(self::$patterns[$parK], $parV, $pattern);
+					} else {
+						$pattern = str_replace($parK, $parV, $pattern);
+					}
 				}
 				$pattern = implode('/', $pattern);
 
