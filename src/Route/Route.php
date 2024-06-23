@@ -318,6 +318,7 @@ class Route implements IRoute, IMethod
 					$pattern = str_replace(self::$patterns[$parK], $parV, $pattern);
 				}
 				$pattern = implode('/', $pattern);
+
 				break;
 			}
 		}

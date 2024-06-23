@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 1.2
+ * @version 1.3
  */
 
 namespace BMVC\Libs\Util;
@@ -195,7 +195,7 @@ class Util
       if (preg_match('/[\[{\(].*[\]}\)]/U', $val, $matches)) {
         foreach ($matches as $match) {
           $matchKey = substr($match, 1, -1);
-          if (array_key_exists($matchKey, $expressions)) {
+          if ($expressions && array_key_exists($matchKey, $expressions)) {
             $pattern[$key] = $expressions[$matchKey];
           }
         }
