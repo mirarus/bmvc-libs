@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.16
+ * @version 0.17
  */
 
 namespace BMVC\Libs\Route;
@@ -245,7 +245,7 @@ class Route implements IRoute, IMethod
 			'return' => self::$return,
 			'namespaces' => self::$namespaces
 		];
-		call_user_func($callback);
+		call_user_func_array($callback, [new self]);
 		if (self::$groupped > 0) {
 			self::$prefix = self::$groups[self::$groupped - 1]['baseRoute'];
 			self::$middlewares = self::$groups[self::$groupped - 1]['middlewares'];
