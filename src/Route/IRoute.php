@@ -48,12 +48,14 @@ interface IRoute
    */
   public static function name(string $name, array $params = null): Route;
 
-  /**
-   * @param string $name
-   * @param array|null $params
-   * @return string
-   */
-  public static function url(string $name, array $params = null): string;
+	/**
+	 * @param string $name
+	 * @param array|null $params
+	 * @param array|null $patternParams
+	 *
+	 * @return string
+	 */
+	public static function url(string $name, array $params = null, array $patternParams = null): string;
 
   /**
    * @return array
