@@ -245,7 +245,15 @@ class Route implements IRoute, IMethod
 			'return' => self::$return,
 			'namespaces' => self::$namespaces
 		];
-		call_user_func_array($callback, [new self]);
+
+		call_user_func_array($callback, [new self, [
+			'baseRoute' => self::$prefix,
+			'middlewares' => self::$middlewares,
+			'ip' => self::$ip,
+			'return' => self::$return,
+			'namespaces' => self::$namespaces
+		]]);
+
 		if (self::$groupped > 0) {
 			self::$prefix = self::$groups[self::$groupped - 1]['baseRoute'];
 			self::$middlewares = self::$groups[self::$groupped - 1]['middlewares'];
@@ -288,24 +296,25 @@ class Route implements IRoute, IMethod
 	public static function name(string $name, array $params = null): self
 	{
 		$routeKey = array_search(end(self::$routes), self::$routes);
-		self::$routes[$routeKey]['name'] = $name;
+		self::$routes[$routeKey]['name'] = [$name, $params];
 		return new self;
 	}
 
 	/**
 	 * @param string $name
 	 * @param array|null $params
+	 * @param array|null $patternParams
 	 *
 	 * @return string
 	 */
-	public static function url(string $name, array $params = null): string
+	public static function url(string $name, array $params = null, array $patternParams = null): string
 	{
 		$pattern = "";
 		foreach (self::$routes as $route) {
-			if (array_key_exists('name', $route) && $route['name'] == $name) {
+			if (array_key_exists('name', $route) && $route['name'][0] == $name && $route['name'][1] == $params) {
 				$pattern = $route['pattern'];
-				$pattern = Util::parse_uri($pattern, $params);
-				foreach ($params as $parK => $parV) {
+				$pattern = Util::parse_uri($pattern, $patternParams);
+				foreach ($patternParams as $parK => $parV) {
 					$pattern = str_replace(self::$patterns[$parK], $parV, $pattern);
 				}
 				$pattern = implode('/', $pattern);
