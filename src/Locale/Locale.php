@@ -100,9 +100,10 @@ class Locale
 	{
 		$dirLocales = FS::directories(FS::app(self::$dir));
 		$codeset = mb_strtolower(self::$codeset);
-		if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
-			$shell = trim(@shell_exec("locale -a|grep ." . $codeset));
-		}
+		$shell = null;
+		/*if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+			$shell = trim(shell_exec("locale -a|grep ." . $codeset));
+		}*/
 		$unixLocales = array_reduce(($shell ? explode('.' . $codeset . "\n", $shell) : []), function ($res, $el) {
 			$res[] = trim(str_replace('.' . $codeset, null, $el));
 			return $res;
