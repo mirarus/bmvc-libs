@@ -29,7 +29,7 @@ class Hash
    * @return string
    * @throws Exception
    */
-  public static function make(string $value, array $options = null): string
+  public static function make(string $value, array $options = []): string
   {
     if (!array_key_exists('cost', $options)) {
       $options['cost'] = self::$cost;
@@ -56,7 +56,7 @@ class Hash
    * @param array|null $options
    * @return bool
    */
-  public static function rehash(string $hashedValue, array $options = null): bool
+  public static function rehash(string $hashedValue, array $options = []): bool
   {
     if (!array_key_exists('cost', $options)) {
       $options['cost'] = self::$cost;
