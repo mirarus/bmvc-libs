@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.17
+ * @version 0.17.1
  */
 
 namespace BMVC\Libs\Route;
@@ -138,7 +138,7 @@ class Route implements IRoute, IMethod
 				$ip = (@$route['ip'] ? $route['ip'] : null);
 				$_return = (@$route['return'] ? $route['return'] : null);
 				$namespaces = (@$route['namespaces'] ? $route['namespaces'] : null);
-				$middlewares = ($route['middlewares'] ? $route['middlewares'] : null);
+				$middlewares = (@$route['middlewares'] ? $route['middlewares'] : null);
 
 				if (preg_match("#^{$url}$#", ('/' . Util::get_url()), $params)) {
 
