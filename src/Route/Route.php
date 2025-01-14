@@ -135,9 +135,9 @@ class Route implements IRoute, IMethod
 				$action = $route['closure'];
 				$callback = $route['callback'];
 				$url = $route['pattern'];
-				$ip = ($route['ip'] ? $route['ip'] : null);
-				$_return = ($route['return'] ? $route['return'] : null);
-				$namespaces = ($route['namespaces'] ? $route['namespaces'] : null);
+				$ip = (@$route['ip'] ? $route['ip'] : null);
+				$_return = (@$route['return'] ? $route['return'] : null);
+				$namespaces = (@$route['namespaces'] ? $route['namespaces'] : null);
 				$middlewares = ($route['middlewares'] ? $route['middlewares'] : null);
 
 				if (preg_match("#^{$url}$#", ('/' . Util::get_url()), $params)) {
