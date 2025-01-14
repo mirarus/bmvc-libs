@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -134,7 +135,7 @@ class Route implements IRoute, IMethod
 				$method = $route['method'];
 				$action = $route['closure'];
 				$callback = $route['callback'];
-				$url = $route['pattern'];
+				$url = @$route['pattern'];
 				$ip = (@$route['ip'] ? $route['ip'] : null);
 				$_return = (@$route['return'] ? $route['return'] : null);
 				$namespaces = (@$route['namespaces'] ? $route['namespaces'] : null);
