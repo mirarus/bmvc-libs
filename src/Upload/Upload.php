@@ -92,6 +92,7 @@ class Upload
 						if (copy($this->file['tmp_name'], $_path)) {
 
 							return [
+								'path' => $this->path,
 								'file' => $_path,
 								'name' => $_file,
 								'type' => $this->file['type'],
