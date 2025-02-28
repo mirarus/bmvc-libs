@@ -8,7 +8,7 @@
  * @author  Ali Güçlü (Mirarus) <aliguclutr@gmail.com>
  * @link https://github.com/mirarus/bmvc-libs
  * @license http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version 0.5
+ * @version 0.6
  */
 
 declare(strict_types=1);
@@ -18,9 +18,9 @@ namespace BMVC\Libs\Validate;
 class Validate
 {
 	const FILTER_VALIDATE_REQUIRE = "+require+";
-
+	
 	private static $filters = [];
-
+	
 	/**
 	 * @param array $array
 	 *
@@ -39,7 +39,7 @@ class Validate
 		}
 		return true;
 	}
-
+	
 	/**
 	 * @param array $filters
 	 */
@@ -47,7 +47,7 @@ class Validate
 	{
 		self::$filters = $filters;
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -57,7 +57,7 @@ class Validate
 	{
 		return (isset($arg) && !empty($arg));
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -67,7 +67,7 @@ class Validate
 	{
 		return (!isset($arg) && empty($arg));
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -77,7 +77,7 @@ class Validate
 	{
 		return isset($arg);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -87,7 +87,7 @@ class Validate
 	{
 		return !isset($arg);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -97,7 +97,7 @@ class Validate
 	{
 		return !empty($arg);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -107,7 +107,7 @@ class Validate
 	{
 		return empty($arg);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -117,7 +117,7 @@ class Validate
 	{
 		return is_array($arg);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -127,7 +127,7 @@ class Validate
 	{
 		return (bool)filter_var($arg, FILTER_VALIDATE_INT);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -137,7 +137,7 @@ class Validate
 	{
 		return (bool)filter_var($arg, FILTER_VALIDATE_FLOAT);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -147,7 +147,7 @@ class Validate
 	{
 		return is_numeric($arg);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -157,7 +157,7 @@ class Validate
 	{
 		return (bool)(bool)filter_var($arg, FILTER_VALIDATE_URL);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -167,7 +167,7 @@ class Validate
 	{
 		return (bool)filter_var($arg, FILTER_VALIDATE_IP);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -177,7 +177,7 @@ class Validate
 	{
 		return (bool)filter_var($arg, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -187,7 +187,7 @@ class Validate
 	{
 		return (bool)filter_var($arg, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -197,7 +197,7 @@ class Validate
 	{
 		return (bool)filter_var($arg, FILTER_VALIDATE_EMAIL);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -207,7 +207,17 @@ class Validate
 	{
 		return (bool)filter_var($arg, FILTER_SANITIZE_NUMBER_INT);
 	}
-
+	
+	/**
+	 * @param mixed $arg
+	 *
+	 * @return boolean
+	 */
+	public static function mac($arg): bool
+	{
+		return (bool)filter_var($arg, FILTER_VALIDATE_MAC);
+	}
+	
 	/**
 	 * @param string|array $arg
 	 *
@@ -223,7 +233,7 @@ class Validate
 		}
 		return $arg;
 	}
-
+	
 	/**
 	 * @param string|array $arg
 	 *
@@ -233,7 +243,7 @@ class Validate
 	{
 		return (is_array($arg) ? (empty($arg) === true) : (trim($arg) === ''));
 	}
-
+	
 	/**
 	 * @param string|array $arg
 	 *
@@ -243,7 +253,7 @@ class Validate
 	{
 		return (is_array($arg) ? (empty($arg) === false) : (trim($arg) !== ''));
 	}
-
+	
 	/**
 	 * @param string $arg
 	 * @param int $length
@@ -254,7 +264,7 @@ class Validate
 	{
 		return ((strlen(trim($arg)) < $length) === false);
 	}
-
+	
 	/**
 	 * @param string $arg
 	 * @param int $length
@@ -265,7 +275,7 @@ class Validate
 	{
 		return (strlen(trim($arg)) > $length) === false;
 	}
-
+	
 	/**
 	 * @param string $arg
 	 * @param int $length
@@ -276,7 +286,7 @@ class Validate
 	{
 		return (strlen(trim($arg)) == $length) !== false;
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -288,7 +298,7 @@ class Validate
 			return false;
 		return ctype_alpha($arg);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -298,7 +308,7 @@ class Validate
 	{
 		return ctype_alnum($arg);
 	}
-
+	
 	/**
 	 * @param string $arg
 	 *
@@ -308,7 +318,7 @@ class Validate
 	{
 		return (!preg_match("/^([-a-z0-9_-])+$/i", $arg)) ? false : true;
 	}
-
+	
 	/**
 	 * @param string $arg
 	 *
@@ -318,7 +328,7 @@ class Validate
 	{
 		return (!preg_match("/^([A-Za-z0-9- ])+$/i", $arg)) ? false : true;
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 *
@@ -329,7 +339,7 @@ class Validate
 		$acceptable = [true, false, 0, 1, '0', '1'];
 		return in_array($arg, $acceptable, true);
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 * @param mixed $min
@@ -340,7 +350,7 @@ class Validate
 	{
 		return (is_numeric($arg) && is_numeric($min) && $arg >= $min) !== false;
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 * @param mixed $max
@@ -351,7 +361,7 @@ class Validate
 	{
 		return (is_numeric($arg) && is_numeric($max) && $arg <= $max) !== false;
 	}
-
+	
 	/**
 	 * @param string $arg
 	 * @param int|string $part
@@ -362,7 +372,7 @@ class Validate
 	{
 		return strpos($arg, $part) !== false;
 	}
-
+	
 	/**
 	 * @param mixed $arg
 	 * @param mixed $field
@@ -373,7 +383,7 @@ class Validate
 	{
 		return ($arg == $field) !== false;
 	}
-
+	
 	/**
 	 * @param string $str
 	 *
@@ -387,7 +397,7 @@ class Validate
 		}
 		return $ret;
 	}
-
+	
 	/**
 	 * @param string $arg
 	 *
@@ -415,7 +425,7 @@ class Validate
 		}
 		return (bool)$total % 10 == 0;
 	}
-
+	
 	/**
 	 * @param mixed $var
 	 *
@@ -427,10 +437,10 @@ class Validate
 			return !in_array(false, array_map([self::class, 'check'], $vars), true);
 		}
 		$arg = is_array($vars[0]) || is_string($vars[0]) ? str_replace(["\n", " "], "", $vars[0]) : $vars[0];
-
+		
 		return (bool)(isset($arg) && !empty($arg) && $arg !== '');
 	}
-
+	
 	/**
 	 * @param mixed $vars
 	 * @param bool $reverse
@@ -446,11 +456,11 @@ class Validate
 			}, (array)$values);
 		}, array_keys($vars), array_values($vars)), function ($carry, $item) {
 			return $carry && (is_array($item) ? array_reduce($item, function ($c, $i) {
-					return $c && $i;
-				}, true) : $item);
+				  return $c && $i;
+			  }, true) : $item);
 		}, true);
 	}
-
+	
 	/**
 	 * @param mixed $filter
 	 * @param mixed $value
@@ -462,7 +472,7 @@ class Validate
 			return (bool)filter_var($value, $filter);
 		} else {
 			preg_match('/\+(.*?)\+/', $filter, $matches);
-
+			
 			if ($matches[1] == "require") {
 				return !empty($value) && $value !== '';
 			}
