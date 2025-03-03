@@ -46,7 +46,7 @@ class Upload
 	/**
 	 * @var string
 	 */
-	private string $type = 'any';
+	private $type = 'any';
 
 	/**
 	 * @var int
