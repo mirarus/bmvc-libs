@@ -51,17 +51,17 @@ class Upload
 	/**
 	 * @var int
 	 */
-	private int $size = 1024;
+	private $size = 1024;
 
 	/**
 	 * @var int
 	 */
-	private int $rand = 0;
+	private $rand = 0;
 
 	/**
 	 * @var int
 	 */
-	private int $quality = 100;
+	private $quality = 100;
 
 	/**
 	 * @return array|false
