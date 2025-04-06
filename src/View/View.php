@@ -91,7 +91,7 @@ class View
 		self::$path = array_key_exists('path', $arr) ? $arr['path'] : self::$path;
 		self::$cache = array_key_exists('cache', $arr) ? $arr['cache'] : self::$cache;
 		self::$theme = array_key_exists('theme', $arr) ? $arr['theme'] : self::$theme;
-		self::$themes = array_key_exists('themes', $arr) ? $arr['themes'] : self::themes;
+		self::$themes = array_key_exists('themes', $arr) ? $arr['themes'] : self::$themes;
 	}
 
 	/**
