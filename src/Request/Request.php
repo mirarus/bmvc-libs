@@ -714,7 +714,7 @@ class Request implements IRequest
 	 */
 	public static function rea($method, string $data = null, bool $db_filter = true, bool $xss_filter = true)
 	{
-		$method = $xss_filter ? Filter::filterXSS($method) : $method;
+		$method = $xss_filter ? Filter::filterXSS($method, []) : $method;
 
 		if (isset($data) && !empty($data)) {
 			if (isset($method[$data])) {
